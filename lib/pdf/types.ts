@@ -82,3 +82,28 @@ export interface PdfExcelResult {
   worksheetCount: number;
 }
 
+export interface PdfToExcelResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  worksheetCount: number;
+  tablesDetected: number;
+}
+
+export interface PdfPptResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  slideCount: number;
+}
+
+export interface PdfToPptResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  slideCount: number;
+}
+
