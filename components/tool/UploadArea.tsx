@@ -7,6 +7,7 @@ interface UploadAreaProps {
   onFileSelect?: (file: File) => void;
   onFilesSelect?: (files: File[]) => void;
   acceptedFormats?: string;
+  accept?: string;
   maxSizeMB?: number;
   multiple?: boolean;
   error?: string | null;
@@ -17,6 +18,7 @@ export function UploadArea({
   onFileSelect,
   onFilesSelect,
   acceptedFormats = "JPG, PNG, WebP, GIF, AVIF",
+  accept,
   maxSizeMB = 100,
   multiple = false,
   error,
@@ -95,7 +97,7 @@ export function UploadArea({
         onChange={handleFileInput}
         className="hidden"
         multiple={multiple}
-        accept={acceptedFormats.split(", ").map(f => `.${f.toLowerCase().trim()}`).join(",")}
+        accept={accept || acceptedFormats.split(", ").map(f => `.${f.toLowerCase().trim()}`).join(",")}
       />
       
       <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 border ${error ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100'}`}>

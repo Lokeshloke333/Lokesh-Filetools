@@ -2,7 +2,7 @@ import {
   ImageDown, Maximize, Crop, RotateCw, FileDown, 
   FileText, Layers, Scissors, FileImage, 
   Video, Music, Wand2, QrCode, Sparkles, Image, Wrench, FileVideo, Mic, Barcode, Palette, Code,
-  LucideIcon, Unlock
+  LucideIcon, Unlock, Lock
 } from "lucide-react";
 
 export interface ToolDefinition {
@@ -141,6 +141,19 @@ export const TOOLS: ToolDefinition[] = [
     popular: true,
   },
   {
+    id: "protect-pdf",
+    title: "Protect PDF",
+    description: "Encrypt your PDF files with a password.",
+    category: "PDF",
+    keywords: ["protect", "pdf", "password", "encrypt", "secure", "permissions", "lock"],
+    href: "/tools/pdf/protect-pdf",
+    icon: Lock,
+    color: "text-indigo-600",
+    status: "active",
+    featured: false,
+    popular: true,
+  },
+  {
     id: "image-to-pdf",
     title: "Image to PDF",
     description: "Convert images to PDF documents.",
@@ -175,6 +188,19 @@ export const TOOLS: ToolDefinition[] = [
     href: "/tools/pdf/word-to-pdf",
     icon: FileText,
     color: "text-blue-500",
+    status: "active",
+    featured: true,
+    popular: true,
+  },
+  {
+    id: "pdf-to-word",
+    title: "PDF to Word",
+    description: "Convert PDF files into editable Word documents online for free.",
+    category: "PDF",
+    keywords: ["pdf to word", "pdf to docx", "convert pdf to word", "online pdf converter", "pdf to editable word", "free pdf to docx"],
+    href: "/tools/pdf/pdf-to-word",
+    icon: FileText,
+    color: "text-blue-600",
     status: "active",
     featured: true,
     popular: true,
