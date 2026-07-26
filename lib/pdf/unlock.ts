@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { PDFDocument } from 'pdf-lib';
+import { decryptPDF, isEncrypted } from "@pdfsmaller/pdf-decrypt";
 
 /**
  * Attempts to unlock a PDF file with the provided password.
@@ -8,17 +7,20 @@ import { PDFDocument } from 'pdf-lib';
  */
 export async function unlockPdf(file: File, password?: string): Promise<Uint8Array> {
   const arrayBuffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(arrayBuffer);
+
   try {
-    const pdfDoc = await PDFDocument.load(arrayBuffer, { password } as any);
-    
-    // By default, saving the document without providing any new password options
-    // will result in a decrypted (unlocked) PDF.
-    const pdfBytes = await pdfDoc.save();
-    return pdfBytes;
+    const info = await isEncrypted(bytes);
+    if (!info.encrypted) {
+      return bytes;
+    }
+
+    const decryptedBytes = await decryptPDF(bytes, password || "");
+    return decryptedBytes;
   } catch (err: unknown) {
     const error = err as Error;
     const msg = error.message?.toLowerCase() || '';
-    if (msg.includes('password') || msg.includes('encrypted')) {
+    if (msg.includes('password') || msg.includes('incorrect') || msg.includes('decrypt')) {
       throw new Error('INCORRECT_PASSWORD');
     }
     throw error;

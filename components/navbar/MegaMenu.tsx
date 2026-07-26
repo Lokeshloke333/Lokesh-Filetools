@@ -32,13 +32,15 @@ export function MegaMenu() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden z-50 p-6"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[1100px] xl:w-[1200px] bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden z-50 p-8"
           >
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-4 gap-x-8 gap-y-10 xl:gap-x-12">
               {navigationData.map((category) => {
                 const Icon = category.icon;
+                const isLargeCategory = category.title === "PDF Tools" && category.items?.length > 10;
+                
                 return (
-                  <div key={category.title} className="flex flex-col gap-3">
+                  <div key={category.title} className={`flex flex-col gap-3 ${isLargeCategory ? 'col-span-2' : 'col-span-1'}`}>
                     <div className="flex items-center gap-2 mb-1">
                       <div className="bg-blue-50 p-1.5 rounded-md text-blue-600">
                         <Icon className="w-4 h-4" />
@@ -54,7 +56,7 @@ export function MegaMenu() {
                     </div>
                     
                     {!category.comingSoon ? (
-                      <ul className="flex flex-col gap-1.5">
+                      <ul className={`grid gap-x-6 gap-y-1.5 ${isLargeCategory ? 'grid-cols-2' : 'grid-cols-1'}`}>
                         {category.items.map((item) => (
                           <li key={item.label}>
                             <Link 

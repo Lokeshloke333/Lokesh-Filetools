@@ -39,3 +39,46 @@ export interface PdfUnlockResult {
   processedSize: number;
 }
 
+export interface PdfRotateResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  totalPageCount: number;
+}
+
+export interface PdfDeleteResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  totalDeleted: number;
+  totalRemaining: number;
+}
+
+export interface PdfOrganizeResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  originalPageCount: number;
+  finalPageCount: number;
+}
+
+export interface PdfWatermarkResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  pagesAffected: number;
+  watermarkType: string;
+}
+
+export interface PdfExcelResult {
+  url: string;
+  filename: string;
+  originalSize: number;
+  processedSize: number;
+  worksheetCount: number;
+}
+
