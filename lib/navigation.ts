@@ -27,6 +27,30 @@ const pdfTools = TOOLS.filter(t => t.category === "PDF").map(t => ({
   comingSoon: t.status === "coming-soon"
 }));
 
+const videoTools = TOOLS.filter(t => t.category === "Video").map(t => ({
+  label: t.title,
+  href: t.href,
+  comingSoon: t.status === "coming-soon"
+}));
+
+const audioTools = TOOLS.filter(t => t.category === "Audio").map(t => ({
+  label: t.title,
+  href: t.href,
+  comingSoon: t.status === "coming-soon"
+}));
+
+const aiTools = TOOLS.filter(t => t.category === "AI").map(t => ({
+  label: t.title,
+  href: t.href,
+  comingSoon: t.status === "coming-soon"
+}));
+
+const utilTools = TOOLS.filter(t => t.category === "Utilities").map(t => ({
+  label: t.title,
+  href: t.href,
+  comingSoon: t.status === "coming-soon"
+}));
+
 export const navigationData: Category[] = [
   {
     title: "Image Tools",
@@ -41,25 +65,16 @@ export const navigationData: Category[] = [
   {
     title: "Video Tools",
     icon: Video,
-    comingSoon: true,
-    items: [],
+    items: videoTools,
   },
   {
     title: "Audio Tools",
     icon: Headphones,
-    comingSoon: true,
-    items: [],
+    items: audioTools,
   },
   {
     title: "AI Tools",
     icon: Sparkles,
-    comingSoon: true,
-    items: [],
-  },
-  {
-    title: "Utilities",
-    icon: Wrench,
-    comingSoon: true,
-    items: [],
-  },
+    items: aiTools,
+  }
 ];

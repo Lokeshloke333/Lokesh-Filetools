@@ -78,7 +78,9 @@ export function UploadArea({
 
   return (
     <div
-      className={`relative w-full h-[320px] rounded-3xl flex flex-col items-center justify-center p-8 transition-all duration-300 border-2 border-dashed
+      role="button"
+      tabIndex={0}
+      className={`relative w-full h-[320px] rounded-3xl flex flex-col items-center justify-center p-8 transition-all duration-300 border-2 border-dashed cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
         ${
           isDragging
             ? "border-blue-500 bg-blue-50/50 shadow-inner"
@@ -90,6 +92,13 @@ export function UploadArea({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
+      onClick={() => fileInputRef.current?.click()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInputRef.current?.click();
+        }
+      }}
     >
       <input
         type="file"
@@ -104,14 +113,11 @@ export function UploadArea({
         <UploadCloud className={`w-8 h-8 ${error ? 'text-red-500' : 'text-blue-600'}`} />
       </div>
       
-      <h3 className="text-xl font-bold text-slate-800 mb-2 text-center">
+      <h3 className="text-xl font-bold text-slate-800 mb-2 text-center pointer-events-none">
         Drop your {multiple ? "files" : "file"} here or{" "}
-        <button 
-          onClick={() => fileInputRef.current?.click()}
-          className="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer focus:outline-none"
-        >
+        <span className="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer pointer-events-auto">
           browse
-        </button>
+        </span>
       </h3>
       
       <p className="text-slate-500 text-sm text-center font-medium">
