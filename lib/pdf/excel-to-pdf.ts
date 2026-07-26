@@ -1,5 +1,5 @@
 import ExcelJS from 'exceljs';
-import PdfPrinter from 'pdfmake';
+const PdfPrinter = require('pdfmake');
 import type { TDocumentDefinitions, TableCell, Style, Content, Margins } from 'pdfmake/interfaces';
 import path from 'path';
 
@@ -76,7 +76,8 @@ export async function convertExcelToPdf(
     
     // Total usable width in points (A4 portrait = 595.28, minus margins)
     const baseWidth = pageSize === 'A4' ? 595.28 : 612;
-    const contentWidth = baseWidth - (pageMargins[0] as number) - (pageMargins[2] as number);
+    const marginArray = pageMargins as [number, number, number, number];
+    const contentWidth = baseWidth - marginArray[0] - marginArray[2];
 
     for (let i = 1; i <= numCols; i++) {
       const col = worksheet.getColumn(i);
@@ -193,8 +194,8 @@ export async function convertExcelToPdf(
 
   // Buffer the stream
   const chunks: any[] = [];
-  return new Promise((resolve, reject) => {
-    pdfDoc.on('data', chunk => chunks.push(chunk));
+  return new Promise<{ pdfBytes: Uint8Array; worksheetCount: number }>((resolve, reject) => {
+    pdfDoc.on('data', (chunk: any) => chunks.push(chunk));
     pdfDoc.on('end', () => {
       const result = Buffer.concat(chunks);
       resolve({ pdfBytes: new Uint8Array(result), worksheetCount: worksheets.length });
