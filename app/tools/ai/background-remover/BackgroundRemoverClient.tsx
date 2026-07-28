@@ -39,8 +39,8 @@ export default function BackgroundRemoverClient() {
   useEffect(() => {
     detectBrowserAICapabilities().then(setCapabilities);
     
-    // Initialize Web Worker
-    workerRef.current = new Worker(new URL("@/lib/ai/bgWorker.ts", import.meta.url));
+    // Initialize Web Worker with a relative path for strict Next.js Webpack compatibility in production
+    workerRef.current = new Worker(new URL("../../../../lib/ai/bgWorker.ts", import.meta.url));
 
     return () => {
       if (originalImageUrl) URL.revokeObjectURL(originalImageUrl);

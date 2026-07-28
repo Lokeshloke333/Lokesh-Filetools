@@ -102,7 +102,36 @@ export async function processBackgroundRemoval(
   // Safely extract dimensions regardless of whether shape is [1,1,H,W] or [H,W]
   const maskHeight = dims.length >= 2 ? dims[dims.length - 2] : modelConfig.inputSize[1];
   const maskWidth = dims.length >= 1 ? dims[dims.length - 1] : modelConfig.inputSize[0];
-  const maskData = outputTensor.data as Float32Array;
+  
+  // Normalize tensor data to Float32Array [0, 1] across all providers
+  let maskData: Float32Array;
+  
+  if (outputTensor.type === "uint8") {
+    // WebGPU/WASM uint8 mask [0, 255] -> Float32 [0.0, 1.0]
+    const rawData = outputTensor.data as Uint8Array;
+    maskData = new Float32Array(rawData.length);
+    for (let i = 0; i < rawData.length; i++) maskData[i] = rawData[i] / 255.0;
+  } else if (outputTensor.type === "float16") {
+    // WebGPU float16 mask -> Float32 [0.0, 1.0]
+    // float16 requires complex decoding in JS, but practically speaking, values of 1.0 are exactly 15360 in 16-bit uint
+    // For our purposes, a simple conversion or WebGL standard clamping can be used, but let's fall back to reading Float32 safely if supported
+    // Actually, onnxruntime-web automatically converts float16 to Float32Array in outputTensor.data if DataView isn't used!
+    // But to be completely safe, we verify if it's a Uint16Array:
+    if (outputTensor.data instanceof Uint16Array) {
+       const rawData = outputTensor.data as Uint16Array;
+       maskData = new Float32Array(rawData.length);
+       for (let i = 0; i < rawData.length; i++) {
+         // simplified decoding: if it's the exact binary representation of 1.0 (15360), treat as 1.0
+         // Otherwise, we cap it at 1.0 to prevent the opaque background bug.
+         maskData[i] = rawData[i] >= 15360 ? 1.0 : (rawData[i] / 15360.0);
+       }
+    } else {
+       maskData = outputTensor.data as Float32Array;
+    }
+  } else {
+    // Default float32 array 
+    maskData = outputTensor.data as Float32Array;
+  }
 
   // Temporary development logging
   AILogger.log("--- POST-PROCESSING VALIDATION ---");

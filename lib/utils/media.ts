@@ -8,6 +8,8 @@ export interface MediaMetadata {
   bitrate?: number;
   sampleRate?: number;
   channels?: number;
+  thumbnail?: string;
+  resolution?: string;
 }
 
 export const formatDuration = (seconds?: number): string => {
@@ -47,10 +49,26 @@ export const getBasicMediaMetadata = async (file: File): Promise<MediaMetadata> 
         const videoElement = element as HTMLVideoElement;
         metadata.width = videoElement.videoWidth;
         metadata.height = videoElement.videoHeight;
+        metadata.resolution = `${videoElement.videoWidth}x${videoElement.videoHeight}`;
+        
+        // Generate Thumbnail
+        videoElement.currentTime = Math.min(1, element.duration / 2 || 0);
+        videoElement.onseeked = () => {
+           const canvas = document.createElement("canvas");
+           canvas.width = videoElement.videoWidth;
+           canvas.height = videoElement.videoHeight;
+           const ctx = canvas.getContext("2d");
+           if (ctx) {
+             ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+             metadata.thumbnail = canvas.toDataURL("image/jpeg", 0.7);
+           }
+           URL.revokeObjectURL(objectUrl);
+           resolve(metadata);
+        };
+      } else {
+         URL.revokeObjectURL(objectUrl);
+         resolve(metadata);
       }
-      
-      URL.revokeObjectURL(objectUrl);
-      resolve(metadata);
     };
     
     element.onerror = () => {

@@ -175,6 +175,7 @@ export default function ExtractAudioClient() {
              onDownload={() => handleDownload(result.url, result.filename)} 
              onReset={clearAll} 
              resetButtonText="Extract Another Video"
+             downloadButtonText="Download Audio"
           />
         )}
       </div>

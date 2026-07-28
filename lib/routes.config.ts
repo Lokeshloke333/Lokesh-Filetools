@@ -72,6 +72,13 @@ export const toolRoutes: RouteEntry[] = [
   { path: "/tools/image/resize", changeFrequency: "weekly", priority: 0.9 },
   { path: "/tools/image/rotate", changeFrequency: "weekly", priority: 0.9 },
 
+  // Video tools
+  { path: "/tools/video/compress-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/video/convert-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/video/merge-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/video/rotate-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/video/trim-video", changeFrequency: "weekly", priority: 0.9 },
+
   // PDF tools
   { path: "/tools/pdf/compress", changeFrequency: "weekly", priority: 0.9 },
   { path: "/tools/pdf/image-to-pdf", changeFrequency: "weekly", priority: 0.9 },
