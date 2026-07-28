@@ -29,15 +29,7 @@ export const CATEGORY_DATA: CategoryData[] = [
     shadow: "shadow-rose-500/20",
     status: "active",
   },
-  {
-    id: "AI",
-    title: "AI Tools",
-    description: "AI-powered file enhancements and smart utilities.",
-    icon: Sparkles,
-    gradient: "from-cyan-500 to-blue-600",
-    shadow: "shadow-cyan-500/20",
-    status: "active",
-  },
+
   {
     id: "Video",
     title: "Video Tools",

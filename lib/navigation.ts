@@ -39,11 +39,6 @@ const audioTools = TOOLS.filter(t => t.category === "Audio").map(t => ({
   comingSoon: t.status === "coming-soon"
 }));
 
-const aiTools = TOOLS.filter(t => t.category === "AI").map(t => ({
-  label: t.title,
-  href: t.href,
-  comingSoon: t.status === "coming-soon"
-}));
 
 const utilTools = TOOLS.filter(t => t.category === "Utilities").map(t => ({
   label: t.title,
@@ -71,10 +66,5 @@ export const navigationData: Category[] = [
     title: "Audio Tools",
     icon: Headphones,
     items: audioTools,
-  },
-  {
-    title: "AI Tools",
-    icon: Sparkles,
-    items: aiTools,
   }
 ];

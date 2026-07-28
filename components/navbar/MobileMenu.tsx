@@ -88,12 +88,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               Browse Tools
             </Link>
 
-            <div className="border-b border-slate-100 py-4 text-lg font-medium text-slate-800 flex justify-between items-center opacity-70">
-              API
-              <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full font-bold uppercase">
-                Coming Soon
-              </span>
-            </div>
+
 
             {/* CTA */}
             <div className="pt-8 pb-4">

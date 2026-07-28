@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { useSearchParams, useRouter } from "next/navigation";
 
-const CATEGORIES = ["All Tools", "Image", "PDF", "Video", "Audio", "AI", "Utilities"];
+const CATEGORIES = ["All Tools", "Image", "PDF", "Video", "Audio", "Utilities"];
 const POPULAR_SEARCHES = ["Compress Image", "Resize Image", "Crop Image", "PDF", "Convert", "PNG", "JPG", "WEBP"];
 
 export function ToolsDirectory() {
