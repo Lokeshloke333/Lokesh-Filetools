@@ -44,6 +44,12 @@ export function RelatedTools() {
     const otherTools = TOOLS.filter(t => t.href !== normalizedPath);
     
     if (currentTool) {
+      if (currentTool.relatedToolIds && currentTool.relatedToolIds.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const exactMatches = currentTool.relatedToolIds.map(id => TOOLS.find(t => t.id === id)).filter(Boolean) as any[];
+        if (exactMatches.length > 0) return exactMatches;
+      }
+      
       // Get all tools from the same category
       const categoryTools = otherTools.filter(t => t.category === currentTool.category);
       

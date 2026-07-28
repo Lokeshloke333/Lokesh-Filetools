@@ -80,6 +80,16 @@ export const toolRoutes: RouteEntry[] = [
   { path: "/tools/pdf/split", changeFrequency: "weekly", priority: 0.9 },
   { path: "/tools/pdf/unlock", changeFrequency: "weekly", priority: 0.9 },
   { path: "/tools/pdf/word-to-pdf", changeFrequency: "weekly", priority: 0.9 },
+
+  // Audio tools
+  { path: "/tools/audio/compress-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/audio/convert-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/audio/trim-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/audio/merge-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/tools/audio/extract-audio", changeFrequency: "weekly", priority: 0.9 },
+
+  // AI tools
+  { path: "/tools/ai/background-remover", changeFrequency: "weekly", priority: 0.9 },
 ];
 
 /* -------------------------------------------------------------------- */

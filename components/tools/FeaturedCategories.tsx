@@ -36,7 +36,7 @@ export const CATEGORY_DATA: CategoryData[] = [
     icon: Sparkles,
     gradient: "from-cyan-500 to-blue-600",
     shadow: "shadow-cyan-500/20",
-    status: "coming-soon",
+    status: "active",
   },
   {
     id: "Video",
@@ -54,7 +54,7 @@ export const CATEGORY_DATA: CategoryData[] = [
     icon: Music,
     gradient: "from-orange-500 to-amber-600",
     shadow: "shadow-orange-500/20",
-    status: "coming-soon",
+    status: "active",
   },
   {
     id: "Utilities",

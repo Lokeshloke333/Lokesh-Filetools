@@ -17,6 +17,7 @@ export interface ToolDefinition {
   status: "active" | "coming-soon";
   featured: boolean;
   popular: boolean;
+  relatedToolIds?: string[];
 }
 
 export const TOOLS: ToolDefinition[] = [
@@ -423,12 +424,13 @@ export const TOOLS: ToolDefinition[] = [
     description: "Combine multiple audio files into one.",
     category: "Audio",
     keywords: ["merge", "audio", "combine", "join"],
-    href: "/tools/audio/merge",
+    href: "/tools/audio/merge-audio",
     icon: Layers,
-    color: "text-slate-400",
-    status: "coming-soon",
+    color: "text-slate-500",
+    status: "active",
     featured: false,
     popular: false,
+    relatedToolIds: ["trim-audio", "compress-audio", "convert-audio", "extract-audio"],
   },
   {
     id: "extract-audio",
@@ -436,12 +438,13 @@ export const TOOLS: ToolDefinition[] = [
     description: "Extract audio tracks from video files.",
     category: "Audio",
     keywords: ["extract", "audio", "video to audio", "mp4 to mp3"],
-    href: "/tools/audio/extract",
+    href: "/tools/audio/extract-audio",
     icon: Music,
-    color: "text-slate-400",
-    status: "coming-soon",
+    color: "text-slate-500",
+    status: "active",
     featured: false,
     popular: false,
+    relatedToolIds: ["merge-audio", "trim-audio", "convert-audio"],
   },
   {
     id: "change-volume",
@@ -505,10 +508,11 @@ export const TOOLS: ToolDefinition[] = [
     keywords: ["background", "remove", "ai", "transparent", "png"],
     href: "/tools/ai/background-remover",
     icon: Sparkles,
-    color: "text-slate-400",
-    status: "coming-soon",
+    color: "text-purple-600",
+    status: "active",
     featured: true,
-    popular: false,
+    popular: true,
+    relatedToolIds: ["compress-image", "convert-image", "image-upscaler"],
   },
   {
     id: "image-upscaler",
