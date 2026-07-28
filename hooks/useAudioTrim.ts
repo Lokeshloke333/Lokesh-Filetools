@@ -80,48 +80,91 @@ export function useAudioTrim() {
       return null;
     });
 
+    let ffmpegInstance: any = null;
+    let inputName = "";
+    let outputName = "";
+    let ffmpegLogs = "";
+
+    const logHandler = ({ message }: { message: string }) => {
+      ffmpegLogs += message + "\n";
+    };
+
     try {
+      console.log(`Validating trim range: start=${startTime}, end=${endTime}, duration=${fileInfo.duration}`);
+      
+      if (typeof startTime !== 'number' || typeof endTime !== 'number') {
+         throw new Error("Start and end time must be valid numbers (seconds).");
+      }
+
+      if (startTime < 0) {
+         throw new Error("Start time cannot be less than zero.");
+      }
+
+      if (endTime <= startTime) {
+         throw new Error("End time must be greater than start time.");
+      }
+
+      if (fileInfo.duration && endTime > fileInfo.duration) {
+         throw new Error("End time cannot exceed the total duration of the audio.");
+      }
+
       if (!isLoaded) {
         setStatusMessage("Loading trimmer engine...");
         await loadFFmpeg();
       }
 
-      const ffmpeg = getFFmpeg();
+      ffmpegInstance = getFFmpeg();
+      ffmpegInstance.on("log", logHandler);
+
       const file = fileInfo.file;
       const originalExt = file.name.split('.').pop()?.toLowerCase() || 'tmp';
       
-      const inputName = `input_${fileInfo.id}.${originalExt}`;
+      inputName = `input_${fileInfo.id}.${originalExt}`;
       const targetExt = outputFormat || originalExt;
-      const outputName = `output_${fileInfo.id}.${targetExt}`;
+      outputName = `output_${fileInfo.id}.${targetExt}`;
 
       setStatusMessage("Reading audio file...");
-      await ffmpeg.writeFile(inputName, await fetchFile(file));
+      await ffmpegInstance.writeFile(inputName, await fetchFile(file));
 
       setStatusMessage("Trimming audio (this may take a moment)...");
       
       const commandArgs: string[] = [];
-      
-      // Fast seek (put -ss before -i for faster seeking if possible, but for accurate trimming, placing it after -i or using both can be better. 
-      // For WASM, keeping it simple: ffmpeg -i input -ss start -to end -c copy output)
       commandArgs.push('-i', inputName);
       commandArgs.push('-ss', startTime.toString());
       commandArgs.push('-to', endTime.toString());
 
-      // If we are keeping the same format, we can stream copy for instant, lossless trimming
       if (targetExt === originalExt) {
         commandArgs.push('-c', 'copy');
       }
 
-      // Preserve metadata mapping
       commandArgs.push('-map_metadata', '0');
-      
-      // Output file
       commandArgs.push(outputName);
 
-      await ffmpeg.exec(commandArgs);
+      let execResult = await ffmpegInstance.exec(commandArgs);
+
+      if (execResult !== 0 && targetExt === originalExt) {
+         setStatusMessage("Stream copy failed, retrying with re-encoding...");
+         console.warn("Stream copy failed. FFmpeg logs:\n", ffmpegLogs);
+         ffmpegLogs = ""; // reset logs
+         
+         try { await ffmpegInstance.deleteFile(outputName); } catch (e) {}
+
+         const fallbackArgs = [
+           '-i', inputName,
+           '-ss', startTime.toString(),
+           '-to', endTime.toString(),
+           '-map_metadata', '0',
+           outputName
+         ];
+         execResult = await ffmpegInstance.exec(fallbackArgs);
+      }
+
+      if (execResult !== 0) {
+         throw new Error(`FFmpeg process failed. Details:\n${ffmpegLogs}`);
+      }
 
       setStatusMessage("Preparing download...");
-      const data = await ffmpeg.readFile(outputName);
+      const data = await ffmpegInstance.readFile(outputName);
       
       const blob = new Blob([data as any], { type: `audio/${targetExt}` });
       const processedSize = blob.size;
@@ -138,16 +181,21 @@ export function useAudioTrim() {
         format: targetExt.toUpperCase(),
       });
 
-      // Cleanup MEMFS
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
-
       toast.success("Audio trimmed successfully!");
     } catch (err: unknown) {
       const error = err as Error;
       console.error("Trimming error:", error);
-      toast.error("An error occurred during audio trimming.");
+      toast.error(error.message || "An error occurred during audio trimming.");
     } finally {
+      if (ffmpegInstance) {
+         ffmpegInstance.off("log", logHandler);
+         if (inputName) {
+            try { await ffmpegInstance.deleteFile(inputName); } catch (e) {}
+         }
+         if (outputName) {
+            try { await ffmpegInstance.deleteFile(outputName); } catch (e) {}
+         }
+      }
       setIsProcessing(false);
       setStatusMessage("");
     }

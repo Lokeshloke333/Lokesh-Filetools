@@ -39,6 +39,12 @@ export default function TrimAudioPage() {
     trimRangeRef.current = [start, end];
   };
 
+  React.useEffect(() => {
+    if (fileInfo?.duration) {
+      trimRangeRef.current = [0, fileInfo.duration];
+    }
+  }, [fileInfo]);
+
   const formatDuration = (seconds?: number) => {
     if (!seconds) return "Unknown";
     const mins = Math.floor(seconds / 60);

@@ -101,6 +101,7 @@ export function AudioTrimmer({ audioUrl, duration, onTrim, disabled }: AudioTrim
 
   const handleRangeChange = (value: number[]) => {
     setRange(value);
+    onTrim(value[0], value[1]);
     if (audioRef.current && !isPlaying) {
       audioRef.current.currentTime = value[0];
       setCurrentTime(value[0]);
