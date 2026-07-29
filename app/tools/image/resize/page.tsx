@@ -16,37 +16,35 @@ import { Maximize, Wand2, Lightbulb, Loader2 } from "lucide-react";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageProcessor } from "@/hooks/useImageProcessor";
 import { useDownload } from "@/hooks/useDownload";
-import { ImagePreview } from "@/components/tool/ImagePreview";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { useImagePreview } from "@/hooks/useImagePreview";
+import { ImagePreview } from "@/components/image/ImagePreview";
+import { ImageInfoCard } from "@/components/image/ImageInfoCard";
 
 export default function ResizeImagePage() {
-  const [width, setWidth] = useState<string>("");
-  const [height, setHeight] = useState<string>("");
-  const [maintainAspectRatio, setMaintainAspectRatio] = useState(true);
-  const [fit, setFit] = useState("inside");
-  const [format, setFormat] = useState("ORIGINAL");
-
   const { file, uploadError, handleFileSelect, clearFile, clearUploadError } = useImageUpload();
   const { isProcessing: isResizing, result, processImage: resizeImage, clearResult } = useImageProcessor("resize");
   const { handleDownload } = useDownload();
+  
+  const [fit, setFit] = useState("inside");
+
+  const preview = useImagePreview(file ? { file } : null);
 
   const handleResize = () => {
     if (!file) return;
     resizeImage(file, {
-      width: width ? parseInt(width) : "",
-      height: height ? parseInt(height) : "",
-      maintainAspectRatio,
+      width: preview.targetWidth ? preview.targetWidth : "",
+      height: preview.targetHeight ? preview.targetHeight : "",
+      maintainAspectRatio: preview.maintainAspectRatio,
       fit,
-      format,
+      format: preview.targetFormat,
     });
   };
 
   const handleReset = () => {
     clearFile();
     clearResult();
-    setWidth("");
-    setHeight("");
   };
 
   const faqs = [
@@ -82,7 +80,7 @@ export default function ResizeImagePage() {
           
           {!file && !result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, GIF, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFileSelect={handleFileSelect}
               error={uploadError}
@@ -93,7 +91,7 @@ export default function ResizeImagePage() {
           {file && !result && (
             <div className="relative">
               {isResizing && (
-                <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
+                <div className="absolute inset-0 z-40 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
                   <div className="w-16 h-16 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center animate-pulse mb-4">
                     <Loader2 className="w-8 h-8 text-white animate-spin" />
                   </div>
@@ -101,9 +99,26 @@ export default function ResizeImagePage() {
                   <p className="text-slate-500 font-medium">Please wait a moment</p>
                 </div>
               )}
+              
               <ImagePreview 
-                file={file} 
-                onClear={clearFile} 
+                image={preview.image}
+                zoom={preview.zoom}
+                onZoomChange={preview.setZoom}
+                onClear={handleReset}
+                fileName={file.name}
+                targetWidth={preview.targetWidth || undefined}
+                targetHeight={preview.targetHeight || undefined}
+              />
+              
+              <ImageInfoCard 
+                originalWidth={preview.originalWidth}
+                originalHeight={preview.originalHeight}
+                originalFormat={file.type.split('/')[1] || "JPEG"}
+                originalSize={preview.originalSize}
+                previewWidth={preview.targetWidth || preview.originalWidth}
+                previewHeight={preview.targetHeight || preview.originalHeight}
+                previewFormat={preview.targetFormat === "ORIGINAL" ? file.type.split('/')[1] : preview.targetFormat}
+                estimatedSize={preview.estimatedSize}
               />
             </div>
           )}
@@ -131,8 +146,8 @@ export default function ResizeImagePage() {
                   <Label className="text-xs text-slate-500 font-medium">Width (px)</Label>
                   <input 
                     type="number"
-                    value={width}
-                    onChange={(e) => setWidth(e.target.value)}
+                    value={preview.targetWidth || ""}
+                    onChange={(e) => preview.handleWidthChange(parseInt(e.target.value) || 0)}
                     placeholder="Auto"
                     className={inputClasses}
                     disabled={isResizing || result !== null}
@@ -142,8 +157,8 @@ export default function ResizeImagePage() {
                   <Label className="text-xs text-slate-500 font-medium">Height (px)</Label>
                   <input 
                     type="number"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
+                    value={preview.targetHeight || ""}
+                    onChange={(e) => preview.handleHeightChange(parseInt(e.target.value) || 0)}
                     placeholder="Auto"
                     className={inputClasses}
                     disabled={isResizing || result !== null}
@@ -172,7 +187,7 @@ export default function ResizeImagePage() {
             {/* Output Format */}
             <div className="space-y-3 pt-2">
               <Label className="text-slate-700 font-semibold">Output Format</Label>
-              <Select value={format} onValueChange={setFormat} disabled={isResizing || result !== null}>
+              <Select value={preview.targetFormat} onValueChange={preview.setTargetFormat} disabled={isResizing || result !== null}>
                 <SelectTrigger className="w-full h-11 rounded-xl">
                   <SelectValue placeholder="Select format" />
                 </SelectTrigger>
@@ -192,8 +207,8 @@ export default function ResizeImagePage() {
                 <Label htmlFor="aspect" className="text-slate-700 font-semibold cursor-pointer">Maintain Aspect Ratio</Label>
                 <Switch 
                   id="aspect" 
-                  checked={maintainAspectRatio} 
-                  onCheckedChange={setMaintainAspectRatio} 
+                  checked={preview.maintainAspectRatio} 
+                  onCheckedChange={preview.setMaintainAspectRatio} 
                   disabled={isResizing || result !== null}
                 />
               </div>
@@ -205,7 +220,7 @@ export default function ResizeImagePage() {
                 size="lg" 
                 className="w-full h-14 rounded-2xl text-base font-bold shadow-lg shadow-blue-500/20 transition-all disabled:opacity-70 disabled:shadow-none"
                 onClick={handleResize}
-                disabled={!file || isResizing || result !== null || (!width && !height)}
+                disabled={!file || isResizing || result !== null || (!preview.targetWidth && !preview.targetHeight)}
               >
                 {isResizing ? (
                   <>

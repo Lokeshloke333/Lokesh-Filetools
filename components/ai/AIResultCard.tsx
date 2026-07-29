@@ -2,7 +2,7 @@ import React from "react";
 import { formatFileSize } from "@/lib/utils/image";
 import { Button } from "@/components/ui/button";
 import { Download, RefreshCw, CheckCircle2, Image as ImageIcon, Sparkles } from "lucide-react";
-import { AIComparisonSlider } from "./AIComparisonSlider";
+import { ImageComparison } from "@/components/image/ImageComparison";
 
 interface AIResultCardProps {
   originalImage: string;
@@ -41,7 +41,11 @@ export function AIResultCard({
       </div>
       
       <div className="mb-8">
-        <AIComparisonSlider originalImage={originalImage} processedImage={processedImage} />
+        <ImageComparison 
+          originalImage={originalImage} 
+          processedImage={processedImage}
+          onClear={onReset}
+        />
       </div>
       
       <div className="bg-white rounded-2xl border border-purple-100 p-6 mb-8 max-w-3xl mx-auto shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">

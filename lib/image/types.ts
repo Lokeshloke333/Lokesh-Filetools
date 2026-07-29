@@ -12,6 +12,7 @@ export interface ImageProcessingResult {
   height: number;
   outputFormat: string;
   filename: string;
+  message?: string;
 }
 
 export interface CompressSettings {

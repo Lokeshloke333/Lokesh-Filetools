@@ -57,6 +57,12 @@ export function ResultCard({ result, onDownload, onReset, originalFile, mode = "
           </div>
         )}
 
+        {result.message && (
+          <div className="bg-amber-50 px-6 py-4 border-b border-amber-100 flex items-center text-amber-800 text-sm font-medium">
+            {result.message}
+          </div>
+        )}
+
         {/* Previews side by side */}
         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100">
           

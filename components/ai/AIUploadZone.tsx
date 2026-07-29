@@ -13,7 +13,7 @@ interface AIUploadZoneProps {
 
 export function AIUploadZone({
   onFileSelect,
-  acceptedFormats = "JPG, PNG, WebP",
+  acceptedFormats = "JPG/JPEG, PNG, WebP",
   accept = "image/jpeg, image/png, image/webp",
   maxSizeMB = 20,
   error,

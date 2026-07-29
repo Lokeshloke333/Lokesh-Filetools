@@ -39,7 +39,7 @@ export default function ImageToPdfPage() {
   const faqs = [
     {
       question: "Which image formats are supported?",
-      answer: "You can upload JPG, PNG, WEBP, and AVIF images. All formats will be converted and embedded securely into a high-quality PDF document.",
+      answer: "You can upload JPG/JPEG, PNG, WEBP, and AVIF images. All formats will be converted and embedded securely into a high-quality PDF document.",
     },
     {
       question: "Will my images lose quality?",
@@ -63,13 +63,13 @@ export default function ImageToPdfPage() {
         <div className="lg:col-span-2 flex flex-col gap-6">
           <ToolHeader 
             title="Image to PDF"
-            subtitle="Convert multiple JPG, PNG, and WEBP images into a single PDF document."
+            subtitle="Convert multiple JPG/JPEG, PNG, and WEBP images into a single PDF document."
             icon={<ImageIcon className="w-6 h-6" />}
           />
           
           {!result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFilesSelect={handleFilesSelect}
               multiple={true}

@@ -18,6 +18,8 @@ import { useDownload } from "@/hooks/useDownload";
 import { InteractiveCropPreview } from "@/components/tool/InteractiveCropPreview";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { useImagePreview } from "@/hooks/useImagePreview";
+import { ImageInfoCard } from "@/components/image/ImageInfoCard";
 
 export default function CropImagePage() {
   const [aspectRatio, setAspectRatio] = useState<number | undefined>(undefined);
@@ -25,8 +27,25 @@ export default function CropImagePage() {
   const [cropData, setCropData] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
 
   const { file, uploadError, handleFileSelect, clearFile, clearUploadError } = useImageUpload();
+  const preview = useImagePreview(file ? { file } : null);
   const { isProcessing: isCropping, result, processImage: cropImage, clearResult } = useImageProcessor("crop");
   const { handleDownload } = useDownload();
+  
+  // Update the preview format when user changes format
+  React.useEffect(() => {
+    preview.setTargetFormat(format);
+  }, [format]);
+
+  // Update preview target dimensions based on crop
+  React.useEffect(() => {
+    if (cropData) {
+      preview.handleWidthChange(cropData.width);
+      preview.handleHeightChange(cropData.height);
+    } else {
+      preview.handleWidthChange(preview.originalWidth);
+      preview.handleHeightChange(preview.originalHeight);
+    }
+  }, [cropData, preview.originalWidth, preview.originalHeight]);
 
   const handleCrop = () => {
     if (!file || !cropData) return;
@@ -80,7 +99,7 @@ export default function CropImagePage() {
           
           {!file && !result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, GIF, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFileSelect={handleFileSelect}
               error={uploadError}
@@ -101,9 +120,19 @@ export default function CropImagePage() {
               )}
               <InteractiveCropPreview 
                 file={file} 
-                onClear={clearFile} 
+                onClear={handleReset} 
                 aspectRatio={aspectRatio}
                 onCropChange={setCropData}
+              />
+              <ImageInfoCard 
+                originalWidth={preview.originalWidth}
+                originalHeight={preview.originalHeight}
+                originalFormat={file.type.split('/')[1] || "JPEG"}
+                originalSize={preview.originalSize}
+                previewWidth={cropData?.width || preview.originalWidth}
+                previewHeight={cropData?.height || preview.originalHeight}
+                previewFormat={format === "ORIGINAL" ? file.type.split('/')[1] : format}
+                estimatedSize={preview.estimatedSize}
               />
             </div>
           )}

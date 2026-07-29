@@ -13,7 +13,7 @@ import { AIUploadZone } from "@/components/ai/AIUploadZone";
 import { ModelLoader } from "@/components/ai/ModelLoader";
 import { AIProgress } from "@/components/ai/AIProgress";
 import { AIResultCard } from "@/components/ai/AIResultCard";
-import { ImagePreview } from "@/components/ai/ImagePreview";
+import { ImagePreview } from "@/components/image/ImagePreview";
 import { detectBrowserAICapabilities, BrowserAICapabilities } from "@/lib/ai/browserCapabilities";
 import { validateImageForAI } from "@/lib/ai/imageValidation";
 import { downloadBlob } from "@/lib/ai/imageDownload";
@@ -214,7 +214,7 @@ export default function BackgroundRemoverClient() {
     },
     {
       question: "Which image formats are supported?",
-      answer: "We support standard web image formats including JPG, PNG, and WebP."
+      answer: "We support standard web image formats including JPG/JPEG, PNG, and WebP."
     },
     {
       question: "Can I download transparent PNG?",
@@ -312,7 +312,7 @@ export default function BackgroundRemoverClient() {
             )}
 
             <div className="mb-8">
-               <ImagePreview imageUrl={originalImageUrl} />
+               <ImagePreview image={originalImageUrl} />
             </div>
 
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 mb-8">

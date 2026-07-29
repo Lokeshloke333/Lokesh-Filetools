@@ -44,19 +44,25 @@ export async function POST(req: NextRequest) {
       savedPercentage = Math.max(0, ((originalSize - compressedSize) / originalSize) * 100);
     }
 
+    const headers: Record<string, string> = {
+      "Content-Type": `image/${result.outputFormat}`,
+      "Content-Disposition": `attachment; filename="${result.filename}"`,
+      "x-original-size": originalSize.toString(),
+      "x-processed-size": compressedSize.toString(),
+      "x-saved-percentage": savedPercentage.toFixed(1),
+      "x-filename": result.filename,
+      "x-width": result.width.toString(),
+      "x-height": result.height.toString(),
+    };
+
+    if (result.message) {
+      headers["x-compression-message"] = encodeURIComponent(result.message);
+    }
+
     // Return response
     return new NextResponse(new Uint8Array(result.buffer) as any, {
       status: 200,
-      headers: {
-        "Content-Type": `image/${result.outputFormat}`,
-        "Content-Disposition": `attachment; filename="${result.filename}"`,
-        "x-original-size": originalSize.toString(),
-        "x-processed-size": compressedSize.toString(),
-        "x-saved-percentage": savedPercentage.toFixed(1),
-        "x-filename": result.filename,
-        "x-width": result.width.toString(),
-        "x-height": result.height.toString(),
-      },
+      headers,
     });
   } catch (error: any) {
     console.error("Compression error:", error);

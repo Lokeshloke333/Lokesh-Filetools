@@ -17,25 +17,26 @@ import { Minimize2, Wand2, Lightbulb, Loader2 } from "lucide-react";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageProcessor } from "@/hooks/useImageProcessor";
 import { useDownload } from "@/hooks/useDownload";
-import { ImagePreview } from "@/components/tool/ImagePreview";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { useImagePreview } from "@/hooks/useImagePreview";
+import { ImagePreview } from "@/components/image/ImagePreview";
+import { ImageInfoCard } from "@/components/image/ImageInfoCard";
 
 export default function CompressImagePage() {
-  const [quality, setQuality] = useState([80]);
-  const [format, setFormat] = useState("ORIGINAL");
   const [stripMetadata, setStripMetadata] = useState(true);
   const [progressive, setProgressive] = useState(true);
 
   const { file, uploadError, handleFileSelect, clearFile, clearUploadError } = useImageUpload();
+  const preview = useImagePreview(file ? { file } : null);
   const { isProcessing: isCompressing, result, processImage: compressImage, clearResult } = useImageProcessor("compress");
   const { handleDownload } = useDownload();
 
   const handleCompress = () => {
     if (!file) return;
     compressImage(file, {
-      quality: quality[0],
-      format,
+      quality: preview.quality,
+      format: preview.targetFormat,
       stripMetadata,
       progressive,
     });
@@ -81,7 +82,7 @@ export default function CompressImagePage() {
           
           {!file && !result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, GIF, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFileSelect={handleFileSelect}
               error={uploadError}
@@ -92,7 +93,7 @@ export default function CompressImagePage() {
           {file && !result && (
             <div className="relative">
               {isCompressing && (
-                <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
+                <div className="absolute inset-0 z-40 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
                   <div className="w-16 h-16 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center animate-pulse mb-4">
                     <Loader2 className="w-8 h-8 text-white animate-spin" />
                   </div>
@@ -100,9 +101,22 @@ export default function CompressImagePage() {
                   <p className="text-slate-500 font-medium">Please wait a moment</p>
                 </div>
               )}
+              
               <ImagePreview 
-                file={file} 
-                onClear={clearFile} 
+                image={preview.image}
+                zoom={preview.zoom}
+                onZoomChange={preview.setZoom}
+                onClear={handleReset}
+                fileName={file.name}
+              />
+              
+              <ImageInfoCard 
+                originalWidth={preview.originalWidth}
+                originalHeight={preview.originalHeight}
+                originalFormat={file.type.split('/')[1] || "JPEG"}
+                originalSize={preview.originalSize}
+                previewFormat={preview.targetFormat === "ORIGINAL" ? file.type.split('/')[1] : preview.targetFormat}
+                estimatedSize={preview.estimatedSize}
               />
             </div>
           )}
@@ -126,11 +140,11 @@ export default function CompressImagePage() {
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <Label className="text-slate-700 font-semibold">Quality</Label>
-                <span className="text-blue-600 font-bold text-sm">{quality[0]}%</span>
+                <span className="text-blue-600 font-bold text-sm">{preview.quality}%</span>
               </div>
               <Slider 
-                value={quality} 
-                onValueChange={setQuality} 
+                value={[preview.quality]} 
+                onValueChange={(val) => preview.setQuality(val[0])} 
                 max={100} 
                 step={1} 
                 className="py-2"
@@ -145,7 +159,7 @@ export default function CompressImagePage() {
             {/* Output Format */}
             <div className="space-y-3 pt-2">
               <Label className="text-slate-700 font-semibold">Output Format</Label>
-              <Select value={format} onValueChange={setFormat} disabled={isCompressing || result !== null}>
+              <Select value={preview.targetFormat} onValueChange={preview.setTargetFormat} disabled={isCompressing || result !== null}>
                 <SelectTrigger className="w-full h-11 rounded-xl">
                   <SelectValue placeholder="Select format" />
                 </SelectTrigger>

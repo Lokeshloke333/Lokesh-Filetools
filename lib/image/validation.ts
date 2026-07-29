@@ -8,7 +8,7 @@ export function validateImage(file: File, maxSizeMB: number = FILE_LIMITS.IMAGE_
 
   const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
   if (!validTypes.includes(file.type)) {
-    return { valid: false, error: "Invalid file format. Please upload JPG, PNG, WebP, GIF, or AVIF." };
+    return { valid: false, error: "Invalid file format. Please upload JPG/JPEG, PNG, WebP, GIF, or AVIF." };
   }
 
   return { valid: true };

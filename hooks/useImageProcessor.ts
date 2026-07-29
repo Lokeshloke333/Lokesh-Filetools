@@ -11,6 +11,7 @@ export interface ProcessorResult {
   width: number;
   height: number;
   outputFormat: string;
+  message?: string;
 }
 
 export function useImageProcessor(toolEndpoint: string) {
@@ -54,6 +55,8 @@ export function useImageProcessor(toolEndpoint: string) {
       const preview = URL.createObjectURL(blob);
 
       const outputFormat = filename.split('.').pop()?.toUpperCase() || "";
+      const messageHeader = response.headers.get("x-compression-message");
+      const message = messageHeader ? decodeURIComponent(messageHeader) : undefined;
 
       setResult({
         preview,
@@ -64,6 +67,7 @@ export function useImageProcessor(toolEndpoint: string) {
         width,
         height,
         outputFormat,
+        message,
       });
       
       toast.success("Image processed successfully!");

@@ -16,9 +16,11 @@ import { RotateCw, Wand2, Lightbulb, Loader2, FlipHorizontal, FlipVertical } fro
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageProcessor } from "@/hooks/useImageProcessor";
 import { useDownload } from "@/hooks/useDownload";
-import { ImagePreview } from "@/components/tool/ImagePreview";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { useImagePreview } from "@/hooks/useImagePreview";
+import { ImagePreview } from "@/components/image/ImagePreview";
+import { ImageInfoCard } from "@/components/image/ImageInfoCard";
 
 export default function RotateImagePage() {
   const [rotationType, setRotationType] = useState("90");
@@ -29,8 +31,25 @@ export default function RotateImagePage() {
   const [format, setFormat] = useState("ORIGINAL");
 
   const { file, uploadError, handleFileSelect, clearFile, clearUploadError } = useImageUpload();
+  const preview = useImagePreview(file ? { file } : null);
   const { isProcessing: isRotating, result, processImage: rotateImage, clearResult } = useImageProcessor("rotate");
   const { handleDownload } = useDownload();
+
+  // Sync transform state for live preview
+  const setTransform = preview.setTransform;
+  React.useEffect(() => {
+    let currentAngle = parseInt(rotationType, 10);
+    if (rotationType === "custom") {
+      currentAngle = customAngle[0];
+    }
+    
+    setTransform({
+      scale: 1,
+      rotation: currentAngle || 0,
+      flipX: flip === "horizontal",
+      flipY: flip === "vertical",
+    });
+  }, [rotationType, customAngle, flip, setTransform]);
 
   const handleRotate = () => {
     if (!file) return;
@@ -89,7 +108,7 @@ export default function RotateImagePage() {
           
           {!file && !result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, GIF, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFileSelect={handleFileSelect}
               error={uploadError}
@@ -100,7 +119,7 @@ export default function RotateImagePage() {
           {file && !result && (
             <div className="relative">
               {isRotating && (
-                <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
+                <div className="absolute inset-0 z-40 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
                   <div className="w-16 h-16 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center animate-pulse mb-4">
                     <Loader2 className="w-8 h-8 text-white animate-spin" />
                   </div>
@@ -108,10 +127,23 @@ export default function RotateImagePage() {
                   <p className="text-slate-500 font-medium">Please wait a moment</p>
                 </div>
               )}
-              {/* Optional: Add a visual CSS rotation to the preview just for feedback if desired, but native ImagePreview is fine */}
+              
               <ImagePreview 
-                file={file} 
-                onClear={clearFile} 
+                image={preview.image}
+                zoom={preview.zoom}
+                onZoomChange={preview.setZoom}
+                onClear={handleReset}
+                fileName={file.name}
+                transform={preview.transform}
+              />
+              
+              <ImageInfoCard 
+                originalWidth={preview.originalWidth}
+                originalHeight={preview.originalHeight}
+                originalFormat={file.type.split('/')[1] || "JPEG"}
+                originalSize={preview.originalSize}
+                previewFormat={format === "ORIGINAL" ? file.type.split('/')[1] : format}
+                estimatedSize={preview.estimatedSize}
               />
             </div>
           )}

@@ -70,7 +70,7 @@ export default function BackgroundRemoverPage() {
             "name": "Which image formats are supported?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We support standard web image formats including JPG, PNG, and WebP."
+              "text": "We support standard web image formats including JPG/JPEG, PNG, and WebP."
             }
           },
           {

@@ -17,24 +17,33 @@ import { FileDown, Wand2, Lightbulb, Loader2 } from "lucide-react";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageProcessor } from "@/hooks/useImageProcessor";
 import { useDownload } from "@/hooks/useDownload";
-import { ImagePreview } from "@/components/tool/ImagePreview";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { useImagePreview } from "@/hooks/useImagePreview";
+import { ImagePreview } from "@/components/image/ImagePreview";
+import { ImageInfoCard } from "@/components/image/ImageInfoCard";
 
 export default function ConvertImagePage() {
-  const [targetFormat, setTargetFormat] = useState("JPG");
-  const [quality, setQuality] = useState([80]);
   const [stripMetadata, setStripMetadata] = useState(true);
 
   const { file, uploadError, handleFileSelect, clearFile, clearUploadError } = useImageUpload();
+  const preview = useImagePreview(file ? { file } : null);
   const { isProcessing: isConverting, result, processImage: convertImage, clearResult } = useImageProcessor("convert");
   const { handleDownload } = useDownload();
+  
+  // Set default format to JPG if original is not JPG, else PNG
+  React.useEffect(() => {
+    if (file && preview.targetFormat === "ORIGINAL") {
+      const type = file.type.split('/')[1]?.toUpperCase() || "JPG";
+      preview.setTargetFormat(type === "JPG" || type === "JPEG" ? "PNG" : "JPG");
+    }
+  }, [file]);
 
   const handleConvert = () => {
     if (!file) return;
     convertImage(file, {
-      targetFormat,
-      quality: quality[0],
+      targetFormat: preview.targetFormat,
+      quality: preview.quality,
       stripMetadata,
     });
   };
@@ -45,7 +54,7 @@ export default function ConvertImagePage() {
   };
 
   // Determine if quality slider should be shown
-  const showQuality = ["JPG", "WEBP", "AVIF", "PNG"].includes(targetFormat);
+  const showQuality = ["JPG", "WEBP", "AVIF", "PNG"].includes(preview.targetFormat);
 
   // Auto-detect format text
   const originalFormatStr = file ? file.type.split('/')[1].toUpperCase() : "Auto-detect";
@@ -81,7 +90,7 @@ export default function ConvertImagePage() {
           
           {!file && !result && (
             <UploadArea 
-              acceptedFormats="JPG, PNG, WebP, GIF, AVIF"
+              acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
               maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
               onFileSelect={handleFileSelect}
               error={uploadError}
@@ -92,7 +101,7 @@ export default function ConvertImagePage() {
           {file && !result && (
             <div className="relative">
               {isConverting && (
-                <div className="absolute inset-0 z-20 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
+                <div className="absolute inset-0 z-40 bg-white/60 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center border border-white/40 shadow-sm">
                   <div className="w-16 h-16 bg-blue-600 rounded-2xl shadow-xl shadow-blue-600/20 flex items-center justify-center animate-pulse mb-4">
                     <Loader2 className="w-8 h-8 text-white animate-spin" />
                   </div>
@@ -100,9 +109,23 @@ export default function ConvertImagePage() {
                   <p className="text-slate-500 font-medium">Please wait a moment</p>
                 </div>
               )}
+              
               <ImagePreview 
-                file={file} 
-                onClear={clearFile} 
+                image={preview.image}
+                zoom={preview.zoom}
+                onZoomChange={preview.setZoom}
+                onClear={handleReset}
+                fileName={file.name}
+                simulateFormat={preview.targetFormat.toLowerCase()}
+              />
+              
+              <ImageInfoCard 
+                originalWidth={preview.originalWidth}
+                originalHeight={preview.originalHeight}
+                originalFormat={file.type.split('/')[1] || "JPEG"}
+                originalSize={preview.originalSize}
+                previewFormat={preview.targetFormat === "ORIGINAL" ? file.type.split('/')[1] : preview.targetFormat}
+                estimatedSize={preview.estimatedSize}
               />
             </div>
           )}
@@ -133,7 +156,7 @@ export default function ConvertImagePage() {
             {/* Convert To */}
             <div className="space-y-3 pt-4">
               <Label className="text-slate-700 font-semibold">Convert To</Label>
-              <Select value={targetFormat} onValueChange={setTargetFormat} disabled={isConverting || result !== null}>
+              <Select value={preview.targetFormat} onValueChange={preview.setTargetFormat} disabled={isConverting || result !== null}>
                 <SelectTrigger className="w-full h-11 rounded-xl border-blue-200 focus:ring-blue-500 bg-blue-50/50">
                   <SelectValue placeholder="Select format" />
                 </SelectTrigger>
@@ -152,11 +175,11 @@ export default function ConvertImagePage() {
               <div className="space-y-4 pt-4">
                 <div className="flex justify-between items-center">
                   <Label className="text-slate-700 font-semibold">Quality</Label>
-                  <span className="text-blue-600 font-bold text-sm">{quality[0]}%</span>
+                  <span className="text-blue-600 font-bold text-sm">{preview.quality}%</span>
                 </div>
                 <Slider 
-                  value={quality} 
-                  onValueChange={setQuality} 
+                  value={[preview.quality]} 
+                  onValueChange={(val) => preview.setQuality(val[0])} 
                   max={100} 
                   step={1} 
                   className="py-2"

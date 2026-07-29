@@ -7,7 +7,7 @@ export function validateImageForAI(file: File): { valid: boolean; error?: string
   if (!validTypes.includes(file.type)) {
     return { 
       valid: false, 
-      error: `Unsupported format: ${file.type}. Please use JPG, PNG, or WebP.` 
+      error: `Unsupported format: ${file.type}. Please use JPG/JPEG, PNG, or WebP.` 
     };
   }
 

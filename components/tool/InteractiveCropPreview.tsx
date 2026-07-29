@@ -3,9 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactCrop, { Crop, PixelCrop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { Button } from "@/components/ui/button";
-import { RefreshCcw, ZoomIn, ZoomOut } from "lucide-react";
-import { Slider } from "@/components/ui/slider";
+import { ImagePreview } from "@/components/image/ImagePreview";
 
 export interface InteractiveCropPreviewProps {
   file: File & { preview?: string };
@@ -90,54 +88,31 @@ export function InteractiveCropPreview({ file, onClear, aspectRatio, onCropChang
   };
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      {/* Zoom Controls */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4 flex-1">
-          <ZoomOut className="w-5 h-5 text-slate-400" />
-          <Slider 
-            value={[scale]} 
-            onValueChange={(val) => setScale(val[0])} 
-            min={0.5} 
-            max={3} 
-            step={0.1} 
-            className="flex-1"
+    <ImagePreview 
+      image={file.preview || null}
+      onClear={onClear}
+      zoom={scale}
+      onZoomChange={setScale}
+      fileName={file.name}
+    >
+      {file.preview && (
+        <ReactCrop
+          crop={crop}
+          onChange={(_, percentCrop) => setCrop(percentCrop)}
+          onComplete={(c) => setCompletedCrop(c)}
+          aspect={aspectRatio}
+          className="max-w-full max-h-full"
+        >
+          <img
+            ref={imgRef}
+            alt="Crop preview boundary"
+            src={file.preview}
+            onLoad={onImageLoad}
+            className="max-w-full max-h-full object-contain opacity-0 pointer-events-none select-none"
+            style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: '100%' }}
           />
-          <ZoomIn className="w-5 h-5 text-slate-400" />
-        </div>
-        <Button variant="outline" size="sm" onClick={handleReset} className="h-9">
-          <RefreshCcw className="w-4 h-4 mr-2" />
-          Reset
-        </Button>
-      </div>
-
-      {/* Crop Area */}
-      <div className="w-full min-h-[400px] max-h-[600px] bg-slate-900 rounded-3xl overflow-hidden relative flex items-center justify-center border border-slate-200 shadow-sm">
-        {file.preview && (
-          <div className="overflow-auto max-w-full max-h-full flex items-center justify-center p-4">
-            <ReactCrop
-              crop={crop}
-              onChange={(_, percentCrop) => setCrop(percentCrop)}
-              onComplete={(c) => setCompletedCrop(c)}
-              aspect={aspectRatio}
-              className="max-w-full max-h-full"
-            >
-              <img
-                ref={imgRef}
-                alt="Crop preview"
-                src={file.preview}
-                style={{ transform: `scale(${scale})`, transition: 'transform 0.1s', transformOrigin: 'center' }}
-                onLoad={onImageLoad}
-                className="max-w-full max-h-[500px] object-contain"
-              />
-            </ReactCrop>
-          </div>
-        )}
-      </div>
-      
-      <Button variant="outline" onClick={onClear} className="w-full h-12 rounded-xl text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700">
-        Remove Image
-      </Button>
-    </div>
+        </ReactCrop>
+      )}
+    </ImagePreview>
   );
 }
