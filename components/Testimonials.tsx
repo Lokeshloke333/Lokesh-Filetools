@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Star } from "lucide-react";
+import { Container } from "@/components/ui/Container";
 
 export function Testimonials() {
   const testimonials = [
@@ -30,7 +31,7 @@ export function Testimonials() {
 
   return (
     <section className="py-20 bg-slate-50 border-t border-slate-100">
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+      <Container>
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
             What Our Users Say
@@ -61,7 +62,7 @@ export function Testimonials() {
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

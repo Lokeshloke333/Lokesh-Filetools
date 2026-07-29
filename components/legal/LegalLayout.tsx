@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Mail, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import { PageHero } from "@/components/common/PageHero";
+import { Container } from "@/components/ui/Container";
 
 export interface LegalSection {
   id: string;
@@ -71,7 +72,7 @@ export function LegalLayout({
         </PageHero>
 
         {/* Main Content Area */}
-        <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-16">
+        <Container className="py-16">
           <div className="flex flex-col lg:flex-row gap-12 relative">
             
             {/* Sidebar Navigation (Hidden on Mobile) */}
@@ -106,10 +107,10 @@ export function LegalLayout({
             </div>
 
           </div>
-        </div>
+        </Container>
 
         {/* Bottom CTA Section */}
-        <div className="max-w-7xl mx-auto w-full px-4 md:px-6 pb-24">
+        <Container className="pb-24">
           <div className="bg-slate-900 rounded-3xl p-10 md:p-16 text-center relative overflow-hidden shadow-2xl">
             <div className="absolute top-0 right-0 -mt-16 -mr-16 w-64 h-64 bg-blue-500/20 blur-3xl rounded-full pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-64 h-64 bg-purple-500/20 blur-3xl rounded-full pointer-events-none"></div>
@@ -136,7 +137,7 @@ export function LegalLayout({
               </div>
             </div>
           </div>
-        </div>
+        </Container>
 
       </main>
 

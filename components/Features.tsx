@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Container } from "@/components/ui/Container";
 import { Zap, Shield, Sparkles, Cloud, Lock, Clock } from "lucide-react";
 
 export function Features() {

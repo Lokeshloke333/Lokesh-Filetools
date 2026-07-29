@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { GlobalSearch } from "./search/GlobalSearch";
+import { Container } from "@/components/ui/Container";
 
 export function SearchSection() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export function SearchSection() {
 
   return (
     <section className="bg-white py-12 md:py-16">
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+      <Container>
         <div className="max-w-3xl mx-auto flex flex-col items-center">
           
           {/* Search Bar */}
@@ -53,7 +54,7 @@ export function SearchSection() {
           </div>
 
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

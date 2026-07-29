@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
+import { Container } from "@/components/ui/Container";
 
 interface ToolLayoutProps {
   children: React.ReactNode;
@@ -18,17 +19,17 @@ export function ToolLayout({ children }: ToolLayoutProps) {
       <main className="flex-grow flex flex-col">
         {/* Breadcrumb Area */}
         <div className="border-b border-slate-200 bg-white mb-6">
-          <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-3">
+          <Container className="py-3">
             <Breadcrumb />
-          </div>
+          </Container>
         </div>
 
         {/* Main Tool Content */}
-        <div className="max-w-7xl mx-auto w-full px-4 md:px-6 pb-16">
+        <Container className="pb-16">
           <div className="max-w-6xl mx-auto flex flex-col gap-10 lg:gap-12 w-full">
             {children}
           </div>
-        </div>
+        </Container>
       </main>
 
       <Footer />

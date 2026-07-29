@@ -6,14 +6,14 @@ import { motion } from "framer-motion";
 import { 
   ChevronRight, 
   LayoutGrid, 
-  FileText, 
-  Image as ImageIcon, 
-  FileArchive, 
-  Video, 
-  Folder, 
+  Search,
+  Wand2,
   Lock,
-  Zap
+  Zap,
+  ArrowRight,
+  Folder
 } from "lucide-react";
+import { Container } from "@/components/ui/Container";
 
 export function ToolsHero() {
   return (
@@ -67,7 +67,7 @@ export function ToolsHero() {
 
 
 
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 relative z-10 pb-16 md:pb-24 pt-8">
+      <Container className="relative z-10 pb-16 md:pb-24 pt-8">
         
 
 
@@ -159,7 +159,7 @@ export function ToolsHero() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

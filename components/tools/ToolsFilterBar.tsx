@@ -2,6 +2,7 @@
 
 import React from "react";
 import { GlobalSearch } from "../search/GlobalSearch";
+import { Container } from "@/components/ui/Container";
 
 interface ToolsFilterBarProps {
   categories: string[];
@@ -21,7 +22,7 @@ export function ToolsFilterBar({
 
   return (
     <div className="sticky top-16 lg:top-20 z-40 py-4 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm px-4 md:px-6 w-full">
-      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between max-w-7xl mx-auto w-full">
+      <Container className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between  w-full">
         
         {/* Search */}
         <div className="w-full lg:w-72 flex-shrink-0">
@@ -54,7 +55,7 @@ export function ToolsFilterBar({
           </div>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

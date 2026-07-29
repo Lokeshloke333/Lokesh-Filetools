@@ -154,7 +154,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[750px] bg-white rounded-3xl shadow-2xl shadow-blue-900/10 ring-1 ring-slate-200 overflow-hidden z-50 flex flex-col"
+            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[750px] bg-[rgba(255,255,255,0.92)] backdrop-blur-[36px] isolate rounded-3xl shadow-2xl shadow-slate-400/30 border border-white/60 overflow-hidden z-50 flex flex-col"
             role="menu"
           >
             {/* Mega Menu Content Grid */}
@@ -263,12 +263,12 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
             </div>
 
             {/* Footer */}
-            <div className="bg-slate-50 border-t border-slate-100 p-4 px-6 flex justify-between items-center">
+            <div className="bg-slate-50/60 backdrop-blur-sm border-t border-slate-200/50 p-4 px-6 flex justify-between items-center">
               <span className="text-sm text-slate-500 font-medium">
                 30+ Supported Formats
               </span>
               <Link 
-                href={`/tools`}
+                href={`/tools?category=${category.title.split(' ')[0].toLowerCase()}`}
                 className="text-sm font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700 hover:underline"
                 onClick={() => setIsOpen(false)}
               >

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/Container";
 import { 
   CheckSquare, 
   Square, 
@@ -38,7 +39,7 @@ export function PdfOrganizeToolbar({
   
   return (
     <div className="sticky top-16 lg:top-20 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200 py-3 px-4 shadow-sm">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <Container className="flex flex-col sm:flex-row items-center justify-between gap-4 !px-0">
         
         {/* Selection Stats */}
         <div className="flex items-center gap-3">
@@ -113,7 +114,7 @@ export function PdfOrganizeToolbar({
           </Button>
         </div>
 
-      </div>
+      </Container>
     </div>
   );
 }

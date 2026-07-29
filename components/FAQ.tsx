@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Container } from "@/components/ui/Container";
 import { JsonLd } from "./seo/JsonLd";
 import { getFaqSchema } from "@/lib/seo/schema";
 import {

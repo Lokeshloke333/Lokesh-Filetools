@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { Container } from "@/components/ui/Container";
 
 function Counter({ end, suffix = "", duration = 2, decimals = 0 }: { end: number, suffix?: string, duration?: number, decimals?: number }) {
   const [count, setCount] = useState(0);
@@ -50,7 +51,7 @@ export function Statistics() {
       {/* Abstract Background pattern */}
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
 
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 relative z-10">
+      <Container className="relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
           Trusted by Millions
         </h2>
@@ -75,7 +76,7 @@ export function Statistics() {
             </motion.div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { Mail } from "lucide-react";
+import { Container } from "@/components/ui/Container";
 
 export function Footer() {
   return (
     <footer className="bg-[#0b1120] text-slate-400 pt-16 pb-8 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+      <Container>
 
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-12 mb-16">
@@ -82,7 +83,7 @@ export function Footer() {
           </div>
         </div>
 
-      </div>
+      </Container>
     </footer>
   );
 }

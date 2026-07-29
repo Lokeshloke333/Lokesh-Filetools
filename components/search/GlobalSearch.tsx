@@ -171,9 +171,13 @@ export function GlobalSearch({
             "block w-full text-slate-900 border border-slate-200 outline-none transition-all placeholder:text-slate-400",
             variant === "hero"
               ? "p-4 pl-12 md:p-5 md:pl-12 2xl:p-6 2xl:pl-14 text-sm md:text-base 2xl:text-lg rounded-2xl bg-white/95 focus:bg-white hover:border-blue-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/15 backdrop-blur-sm"
-              : "py-2.5 pl-10 pr-4 text-sm rounded-full focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500",
-            variant === "navbar" ? "bg-slate-50 shadow-inner" : "",
-            variant === "filterBar" ? "bg-white" : ""
+              : "py-2.5 pl-10 pr-4 text-sm rounded-full",
+            variant === "navbar" 
+              ? "bg-slate-50/50 border border-slate-200/50 backdrop-blur-sm shadow-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 focus:bg-white/80 transition-all duration-200" 
+              : "",
+            variant === "filterBar" 
+              ? "bg-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500" 
+              : ""
           )}
           placeholder={variant === "hero" ? "Search 100+ file tools..." : (variant === "navbar" ? "Search 100+ tools..." : "Search tools...")}
           aria-label="Search tools"

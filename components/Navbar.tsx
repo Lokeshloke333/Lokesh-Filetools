@@ -8,6 +8,7 @@ import { MegaMenuDropdown } from "./navbar/MegaMenuDropdown";
 import { MobileMenu } from "./navbar/MobileMenu";
 import { GlobalSearch } from "./search/GlobalSearch";
 import { navigationData } from "@/lib/navigation";
+import { Container } from "@/components/ui/Container";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +25,30 @@ export function Navbar() {
   }, []);
 
   return (
-    <header 
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled 
-          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200/50" 
-          : "bg-white border-b border-slate-100"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto w-full px-4 lg:px-6 h-16 lg:h-20 flex items-center justify-between gap-4">
+    <Container className="sticky top-4 lg:top-6 z-50">
+      <header 
+        className={`relative w-full transition-all duration-300 rounded-2xl md:rounded-[24px] ${
+          isScrolled 
+            ? "shadow-[0_8px_32px_rgba(0,0,0,0.04)] py-0" 
+            : "shadow-[0_4px_16px_rgba(0,0,0,0.02)] py-1"
+        }`}
+      >
+        {/* Navbar Glass Background Layer (Isolated to prevent trapping child backdrop-filters) */}
+        <div className="absolute inset-0 -z-10 bg-[rgba(255,255,255,0.58)] backdrop-blur-[24px] rounded-2xl md:rounded-[24px]" />
+        {/* Premium Animated Gradient Border */}
+        <div 
+          className="absolute inset-0 pointer-events-none rounded-2xl md:rounded-[24px] z-20"
+          style={{
+            padding: '1px',
+            background: 'linear-gradient(90deg, rgba(59,130,246,0.2), rgba(168,85,247,0.2), rgba(236,72,153,0.2), rgba(59,130,246,0.2))',
+            backgroundSize: '300% 100%',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            animation: 'border-pan 15s linear infinite'
+          }}
+        />
+        <div className="w-full px-4 lg:px-6 h-14 lg:h-16 flex items-center justify-between gap-4 relative z-10">
         
         {/* Left Section: Logo & Search */}
         <div className="flex items-center gap-6 flex-1 md:flex-none">
@@ -48,19 +65,24 @@ export function Navbar() {
         </div>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 justify-center flex-1">
-          {navigationData.map((category) => (
-            <MegaMenuDropdown key={category.title} category={category} />
-          ))}
-          
-          <Link href="/tools" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
-            Browse Tools
-          </Link>
+        <nav className="hidden lg:flex items-center justify-center flex-1">
+          <div className="flex items-center gap-1 xl:gap-2 px-2 py-1.5 rounded-full bg-slate-50/50 border border-slate-100/50">
+            {navigationData.map((category) => (
+              <MegaMenuDropdown key={category.title} category={category} />
+            ))}
+            
+            <Link 
+              href="/tools" 
+              className="text-sm font-semibold text-slate-700 hover:text-blue-700 hover:bg-white hover:shadow-sm px-4 py-2 rounded-full transition-all duration-200 hover:-translate-y-[1px]"
+            >
+              Browse Tools
+            </Link>
+          </div>
         </nav>
 
         {/* CTA Button Desktop */}
         <div className="hidden lg:flex items-center flex-shrink-0">
-          <Button asChild className="rounded-full px-6 py-2.5 h-auto text-sm font-bold bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5">
+          <Button asChild className="rounded-full px-7 py-2.5 h-auto text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 border border-white/20">
             <Link href="/contact">Contact</Link>
           </Button>
         </div>
@@ -83,6 +105,7 @@ export function Navbar() {
 
       {/* Mobile Menu Component */}
       <MobileMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
-    </header>
+      </header>
+    </Container>
   );
 }

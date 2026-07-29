@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import { CATEGORY_DATA } from "@/components/tools/FeaturedCategories";
 import { CategoryCard } from "@/components/tools/CategoryCard";
 import { TOOLS } from "@/lib/tools";
+import { Container } from "@/components/ui/Container";
 
 export function CategorySection() {
   const toolCounts = useMemo(() => {
@@ -16,7 +17,7 @@ export function CategorySection() {
 
   return (
     <section className="py-16 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+      <Container>
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
             Browse by Category
@@ -36,7 +37,7 @@ export function CategorySection() {
             />
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

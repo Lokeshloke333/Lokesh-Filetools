@@ -48,18 +48,20 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-slate-50">
-      <Navbar />
-      <Hero />
-      <PopularTools />
-      <CategorySection />
-      <Features />
-      <HowItWorks />
-      <Statistics />
-      <Testimonials />
-      <FAQ />
-      <CTA />
-      <Footer />
+    <main className="min-h-screen flex flex-col bg-slate-50 relative">
+      <div className="relative z-10 flex flex-col">
+        <Navbar />
+        <Hero />
+        <PopularTools />
+        <CategorySection />
+        <Features />
+        <HowItWorks />
+        <Statistics />
+        <Testimonials />
+        <FAQ />
+        <CTA />
+        <Footer />
+      </div>
     </main>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -95,7 +96,7 @@ export default function ContactPage() {
 
         {/* Main Content */}
         <section className="py-16 md:py-24 flex-grow">
-          <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+          <Container>
             <div className="grid lg:grid-cols-5 gap-12 lg:gap-8 items-stretch">
               
               {/* Left: Support Info Card (Spans 2 cols) */}
@@ -317,7 +318,7 @@ export default function ContactPage() {
                 </form>
               </motion.div>
             </div>
-          </div>
+          </Container>
         </section>
 
         <Footer />

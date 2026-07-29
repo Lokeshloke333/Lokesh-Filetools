@@ -4,6 +4,7 @@ import React from "react";
 import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { FileText, Image as ImageIcon, FolderOpen, File as FileIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import { Container } from "@/components/ui/Container";
 
 interface PageHeroProps {
   title: string;
@@ -69,7 +70,7 @@ export function PageHero({ title, description, children }: PageHeroProps) {
       <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none"></div>
 
       {/* 6. Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 md:px-6 flex flex-col items-center text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
+      <Container className="relative z-10  flex flex-col items-center text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
         
         {/* Breadcrumb */}
         <div className="mb-6 opacity-80 hover:opacity-100 transition-opacity">
@@ -92,7 +93,7 @@ export function PageHero({ title, description, children }: PageHeroProps) {
             {children}
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }

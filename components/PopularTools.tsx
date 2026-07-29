@@ -4,12 +4,13 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { TOOLS } from "@/lib/tools";
 import { ToolGrid } from "@/components/tools/ToolGrid";
+import { Container } from "@/components/ui/Container";
 
 export function PopularTools() {
 
   return (
     <section className="py-16 md:py-24">
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+      <Container>
 
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
@@ -27,7 +28,7 @@ export function PopularTools() {
           <ToolGrid tools={TOOLS} />
         </div>
 
-      </div>
+      </Container>
     </section>
   );
 }

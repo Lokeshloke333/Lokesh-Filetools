@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/common/PageHero";
+import { Container } from "@/components/ui/Container";
 import Link from "next/link";
 import { ArrowRight, Image as ImageIcon } from "lucide-react";
 
@@ -88,7 +89,7 @@ export default function BlogPage() {
       />
 
       <div className="flex-grow pt-12 pb-20">
-        <div className="max-w-7xl mx-auto w-full px-4 md:px-6">
+        <Container>
 
           <div className="grid md:grid-cols-3 gap-6">
             {posts.map((post, i) => (
@@ -118,7 +119,7 @@ export default function BlogPage() {
               </Link>
             ))}
           </div>
-        </div>
+        </Container>
       </div>
 
       <CTA />

@@ -109,8 +109,15 @@ export function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-white pt-8 md:pt-10 lg:pt-12 2xl:pt-20 pb-16 lg:pb-20 2xl:pb-24 flex justify-center min-h-[min(100vh,800px)] 2xl:min-h-[80vh] items-center"
+      className="relative overflow-hidden bg-white -mt-[104px] pt-[120px] md:pt-[130px] lg:pt-[150px] 2xl:pt-[180px] pb-16 lg:pb-20 2xl:pb-24 flex justify-center min-h-[min(100vh,800px)] 2xl:min-h-[80vh] items-center"
     >
+      {/* Decorative blurred gradient blobs behind everything in the hero */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute -left-[5%] top-[10%] w-[35%] h-[50%] bg-blue-600/[0.05] rounded-full blur-[140px]"></div>
+        <div className="absolute left-[25%] top-[15%] w-[25%] h-[40%] bg-purple-600/[0.04] rounded-full blur-[150px]"></div>
+        <div className="absolute right-[20%] top-[0%] w-[30%] h-[45%] bg-cyan-600/[0.06] rounded-full blur-[130px]"></div>
+        <div className="absolute -right-[5%] top-[20%] w-[40%] h-[40%] bg-pink-600/[0.05] rounded-full blur-[160px]"></div>
+      </div>
       {/* Interactive Background Canvas & CSS Layers */}
       <HeroBackground smoothMouseX={smoothMouseX} smoothMouseY={smoothMouseY} />
 

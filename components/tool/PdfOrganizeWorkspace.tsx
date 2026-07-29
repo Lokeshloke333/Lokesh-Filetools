@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { Loader2, Trash2, RotateCw, RotateCcw, Maximize2 } from "lucide-react";
+import { Container } from "@/components/ui/Container";
 import { PageItem } from "@/hooks/usePdfOrganize";
 
 interface PdfOrganizeWorkspaceProps {
@@ -115,7 +116,7 @@ export function PdfOrganizeWorkspace({
 
   return (
     <div className="bg-slate-50/50 p-4 sm:p-6 lg:p-8 min-h-[500px]">
-      <div className="max-w-7xl mx-auto">
+      <Container className="!px-0">
         <div 
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6"
           onDragOver={(e) => e.preventDefault()} // Allow drop anywhere in grid
@@ -150,7 +151,7 @@ export function PdfOrganizeWorkspace({
             <p>All pages deleted. Reset to restore.</p>
           </div>
         )}
-      </div>
+      </Container>
     </div>
   );
 }
