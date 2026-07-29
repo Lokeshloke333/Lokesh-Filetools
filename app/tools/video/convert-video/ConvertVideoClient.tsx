@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { ToolLayout } from "@/components/tool/ToolLayout";
 import { ToolHeader } from "@/components/tool/ToolHeader";
 import { UploadArea } from "@/components/tool/UploadArea";
@@ -17,7 +18,25 @@ import { MediaResultCard } from "@/components/tool/media/MediaResultCard";
 import { VideoConversionOptionsPanel, VideoConversionOptions } from "@/components/tool/media/VideoConversionOptions";
 import { getBasicMediaMetadata, MediaMetadata } from "@/lib/utils/media";
 
-export default function ConvertVideoClient() {
+export interface ConvertVideoClientProps {
+  initialFromFormat?: string;
+  initialToFormat?: string;
+  title?: string;
+  subtitle?: string;
+  aboutTitle?: string;
+  aboutContent?: React.ReactNode;
+  supported?: boolean;
+}
+
+export default function ConvertVideoClient({
+  initialFromFormat,
+  initialToFormat,
+  title = "Universal Video Converter",
+  subtitle = "Convert videos between MP4, MOV, MKV, and WEBM entirely in your browser without uploading.",
+  aboutTitle,
+  aboutContent,
+  supported = true,
+}: ConvertVideoClientProps = {}) {
   const {
     fileInfo,
     handleFileSelect,
@@ -32,7 +51,7 @@ export default function ConvertVideoClient() {
   const { handleDownload } = useDownload();
 
   const [options, setOptions] = useState<VideoConversionOptions>({
-    format: "mp4",
+    format: (initialToFormat?.toLowerCase() as any) || "mp4",
     videoCodec: "h264",
     audioCodec: "copy",
     quality: "high",
@@ -52,9 +71,14 @@ export default function ConvertVideoClient() {
   }, [fileInfo]);
 
   const onFileSelectWrapper = (file: File) => {
+    let allowedTypes = ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv', '.wmv', '.m4v', '.3gp', '.ogv', '.mpeg', 'video/'];
+    if (initialFromFormat) {
+      allowedTypes = [`.${initialFromFormat.toLowerCase()}`, `video/${initialFromFormat.toLowerCase()}`];
+    }
+    
     handleFileSelect(file, {
       maxSizeMB: 1000,
-      allowedTypes: ['.mp4', '.mov', '.avi', '.mkv', '.webm', '.flv', '.wmv', '.m4v', '.3gp', '.ogv', '.mpeg', 'video/']
+      allowedTypes: allowedTypes
     });
   };
 
@@ -161,15 +185,33 @@ export default function ConvertVideoClient() {
     <ToolLayout>
       <div className="flex flex-col gap-8 max-w-5xl mx-auto">
         <ToolHeader 
-          title="Universal Video Converter"
-          subtitle="Convert videos between MP4, MOV, MKV, and WEBM entirely in your browser without uploading."
+          title={title}
+          subtitle={subtitle}
           icon={<Video className="w-6 h-6 text-blue-500" />}
         />
+
+        {supported === false && !result && !fileInfo && (
+          <div className="bg-amber-50 border border-amber-200 rounded-3xl p-8 text-center max-w-2xl mx-auto">
+            <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-amber-900 mb-3">
+              {title} is coming soon.
+            </h3>
+            <p className="text-amber-800 mb-8 leading-relaxed">
+              This conversion page is ready, but <strong>{initialToFormat}</strong> export is currently under development.
+              Meanwhile, you can convert {initialFromFormat} to other supported formats like MP4, WEBM, and MOV using our universal Video Converter.
+            </p>
+            <Button asChild className="bg-amber-500 hover:bg-amber-600 text-white rounded-full px-8 py-2.5 h-auto font-bold shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5">
+              <Link href="/tools/video/convert-video">
+                Open Video Converter
+              </Link>
+            </Button>
+          </div>
+        )}
         
-        {!result && !fileInfo && (
+        {supported !== false && !result && !fileInfo && (
           <UploadArea 
-            acceptedFormats="MP4, MOV, AVI, MKV, WEBM, FLV, WMV"
-            accept="video/*"
+            acceptedFormats={initialFromFormat ? initialFromFormat.toUpperCase() : "MP4, MOV, AVI, MKV, WEBM, FLV, WMV"}
+            accept={initialFromFormat ? `.${initialFromFormat.toLowerCase()},video/${initialFromFormat.toLowerCase()}` : "video/*"}
             maxSizeMB={1000}
             onFileSelect={onFileSelectWrapper}
             multiple={false}
@@ -276,19 +318,24 @@ export default function ConvertVideoClient() {
       <RelatedTools />
       <FAQSection faqs={faqs} />
       
-      <AboutTool 
-        title="About our Video Conversion Engine"
-        content={
-          <>
-            <p>
-              To provide incredibly flexible video processing, we utilize <strong>FFmpeg WebAssembly</strong>. Instead of uploading your massive video files to a cloud server, our tool downloads a lightweight conversion engine directly into your browser.
-            </p>
-            <p>
-              This means your media is processed locally using your device's CPU. Not only does this guarantee absolute privacy since the files never leave your machine, but it also allows you to perform heavy tasks like changing codecs (H.264, H.265, VP9), scaling resolution, and manipulating frame rates without being bottlenecked by slow internet upload speeds.
-            </p>
-          </>
-        }
-      />
+      {aboutTitle && aboutContent ? (
+          <AboutTool title={aboutTitle} content={aboutContent} />
+        ) : (
+          <AboutTool 
+            title="About Universal Video Converter"
+            content={
+              <>
+                <p>
+                  This tool utilizes FFmpeg compiled to WebAssembly to process videos entirely on your local device.
+                  Your files are never uploaded to any remote server, ensuring absolute privacy and security for your personal or sensitive videos.
+                </p>
+                <p>
+                  By bypassing the upload and download process, conversions for small to medium-sized videos can be significantly faster depending on your computer's processing power.
+                </p>
+              </>
+            }
+          />
+        )}
     </ToolLayout>
   );
 }

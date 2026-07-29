@@ -175,7 +175,7 @@ export function GlobalSearch({
             variant === "navbar" ? "bg-slate-50 shadow-inner" : "",
             variant === "filterBar" ? "bg-white" : ""
           )}
-          placeholder={variant === "hero" ? "Search for tools..." : (variant === "navbar" ? "Search 100+ tools..." : "Search tools...")}
+          placeholder={variant === "hero" ? "Search 100+ file tools..." : (variant === "navbar" ? "Search 100+ tools..." : "Search tools...")}
           aria-label="Search tools"
         />
         {variant === "hero" && (

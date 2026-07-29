@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "./ui/button";
-import { MegaMenu } from "./navbar/MegaMenu";
+import { MegaMenuDropdown } from "./navbar/MegaMenuDropdown";
 import { MobileMenu } from "./navbar/MobileMenu";
 import { GlobalSearch } from "./search/GlobalSearch";
+import { navigationData } from "@/lib/navigation";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,19 +43,19 @@ export function Navbar() {
           
           {/* Desktop Search Bar */}
           <div className="hidden lg:flex relative ml-4 xl:ml-8">
-            <GlobalSearch className="w-[350px] xl:w-[450px]" />
+            <GlobalSearch className="w-[240px] xl:w-[320px]" />
           </div>
         </div>
 
         {/* Desktop Nav Links */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 justify-center flex-1">
-          <MegaMenu />
+          {navigationData.map((category) => (
+            <MegaMenuDropdown key={category.title} category={category} />
+          ))}
           
           <Link href="/tools" className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">
             Browse Tools
           </Link>
-
-
         </nav>
 
         {/* CTA Button Desktop */}

@@ -126,7 +126,7 @@ export function Hero() {
           whileHover={{ y: -2, boxShadow: "0px 10px 20px rgba(0,0,0,0.05)" }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium mb-3 2xl:mb-4 shadow-sm transition-all"
         >
-          <span className="text-amber-500">✨</span> Fast • Secure • Browser-Based
+          ⚡ Fast • 🔒 Private • 🌐 Browser-Based
         </motion.div>
 
         {/* Headline */}
@@ -144,9 +144,9 @@ export function Hero() {
           ></motion.div>
 
           <h1 className="text-4xl md:text-5xl lg:text-[clamp(3rem,5vw,4.5rem)] 2xl:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
-            Free Online <br className="hidden sm:block" />
+            All Your File Tools. <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 relative inline-block">
-              Image & PDF Tools
+              One Place.
             </span>
           </h1>
         </motion.div>
@@ -156,7 +156,7 @@ export function Hero() {
           variants={itemVariants}
           className="text-base md:text-lg 2xl:text-xl text-slate-600 mb-6 lg:mb-8 2xl:mb-10 max-w-2xl leading-relaxed"
         >
-          Discover the world's most comprehensive toolkit for all your file conversions, editing, and optimization needs.
+          Convert, compress, edit, optimize, and transform PDFs, images, videos, audio, and Office files — all in your browser with fast processing and privacy-first design.
         </motion.p>
 
         {/* Search */}

@@ -13,25 +13,26 @@ import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Free Online Image & PDF Tools | Fileinator",
+    absolute: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
   },
-  description: "Fileinator is a free online image and PDF toolkit that lets you compress, convert, merge, split, unlock, and optimize files securely in your browser.",
+  description: "Fileinator is a comprehensive online file toolkit that lets you compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files securely in your browser.",
   keywords: [
     "free online file tools",
     "online pdf tools",
     "online image tools",
+    "online video tools",
+    "online audio tools",
     "compress pdf",
-    "merge pdf",
-    "split pdf",
-    "image compressor",
+    "convert video",
+    "edit audio",
     "browser file utilities"
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Free Online Image & PDF Tools | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, unlock and optimize images and PDF files online for free. Secure, fast, and browser-based.",
+    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
+    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online. Secure, fast, and browser-based.",
     url: "/",
     siteName: "Fileinator",
     type: "website",
@@ -39,8 +40,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Online Image & PDF Tools | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, unlock and optimize images and PDF files online for free. Secure, fast, and browser-based.",
+    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
+    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online. Secure, fast, and browser-based.",
     images: ["/og-image.png"],
   },
 };
