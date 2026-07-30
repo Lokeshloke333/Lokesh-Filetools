@@ -54,8 +54,8 @@ export default function Home() {
         <Hero />
         <PopularTools />
         <CategorySection />
-        <Features />
         <HowItWorks />
+        <Features />
         <Statistics />
         <Testimonials />
         <FAQ />

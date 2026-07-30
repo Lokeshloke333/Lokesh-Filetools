@@ -109,7 +109,7 @@ export function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-white pt-[140px] md:pt-[160px] lg:pt-[180px] 2xl:pt-[200px] pb-16 lg:pb-20 2xl:pb-24 flex justify-center min-h-[min(100vh,800px)] 2xl:min-h-[80vh] items-center"
+      className="relative overflow-hidden bg-white pt-[100px] md:pt-[120px] lg:pt-[130px] 2xl:pt-[140px] pb-10 md:pb-14 flex justify-center items-center min-h-0"
     >
       {/* Decorative blurred gradient blobs behind everything in the hero */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -127,19 +127,22 @@ export function Hero() {
         animate="visible"
         className="max-w-[900px] mx-auto w-full px-4 md:px-6 relative z-10 flex flex-col items-center text-center"
       >
-        {/* Top Badge */}
+        {/* Top Eyebrow */}
         <motion.div
           variants={itemVariants}
-          whileHover={{ y: -2, boxShadow: "0px 10px 20px rgba(0,0,0,0.05)" }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium mb-3 2xl:mb-4 shadow-sm transition-all"
+          className="flex items-center gap-4 mb-[14px] justify-center"
         >
-          ⚡ Fast • 🔒 Secure
+          <div className="h-[1px] w-8 md:w-12 bg-gradient-to-r from-transparent to-blue-500/30"></div>
+          <span className="text-[12px] md:text-[13px] font-bold uppercase tracking-[0.2em] text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 whitespace-nowrap">
+            ALL-IN-ONE FILE PLATFORM
+          </span>
+          <div className="h-[1px] w-8 md:w-12 bg-gradient-to-l from-transparent to-purple-500/30"></div>
         </motion.div>
 
         {/* Headline */}
         <motion.div
           variants={itemVariants}
-          className="relative mb-4 lg:mb-5 2xl:mb-6 group"
+          className="relative mb-[14px] group"
         >
           {/* Subtle glow behind heading reacting to hover */}
           <motion.div
@@ -150,10 +153,10 @@ export function Hero() {
             }}
           ></motion.div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-[clamp(3rem,5vw,4.5rem)] 2xl:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
-            All Your File Tools. <br className="hidden sm:block" />
+          <h1 className="text-4xl md:text-5xl lg:text-[clamp(3rem,5vw,4.5rem)] 2xl:text-7xl font-semibold text-slate-900 leading-[1.05] md:leading-[1.1] tracking-tight">
+            Every File Tool. <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500 relative inline-block">
-              One Place.
+              One Powerful Platform.
             </span>
           </h1>
         </motion.div>
@@ -161,15 +164,15 @@ export function Hero() {
         {/* Description */}
         <motion.p
           variants={itemVariants}
-          className="text-base md:text-lg 2xl:text-xl text-slate-600 mb-6 lg:mb-8 2xl:mb-10 max-w-2xl leading-relaxed"
+          className="text-base md:text-lg 2xl:text-xl text-slate-600 mb-[20px] max-w-[740px] leading-relaxed"
         >
-          Convert, compress, edit, optimize, and transform PDFs, images, videos, audio, and Office files — all in your browser with fast processing and privacy-first design.
+          Convert, compress, edit, optimize and transform PDFs, images, videos, audio and Office files — all securely in your browser.
         </motion.p>
 
         {/* Search */}
         <motion.div
           variants={itemVariants}
-          className="w-full max-w-2xl mb-6 2xl:mb-8 z-50 relative group"
+          className="w-full max-w-[780px] mb-[14px] z-50 relative group mx-auto"
         >
           <GlobalSearch
             variant="hero"
@@ -182,13 +185,13 @@ export function Hero() {
         {/* Popular Searches */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap justify-center gap-2 mb-8 2xl:mb-12"
+          className="flex flex-wrap justify-center gap-[10px]"
         >
           {popularSearches.map((term) => (
             <button
               key={term}
               onClick={(e) => handleChipClick(e, term)}
-              className="px-4 py-2 rounded-full bg-white border border-slate-200 text-sm font-medium text-slate-600 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 hover:shadow-[0_4px_16px_rgba(59,130,246,0.2)] hover:-translate-y-1 transition-all duration-300"
+              className="px-4 py-2 rounded-full bg-white border border-slate-200 text-[13.5px] font-medium text-slate-600 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 hover:shadow-[0_4px_16px_rgba(59,130,246,0.2)] hover:-translate-y-0.5 transition-all duration-300"
             >
               {term}
             </button>
@@ -198,34 +201,18 @@ export function Hero() {
         {/* CTAs */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6 2xl:mb-8"
+          className="flex items-center justify-center mt-[32px] mb-[32px]"
         >
-          <Button size="lg" className="rounded-full px-8 gap-2 w-full sm:w-auto text-base group bg-slate-900 hover:bg-slate-800 text-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden" asChild>
-            <Link href="/tools">
-              <span className="relative z-10 flex items-center gap-2">
-                Browse All Tools
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/30 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </Link>
-          </Button>
+          <Link 
+            href="/tools" 
+            className="group inline-flex items-center gap-[8px] px-[24px] py-[12px] rounded-full bg-slate-900 shadow-md shadow-slate-900/10 text-[15px] font-semibold text-white hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 hover:-translate-y-[1px] transition-all duration-200"
+          >
+            Explore All Tools 
+            <ArrowRight className="w-[18px] h-[18px] group-hover:translate-x-1 transition-transform duration-200" />
+          </Link>
         </motion.div>
 
-        {/* Trust Badges */}
-        <motion.div
-          variants={innerStaggerVariants}
-          className="flex flex-wrap justify-center gap-x-8 gap-y-4"
-        >
-          {trustBadges.map((badge, i) => (
-            <motion.div key={badge} variants={badgeVariants} className="flex items-center gap-2 text-sm font-medium text-slate-500">
-              <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center">
-                <Check className="w-3 h-3 text-emerald-600" />
-              </div>
-              {badge}
-            </motion.div>
-          ))}
         </motion.div>
-      </motion.div>
     </section>
   );
 }

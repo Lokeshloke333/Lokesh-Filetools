@@ -28,13 +28,18 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between py-4 font-medium transition-all group",
         className
       )}
       {...props}
     >
-      {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      <div className="flex items-center gap-4 flex-1">
+        <div className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white shadow-sm transition-all duration-300 group-data-[state=open]:border-blue-500 group-data-[state=open]:bg-blue-500 group-data-[state=open]:shadow-blue-500/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="absolute transition-all duration-300 group-data-[state=open]:rotate-90 group-data-[state=open]:scale-0 text-slate-500 group-data-[state=open]:text-white"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="absolute -rotate-90 scale-0 transition-all duration-300 group-data-[state=open]:rotate-0 group-data-[state=open]:scale-100 text-slate-500 group-data-[state=open]:text-white"><path d="M5 12h14"/></svg>
+        </div>
+        <span className="flex-1 text-left">{children}</span>
+      </div>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))

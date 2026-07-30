@@ -2,63 +2,93 @@
 
 import React from "react";
 import { UploadCloud, Settings, DownloadCloud } from "lucide-react";
+import { SectionHeader } from "@/components/ui/section-header";
+import { motion } from "framer-motion";
 
 export function HowItWorks() {
   const steps = [
     {
       title: "1. Upload",
       description: "Select or drag & drop your files into our secure platform.",
-      icon: <UploadCloud className="w-8 h-8 text-blue-400" />,
+      icon: UploadCloud,
+      chips: ["JPG", "PNG", "PDF", "MP4"],
+      color: "from-blue-500 to-cyan-400",
+      glow: "shadow-blue-500/25",
     },
     {
       title: "2. Process",
       description: "Our cloud servers process your request in just a few seconds.",
-      icon: <Settings className="w-8 h-8 text-blue-400" />,
+      icon: Settings,
+      chips: ["Browser-Based", "Secure", "Fast"],
+      color: "from-purple-500 to-fuchsia-400",
+      glow: "shadow-purple-500/25",
     },
     {
       title: "3. Download",
       description: "Download your processed files instantly. Easy and fast.",
-      icon: <DownloadCloud className="w-8 h-8 text-blue-400" />,
+      icon: DownloadCloud,
+      chips: ["Instant", "High Quality"],
+      color: "from-emerald-500 to-teal-400",
+      glow: "shadow-emerald-500/25",
     },
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-slate-900 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[100px]" />
-        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-indigo-600/10 blur-[100px]" />
+    <section className="py-16 md:py-20 bg-[#09090b] relative overflow-hidden">
+      {/* Premium Dark Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        <div className="absolute left-0 right-0 top-1/4 m-auto h-[400px] w-[600px] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none"></div>
+        <div className="absolute left-1/3 bottom-0 h-[400px] w-[500px] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none"></div>
       </div>
 
       <div className="max-w-7xl mx-auto w-full px-4 md:px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
-            How It Works
-          </h2>
-          <p className="text-slate-400 text-lg">
-            Convert, edit, and compress your files in three simple steps. No software installation required.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="⚡ HOW IT WORKS"
+          title="How It Works"
+          description="Convert, edit, and compress your files in three simple steps. No software installation required."
+          theme="dark"
+        />
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Connecting Line (Desktop) */}
-          <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-slate-700">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50" />
+        <div className="relative">
+          {/* Animated Connecting Line (Desktop) */}
+          <div className="hidden lg:block absolute top-[85px] left-[15%] right-[15%] h-[2px] bg-white/[0.05] rounded-full z-0 overflow-hidden">
+            <motion.div 
+              className="absolute top-0 left-0 h-full w-[20%] bg-gradient-to-r from-transparent via-blue-400 to-transparent shadow-[0_0_12px_#60a5fa]"
+              animate={{ left: ['-20%', '120%'] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+            />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-10 md:gap-8">
-            {steps.map((step, i) => (
-              <div key={i} className="flex flex-col items-center text-center relative z-10 group">
-                <div className="w-24 h-24 rounded-full bg-slate-800 border-4 border-slate-900 flex items-center justify-center mb-6 shadow-xl relative group-hover:scale-110 transition-transform duration-300">
-                  <div className="absolute inset-0 rounded-full bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  {step.icon}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10">
+            {steps.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <div 
+                  key={i} 
+                  className="group relative flex flex-col p-6 rounded-[20px] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/50 backdrop-blur-md overflow-hidden min-h-[150px]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br ${step.color} shadow-lg ${step.glow} group-hover:scale-110 transition-all duration-500 relative z-10`}>
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight relative z-10">{step.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6 flex-grow relative z-10">
+                    {step.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 relative z-10 mt-auto">
+                    {step.chips.map((chip, j) => (
+                      <span key={j} className="px-3 py-1 text-xs font-semibold text-slate-300 bg-white/[0.05] rounded-full border border-white/[0.05] shadow-sm">
+                        {chip}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
-                <p className="text-slate-400 leading-relaxed max-w-xs">
-                  {step.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

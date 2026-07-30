@@ -142,8 +142,8 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-slate-500 mb-1">Email us at</p>
-                          <a href="mailto:lokeshuiuxdesigner@gmail.com" className="text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors">
-                            lokeshuiuxdesigner@gmail.com
+                          <a href="mailto:infofileinator@gmail.com" className="text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors">
+                            infofileinator@gmail.com
                           </a>
                         </div>
                       </div>
@@ -256,8 +256,8 @@ export default function ContactPage() {
                       type="submit"
                       disabled={isSubmitting || isSuccess}
                       className={`w-full h-14 text-lg rounded-2xl gap-2 font-bold shadow-lg transition-all ${isSuccess
-                          ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/30"
-                          : "bg-blue-600 hover:bg-blue-700 shadow-blue-500/30"
+                        ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/30"
+                        : "bg-blue-600 hover:bg-blue-700 shadow-blue-500/30"
                         }`}
                     >
                       <AnimatePresence mode="wait">

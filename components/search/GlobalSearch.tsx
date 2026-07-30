@@ -59,7 +59,7 @@ export function GlobalSearch({
     <div className={cn("relative", className)} ref={searchRef}>
       <div className={cn(
         "relative w-full",
-        variant === "hero" ? "shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl group transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-blue-200/40 focus-within:shadow-[0_8px_40px_rgba(59,130,246,0.2)]" : ""
+        variant === "hero" ? "shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[18px] group transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-blue-200/40 focus-within:shadow-[0_8px_40px_rgba(59,130,246,0.2)]" : ""
       )}>
         <div className={cn(
           "absolute inset-y-0 left-0 flex items-center pointer-events-none z-10",
@@ -78,7 +78,7 @@ export function GlobalSearch({
           className={cn(
             "block w-full text-slate-900 border border-slate-200 outline-none transition-all placeholder:text-slate-400",
             variant === "hero"
-              ? "p-4 pl-12 md:p-5 md:pl-12 2xl:p-6 2xl:pl-14 text-sm md:text-base 2xl:text-lg rounded-2xl bg-white/95 focus:bg-white hover:border-blue-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/15 backdrop-blur-sm"
+              ? "h-[64px] py-0 pl-12 pr-[160px] text-base leading-[64px] rounded-[18px] bg-white/95 focus:bg-white hover:border-blue-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/15 backdrop-blur-sm m-0 transition-all"
               : "py-2.5 pl-10 pr-4 text-sm rounded-full",
             variant === "navbar" 
               ? "bg-slate-50/50 border border-slate-200/50 backdrop-blur-sm shadow-sm focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 focus:bg-white/80 transition-all duration-200" 
@@ -93,7 +93,7 @@ export function GlobalSearch({
         {variant === "hero" && (
           <button
             onClick={handleSearchSubmit}
-            className="absolute inset-y-2 right-2 px-6 md:px-8 2xl:px-10 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 text-white shadow-md shadow-blue-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 w-[150px] h-[52px] rounded-[14px] text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 text-white shadow-md shadow-blue-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50 flex items-center justify-center hover:scale-[1.02]"
           >
             Search
           </button>

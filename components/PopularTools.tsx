@@ -5,27 +5,30 @@ import Link from "next/link";
 import { TOOLS } from "@/lib/tools";
 import { ToolGrid } from "@/components/tools/ToolGrid";
 import { Container } from "@/components/ui/Container";
-
+import { SectionHeader } from "@/components/ui/section-header";
 export function PopularTools() {
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-20">
       <Container>
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Featured Tools</h2>
-            <p className="text-slate-500 mt-2">The most used tools by our community.</p>
-          </div>
-          <Link href="/tools" className="text-blue-600 font-medium flex items-center hover:underline">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-4">
+          <SectionHeader
+            eyebrow="✨ FEATURED TOOLS"
+            title="Featured Tools"
+            description="The most used tools by our community."
+            align="left"
+            className="!mb-0"
+          />
+          <Link href="/tools" className="text-blue-600 font-medium flex items-center hover:underline whitespace-nowrap pb-4">
             View all tools <ArrowRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
 
         {/* Content Area */}
         <div className="w-full">
-          <ToolGrid tools={TOOLS} />
+          <ToolGrid tools={TOOLS} variant="compact" />
         </div>
 
       </Container>
