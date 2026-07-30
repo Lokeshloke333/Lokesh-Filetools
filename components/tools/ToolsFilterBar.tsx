@@ -41,7 +41,7 @@ export function ToolsFilterBar({
 }: ToolsFilterBarProps) {
 
   return (
-    <div className="sticky top-[88px] lg:top-[100px] z-40 w-full mb-8 pointer-events-none">
+    <div className="sticky top-[88px] lg:top-[100px] z-40 w-full mb-2 pointer-events-none">
       <Container className="pointer-events-auto">
         <div className="flex flex-col lg:flex-row gap-3 items-start lg:items-center justify-between w-full bg-[rgba(255,255,255,0.58)] backdrop-blur-[24px] border border-[rgba(255,255,255,0.45)] shadow-[0_4px_16px_rgba(0,0,0,0.02)] rounded-2xl md:rounded-[24px] p-2">
           

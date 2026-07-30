@@ -18,7 +18,7 @@ const POPULAR_SEARCHES = ["Compress Image", "Resize Image", "Crop Image", "PDF",
 export function ToolsDirectory() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialSearch = searchParams.get("search") || "";
+  const initialSearch = searchParams.get("q") || searchParams.get("search") || "";
   
   const initialCategoryParam = searchParams.get("category");
   let initialCategory = "All Tools";
@@ -34,7 +34,7 @@ export function ToolsDirectory() {
 
   // Sync state if URL changes (e.g. from GlobalSearch in Navbar while already on the page, or browser back/forward)
   React.useEffect(() => {
-    const q = searchParams.get("search") || "";
+    const q = searchParams.get("q") || searchParams.get("search") || "";
     setSearchQuery(q);
     
     const cat = searchParams.get("category");
@@ -46,6 +46,23 @@ export function ToolsDirectory() {
       else setSelectedCategory("All Tools"); // Reset if no category in URL
     }
   }, [searchParams]);
+
+  const hasAutoScrolled = React.useRef(false);
+
+  // Auto-scroll on initial load with deep link
+  React.useEffect(() => {
+    if (!hasAutoScrolled.current && initialCategoryParam) {
+      hasAutoScrolled.current = true;
+      // Use setTimeout to ensure the DOM has updated and grid is rendered
+      setTimeout(() => {
+        const toolsSection = document.getElementById("all-tools-grid");
+        if (toolsSection) {
+          const y = toolsSection.getBoundingClientRect().top + window.scrollY - 100;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [initialCategoryParam]);
 
   const handleSelectCategory = (cat: string) => {
     setSelectedCategory(cat);
@@ -59,6 +76,17 @@ export function ToolsDirectory() {
     }
     // Delete search param if they switch categories explicitly? Or keep it? The user said "preserve search functionality" so maybe keep it.
     router.push(`/tools?${params.toString()}`, { scroll: false });
+  };
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    const params = new URLSearchParams(searchParams.toString());
+    if (query.trim()) {
+      params.set("q", query);
+    } else {
+      params.delete("q");
+    }
+    router.replace(`/tools?${params.toString()}`, { scroll: false });
   };
 
   // Calculate counts for categories
@@ -97,10 +125,11 @@ export function ToolsDirectory() {
   }, [selectedCategory, searchQuery]);
 
   const handlePopularSearch = (term: string) => {
-    router.push(`/tools?search=${encodeURIComponent(term)}`);
+    router.push(`/tools?q=${encodeURIComponent(term)}`);
     const toolsSection = document.getElementById("all-tools-grid");
     if (toolsSection) {
-      toolsSection.scrollIntoView({ behavior: "smooth" });
+      const y = toolsSection.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 
@@ -112,11 +141,11 @@ export function ToolsDirectory() {
         selectedCategory={selectedCategory}
         onSelectCategory={handleSelectCategory}
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onSearchChange={handleSearchChange}
       />
 
       {/* 2. Dynamic Categories Section */}
-      <Container className="pt-10">
+      <Container className={selectedCategory === "All Tools" ? "pt-10" : "pt-2"}>
         <AnimatePresence mode="wait">
           {selectedCategory === "All Tools" && (
             <motion.div
@@ -131,16 +160,22 @@ export function ToolsDirectory() {
           )}
         </AnimatePresence>
         
-        <div id="all-tools-grid" className="scroll-mt-40 mt-8 mb-16">
+        <div id="all-tools-grid" className={`scroll-mt-40 mb-16 ${selectedCategory === "All Tools" ? "mt-8" : "mt-2"}`}>
           
           {/* Section Heading with Dynamic Title and Clear Button */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
             <div>
               <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-                {selectedCategory === "All Tools" ? "All Tools" : `${selectedCategory} Tools`}
+                {selectedCategory === "All Tools" 
+                  ? "All Tools" 
+                  : selectedCategory === "Utilities" 
+                    ? "Utilities" 
+                    : `${selectedCategory} Tools`}
               </h2>
               <p className="text-slate-500 mt-1 font-medium">
-                {filteredAndSortedTools.length} {filteredAndSortedTools.length === 1 ? "tool" : "tools"} available
+                {selectedCategory === "Utilities" && filteredAndSortedTools.length === 0
+                  ? "Coming Soon"
+                  : `${filteredAndSortedTools.length} ${filteredAndSortedTools.length === 1 ? "tool" : "tools"} available`}
               </p>
             </div>
             

@@ -8,13 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Send, 
-  Mail, 
-  User, 
-  FileText, 
-  MessageSquare, 
-  Lock, 
+import {
+  Send,
+  Mail,
+  User,
+  FileText,
+  MessageSquare,
+  Lock,
   Zap,
   CheckCircle2,
   Loader2,
@@ -28,7 +28,7 @@ import { toast } from "sonner";
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,7 +43,7 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -55,7 +55,7 @@ export default function ContactPage() {
         setIsSuccess(true);
         setFormData({ name: "", email: "", subject: "", message: "" });
         toast.success("Message sent successfully!");
-        
+
         setTimeout(() => {
           setIsSuccess(false);
         }, 4000);
@@ -77,11 +77,11 @@ export default function ContactPage() {
       <div className="absolute top-40 -left-64 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl z-0 pointer-events-none" aria-hidden="true" />
       <div className="absolute bottom-40 -right-64 w-[500px] h-[500px] bg-purple-300/20 rounded-full blur-3xl z-0 pointer-events-none" aria-hidden="true" />
       <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-cyan-200/10 rounded-full blur-3xl z-0 pointer-events-none" aria-hidden="true" />
-      
+
       {/* Subtle dotted pattern */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none opacity-20" 
-        style={{ backgroundImage: 'radial-gradient(circle at center, #cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-20"
+        style={{ backgroundImage: 'radial-gradient(circle at center, #cbd5e1 1px, transparent 1px)', backgroundSize: '32px 32px' }}
         aria-hidden="true"
       />
 
@@ -89,7 +89,7 @@ export default function ContactPage() {
         <Navbar />
 
         {/* Hero Section */}
-        <PageHero 
+        <PageHero
           title="Contact Us"
           description="Need help or have feedback? We'd love to hear from you. Our support team is always ready to assist."
         />
@@ -98,7 +98,7 @@ export default function ContactPage() {
         <section className="py-16 md:py-24 flex-grow">
           <Container>
             <div className="grid lg:grid-cols-5 gap-12 lg:gap-8 items-stretch">
-              
+
               {/* Left: Support Info Card (Spans 2 cols) */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -107,14 +107,14 @@ export default function ContactPage() {
                 className="lg:col-span-2 flex flex-col justify-center relative"
               >
                 {/* Floating SVGs */}
-                <motion.div 
+                <motion.div
                   animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute -top-10 -left-10 text-blue-200/50 hidden md:block"
                 >
                   <FileIcon className="w-24 h-24" />
                 </motion.div>
-                <motion.div 
+                <motion.div
                   animate={{ y: [10, -10, 10], rotate: [0, -10, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                   className="absolute -bottom-10 right-0 text-purple-200/50 hidden md:block"
@@ -124,12 +124,12 @@ export default function ContactPage() {
 
                 <div className="bg-white/60 backdrop-blur-2xl rounded-[32px] p-8 md:p-10 shadow-2xl shadow-blue-900/5 border border-white/80 relative z-10 overflow-hidden group">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
+
                   <div className="relative z-10">
                     <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-blue-500/30">
                       <MessageSquare className="w-6 h-6" />
                     </div>
-                    
+
                     <h2 className="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Need Help?</h2>
                     <p className="text-slate-600 text-lg leading-relaxed mb-10">
                       Whether you have a question about our tools, billing, or just want to say hi, our team is here for you.
@@ -142,8 +142,8 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-slate-500 mb-1">Email us at</p>
-                          <a href="mailto:fileinator@gmail.com" className="text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors">
-                            fileinator@gmail.com
+                          <a href="mailto:lokeshuiuxdesigner@gmail.com" className="text-lg font-bold text-slate-900 hover:text-blue-600 transition-colors">
+                            lokeshuiuxdesigner@gmail.com
                           </a>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
                           <p className="text-slate-900 font-semibold">Under 24 hours</p>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shrink-0">
                           <Lock className="w-5 h-5" />
@@ -180,7 +180,7 @@ export default function ContactPage() {
                 className="lg:col-span-3 bg-white/80 backdrop-blur-xl rounded-[32px] p-8 md:p-12 shadow-2xl shadow-slate-200/40 border border-white relative z-10"
               >
                 <h2 className="text-2xl font-bold text-slate-900 mb-8 tracking-tight">Send us a message</h2>
-                
+
                 <form className="space-y-8" onSubmit={handleSubmit}>
                   <div className="grid sm:grid-cols-2 gap-8">
                     {/* Name */}
@@ -188,13 +188,13 @@ export default function ContactPage() {
                       <Label htmlFor="name" className="text-slate-700 font-semibold ml-1">Your Name</Label>
                       <div className="relative flex items-center group-focus-within:text-blue-600 transition-colors">
                         <User className="absolute left-4 w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none" />
-                        <Input 
-                          id="name" 
+                        <Input
+                          id="name"
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          placeholder="John Doe" 
-                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base" 
+                          placeholder="John Doe"
+                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
                         />
                       </div>
                     </div>
@@ -203,14 +203,14 @@ export default function ContactPage() {
                       <Label htmlFor="email" className="text-slate-700 font-semibold ml-1">Email Address</Label>
                       <div className="relative flex items-center group-focus-within:text-blue-600 transition-colors">
                         <Mail className="absolute left-4 w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none" />
-                        <Input 
-                          id="email" 
-                          type="email" 
+                        <Input
+                          id="email"
+                          type="email"
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          placeholder="john@example.com" 
-                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base" 
+                          placeholder="john@example.com"
+                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
                         />
                       </div>
                     </div>
@@ -221,13 +221,13 @@ export default function ContactPage() {
                     <Label htmlFor="subject" className="text-slate-700 font-semibold ml-1">Subject</Label>
                     <div className="relative flex items-center group-focus-within:text-blue-600 transition-colors">
                       <FileText className="absolute left-4 w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none" />
-                      <Input 
-                        id="subject" 
+                      <Input
+                        id="subject"
                         required
                         value={formData.subject}
                         onChange={handleChange}
-                        placeholder="How can we help you?" 
-                        className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base" 
+                        placeholder="How can we help you?"
+                        className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
                       />
                     </div>
                   </div>
@@ -237,8 +237,8 @@ export default function ContactPage() {
                     <Label htmlFor="message" className="text-slate-700 font-semibold ml-1">Message</Label>
                     <div className="relative flex items-start group-focus-within:text-blue-600 transition-colors pt-1">
                       <MessageSquare className="absolute left-4 top-4 w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors pointer-events-none" />
-                      <textarea 
-                        id="message" 
+                      <textarea
+                        id="message"
                         required
                         rows={5}
                         value={formData.message}
@@ -251,15 +251,14 @@ export default function ContactPage() {
 
                   {/* Submit Button */}
                   <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       type="submit"
                       disabled={isSubmitting || isSuccess}
-                      className={`w-full h-14 text-lg rounded-2xl gap-2 font-bold shadow-lg transition-all ${
-                        isSuccess 
-                          ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/30" 
+                      className={`w-full h-14 text-lg rounded-2xl gap-2 font-bold shadow-lg transition-all ${isSuccess
+                          ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/30"
                           : "bg-blue-600 hover:bg-blue-700 shadow-blue-500/30"
-                      }`}
+                        }`}
                     >
                       <AnimatePresence mode="wait">
                         {isSubmitting ? (
@@ -299,7 +298,7 @@ export default function ContactPage() {
                       </AnimatePresence>
                     </Button>
                   </motion.div>
-                  
+
                   {/* Trust Indicators */}
                   <div className="pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
                     <div className="flex items-center gap-1.5">

@@ -27,13 +27,14 @@ export function CategorySection() {
           </p>
         </div>
 
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {CATEGORY_DATA.map((cat) => (
             <CategoryCard
               key={cat.id}
               category={cat}
               toolCount={toolCounts[cat.id] || 0}
-              href={cat.status === "active" ? `/tools?search=${cat.id}` : "#"}
+              href={cat.status === "active" ? `/tools?category=${cat.id}` : "#"}
             />
           ))}
         </div>

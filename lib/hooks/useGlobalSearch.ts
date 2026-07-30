@@ -68,7 +68,7 @@ export function useGlobalSearch({
     if (query.trim()) {
       setIsOpen(false);
       if (onClose) onClose();
-      router.push(`/tools?search=${encodeURIComponent(query.trim())}`);
+      router.push(`/tools?q=${encodeURIComponent(query.trim())}`);
     }
   };
 

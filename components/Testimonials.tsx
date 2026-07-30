@@ -7,23 +7,23 @@ import { Container } from "@/components/ui/Container";
 export function Testimonials() {
   const testimonials = [
     {
-      name: "Sarah Jenkins",
+      name: "Priya Sharma",
       role: "Marketing Director",
-      image: "https://api.dicebear.com/7.x/micah/svg?seed=Sarah&backgroundColor=b6e3f4",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
       quote: "Fileinator has completely transformed our workflow. What used to take hours of converting and formatting is now done in literally seconds. The UI is incredibly intuitive.",
       stars: 5,
     },
     {
-      name: "Michael Chen",
+      name: "Rahul Desai",
       role: "Freelance Designer",
-      image: "https://api.dicebear.com/7.x/micah/svg?seed=Michael&backgroundColor=c0aede",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
       quote: "As a designer, I'm constantly dealing with huge image and video files. The compression tools here are unmatched—zero noticeable quality loss but massive size reductions.",
       stars: 5,
     },
     {
-      name: "Emily Rodriguez",
+      name: "Anjali Gupta",
       role: "Legal Consultant",
-      image: "https://api.dicebear.com/7.x/micah/svg?seed=Emily&backgroundColor=ffdfbf",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80",
       quote: "The PDF security features are a lifesaver. Being able to easily lock, unlock, and sign documents securely from my browser without installing clunky software is amazing.",
       stars: 5,
     },
