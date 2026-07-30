@@ -22,7 +22,7 @@ export default function NotFound() {
       <Navbar />
       
       {/* 404 Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center py-20 px-4 relative">
+      <div className="flex-1 flex flex-col items-center justify-center pt-32 pb-20 px-4 relative">
         
         {/* Background Gradients */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50/60 rounded-full blur-[120px] -z-10 pointer-events-none" />

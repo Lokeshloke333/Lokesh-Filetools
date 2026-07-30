@@ -17,7 +17,7 @@ import { Container } from "@/components/ui/Container";
 
 export function ToolsHero() {
   return (
-    <div className="relative overflow-hidden bg-white pt-8">
+    <div className="relative overflow-hidden bg-white pt-24 lg:pt-36">
       {/* 
         Smooth transition to the white content below: 
         A gradient at the very bottom blending from the blue background to slate-50.

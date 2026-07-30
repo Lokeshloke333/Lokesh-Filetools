@@ -82,11 +82,11 @@ export function Hero() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as any } 
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as any }
     },
   };
 
@@ -109,7 +109,7 @@ export function Hero() {
       ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-white -mt-[104px] pt-[120px] md:pt-[130px] lg:pt-[150px] 2xl:pt-[180px] pb-16 lg:pb-20 2xl:pb-24 flex justify-center min-h-[min(100vh,800px)] 2xl:min-h-[80vh] items-center"
+      className="relative overflow-hidden bg-white pt-[140px] md:pt-[160px] lg:pt-[180px] 2xl:pt-[200px] pb-16 lg:pb-20 2xl:pb-24 flex justify-center min-h-[min(100vh,800px)] 2xl:min-h-[80vh] items-center"
     >
       {/* Decorative blurred gradient blobs behind everything in the hero */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -121,7 +121,7 @@ export function Hero() {
       {/* Interactive Background Canvas & CSS Layers */}
       <HeroBackground smoothMouseX={smoothMouseX} smoothMouseY={smoothMouseY} />
 
-      <motion.div 
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -133,7 +133,7 @@ export function Hero() {
           whileHover={{ y: -2, boxShadow: "0px 10px 20px rgba(0,0,0,0.05)" }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-600 text-sm font-medium mb-3 2xl:mb-4 shadow-sm transition-all"
         >
-          ⚡ Fast • 🔒 Private • 🌐 Browser-Based
+          ⚡ Fast • 🔒 Secure
         </motion.div>
 
         {/* Headline */}
@@ -144,9 +144,9 @@ export function Hero() {
           {/* Subtle glow behind heading reacting to hover */}
           <motion.div
             className="absolute inset-0 bg-blue-500/20 blur-[80px] rounded-full -z-10 opacity-40 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
-            style={{ 
-              x: useTransform(smoothMouseX, [-500, 500], [-10, 10]), 
-              y: useTransform(smoothMouseY, [-500, 500], [-10, 10]) 
+            style={{
+              x: useTransform(smoothMouseX, [-500, 500], [-10, 10]),
+              y: useTransform(smoothMouseY, [-500, 500], [-10, 10])
             }}
           ></motion.div>
 

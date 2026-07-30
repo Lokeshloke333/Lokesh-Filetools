@@ -29,3 +29,12 @@ body {
   0% { background-position: 0% 50%; }
   100% { background-position: 300% 50%; }
 }
+
+/* Hide scrollbar for horizontal scrolling elements like ToolsFilterBar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Breadcrumb } from "@/components/navigation/Breadcrumb";
 import { FileText, Image as ImageIcon, FolderOpen, File as FileIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
@@ -14,7 +13,7 @@ interface PageHeroProps {
 
 export function PageHero({ title, description, children }: PageHeroProps) {
   return (
-    <div className="relative w-full overflow-hidden bg-white border-b border-slate-200 min-h-[190px] md:min-h-[220px] lg:min-h-[260px] flex items-center pt-16 pb-12 md:pt-20 md:pb-16">
+    <div className="relative w-full overflow-hidden bg-white border-b border-slate-200 min-h-[190px] md:min-h-[220px] lg:min-h-[260px] flex items-center pt-28 pb-12 md:pt-36 md:pb-16 lg:pt-40">
       
       {/* 1. Soft Mesh Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-purple-50/50 to-cyan-50/40 pointer-events-none"></div>
@@ -72,11 +71,6 @@ export function PageHero({ title, description, children }: PageHeroProps) {
       {/* 6. Main Content */}
       <Container className="relative z-10  flex flex-col items-center text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
         
-        {/* Breadcrumb */}
-        <div className="mb-6 opacity-80 hover:opacity-100 transition-opacity">
-          <Breadcrumb />
-        </div>
-
         {/* Title */}
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight drop-shadow-sm">
           {title}
