@@ -80,7 +80,7 @@ export default function RotatePdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "Rotate PDF",
-        item: "https://fileinator.com/tools/pdf/rotate-pdf",
+        item: "https://fileinator.com/rotate-pdf",
       },
     ],
   };

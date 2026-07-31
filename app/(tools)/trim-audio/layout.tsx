@@ -88,7 +88,7 @@ export default function TrimAudioLayout({
         "@type": "ListItem",
         position: 3,
         name: "Trim Audio",
-        item: "https://fileinator.com/tools/audio/trim-audio",
+        item: "https://fileinator.com/trim-audio",
       },
     ],
   };

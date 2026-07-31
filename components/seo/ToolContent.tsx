@@ -9,9 +9,10 @@ interface ToolContentProps {
   description: string;
   features?: string[];
   howToSteps?: string[];
+  faqs?: { question: string, answer: string }[];
 }
 
-export function ToolContent({ toolId, title, description, features, howToSteps }: ToolContentProps) {
+export function ToolContent({ toolId, title, description, features, howToSteps, faqs }: ToolContentProps) {
   const currentTool = TOOLS.find((t) => t.id === toolId);
   const relatedTools = currentTool?.relatedToolIds
     ? currentTool.relatedToolIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean)
@@ -95,6 +96,21 @@ export function ToolContent({ toolId, title, description, features, howToSteps }
           </div>
         </div>
       </section>
+
+      {/* FAQs */}
+      {faqs && faqs.length > 0 && (
+        <section className="max-w-4xl mx-auto">
+          <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Frequently Asked Questions</h3>
+          <div className="space-y-6">
+            {faqs.map((faq, idx) => (
+              <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-200">
+                <h4 className="text-lg font-bold text-slate-900 mb-2">{faq.question}</h4>
+                <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Related Tools */}
       {relatedTools.length > 0 && (

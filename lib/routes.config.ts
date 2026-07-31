@@ -41,7 +41,7 @@ export const staticRoutes: RouteEntry[] = [
 ];
 
 /* -------------------------------------------------------------------- */
-/*  Tool categories (e.g. /tools/image, /tools/pdf)                     */
+/*  Categories removed (flattened routing)                              */
 /* -------------------------------------------------------------------- */
 
 export const categoryRoutes: RouteEntry[] = [];

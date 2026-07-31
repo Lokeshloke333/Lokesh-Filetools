@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
@@ -15,8 +16,7 @@ export function Footer() {
           {/* Column 1: Brand & Newsletter */}
           <div className="col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center mb-6">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-white.svg" alt="Fileinator Logo" className="w-[180px] h-auto" />
+              <Image src="/logo-white.svg" alt="Fileinator Logo" width={180} height={40} className="w-[180px] h-auto" />
             </Link>
             <p className="text-sm leading-relaxed mb-6 max-w-sm">
               The ultimate online toolkit for all your file conversion, compression, and editing needs. Secure, fast, and easy to use.
@@ -47,8 +47,8 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-6">Products</h4>
             <ul className="space-y-4 text-sm">
               <li><Link href="/#tools" className="hover:text-blue-400 transition-colors">All Tools</Link></li>
-              <li><Link href="/tools/image" className="hover:text-blue-400 transition-colors">Image Tools</Link></li>
-              <li><Link href="/tools/pdf" className="hover:text-blue-400 transition-colors">PDF Tools</Link></li>
+              <li><Link href="/compress-pdf" className="hover:text-blue-400 transition-colors">Compress PDF</Link></li>
+              <li><Link href="/remove-background" className="hover:text-blue-400 transition-colors">Remove Background</Link></li>
             </ul>
           </div>
 

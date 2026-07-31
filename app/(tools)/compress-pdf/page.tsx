@@ -161,6 +161,7 @@ export default function CompressPdfPage() {
           "Maintains text and vector sharpness",
           "Zero upload time - processing happens entirely in your browser"
         ]}
+        faqs={faqs}
       />
     </ToolLayout>
   );

@@ -88,7 +88,7 @@ export default function ConvertAudioLayout({
         "@type": "ListItem",
         position: 3,
         name: "Convert Audio",
-        item: "https://fileinator.com/tools/audio/convert-audio",
+        item: "https://fileinator.com/convert-audio",
       },
     ],
   };

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { MegaMenuDropdown } from "./navbar/MegaMenuDropdown";
@@ -57,8 +58,7 @@ export function Navbar() {
         <div className="flex items-center gap-6 flex-1 md:flex-none">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Fileinator Logo" className="w-[180px] h-auto" />
+            <Image src="/logo.svg" alt="Fileinator Logo" width={180} height={40} className="w-[180px] h-auto" priority />
           </Link>
           
           {/* Desktop Search Bar */}

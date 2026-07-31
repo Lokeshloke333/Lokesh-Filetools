@@ -31,7 +31,7 @@ export default function MergeVideoLayout({
   const softwareApp = getSoftwareAppSchema({
     name: "Video Merger",
     description: "Combine multiple video files together instantly in your browser.",
-    url: "https://fileinator.com/tools/video/merge-video",
+    url: "https://fileinator.com/merge-video",
     featureList: [
       "Merge MP4, MOV, WEBM",
       "Drag and drop reordering",

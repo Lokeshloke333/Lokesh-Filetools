@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
+import { getBreadcrumbSchema, getSoftwareAppSchema, getFaqSchema } from "@/lib/seo/schema";
 import { imageConversions } from "@/lib/image/imageConversions";
 import { audioConversions } from "@/lib/audio/audioConversions";
 import { videoConversions } from "@/lib/video/videoConversions";
@@ -73,7 +73,7 @@ export default async function ConversionLayout({ children, params }: { children:
     name: config.title,
     description: config.description,
     url: `/${config.slug}`,
-    featureList: [
+    featureList: config.features || [
       `Convert ${config.from} to ${config.to}`,
       "Fast Conversion",
       "Browser Based Processing",
@@ -82,9 +82,15 @@ export default async function ConversionLayout({ children, params }: { children:
     ],
   });
 
+  const schemas: any[] = [breadcrumbs, softwareApp];
+
+  if (config.faqs && config.faqs.length > 0) {
+    schemas.push(getFaqSchema(config.faqs));
+  }
+
   return (
     <>
-      <JsonLd data={[breadcrumbs, softwareApp]} />
+      <JsonLd data={schemas} />
       {children}
     </>
   );

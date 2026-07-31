@@ -88,7 +88,7 @@ export default function CompressAudioLayout({
         "@type": "ListItem",
         position: 3,
         name: "Compress Audio",
-        item: "https://fileinator.com/tools/audio/compress-audio",
+        item: "https://fileinator.com/compress-audio",
       },
     ],
   };

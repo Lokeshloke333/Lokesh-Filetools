@@ -80,7 +80,7 @@ export default function PdfToExcelLayout({
         "@type": "ListItem",
         position: 3,
         name: "PDF to Excel",
-        item: "https://fileinator.com/tools/pdf/pdf-to-excel",
+        item: "https://fileinator.com/pdf-to-excel",
       },
     ],
   };

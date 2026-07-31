@@ -8,6 +8,7 @@ import { ToolSettings } from "@/components/tool/ToolSettings";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { FAQSection } from "@/components/tool/FAQSection";
 import { AboutTool } from "@/components/tool/AboutTool";
+import { ToolContent } from "@/components/seo/ToolContent";
 import { Button } from "@/components/ui/button";
 import { FileDown, Loader2, Lightbulb, FileText } from "lucide-react";
 import { usePdfMerge } from "@/hooks/usePdfMerge";
@@ -147,21 +148,22 @@ export default function MergePdfPage() {
 
       </div>
 
-      <RelatedTools />
-      <FAQSection faqs={faqs} />
-      
-      <AboutTool 
-        title="About Merge PDF"
-        content={
-          <>
-            <p>
-              Our Merge PDF tool makes it incredibly easy to combine multiple PDF files into a single, organized document. Whether you're assembling a report from multiple sources, combining invoices, or merging scanned pages, our tool handles it seamlessly.
-            </p>
-            <p>
-              We prioritize your privacy and security. The merge process is fully automated on our secure servers, and all files (both original and merged) are permanently deleted from our systems shortly after processing. We never look at your content or share it with third parties.
-            </p>
-          </>
-        }
+      <ToolContent 
+        toolId="merge-pdf" 
+        title="Merge PDF" 
+        description="Combine multiple PDF documents into a single, organized file easily and securely." 
+        howToSteps={[
+          "Upload two or more PDF files you wish to combine.",
+          "Drag the files to rearrange them into your desired order.",
+          "Click merge and download your single combined PDF document."
+        ]}
+        features={[
+          "Drag-and-drop page reordering",
+          "Fast processing on secure servers",
+          "Files are automatically deleted after processing",
+          "No registration or watermarks"
+        ]}
+        faqs={faqs}
       />
 
     </ToolLayout>

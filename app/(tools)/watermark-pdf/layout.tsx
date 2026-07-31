@@ -80,7 +80,7 @@ export default function WatermarkPdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "Watermark PDF",
-        item: "https://fileinator.com/tools/pdf/watermark-pdf",
+        item: "https://fileinator.com/watermark-pdf",
       },
     ],
   };

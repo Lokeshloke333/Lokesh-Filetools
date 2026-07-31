@@ -80,7 +80,7 @@ export default function DeletePdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "Delete PDF Pages",
-        item: "https://fileinator.com/tools/pdf/delete-pages",
+        item: "https://fileinator.com/delete-pages",
       },
     ],
   };

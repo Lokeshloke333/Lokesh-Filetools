@@ -31,7 +31,7 @@ export default function RotateVideoLayout({
   const softwareApp = getSoftwareAppSchema({
     name: "Video Rotator",
     description: "Rotate and flip videos easily in your browser.",
-    url: "https://fileinator.com/tools/video/rotate-video",
+    url: "https://fileinator.com/rotate-video",
     featureList: [
       "Rotate 90, 180, 270 degrees",
       "Flip horizontally or vertically",

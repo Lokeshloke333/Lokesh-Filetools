@@ -26,6 +26,7 @@ export interface ConvertVideoClientProps {
   aboutTitle?: string;
   aboutContent?: React.ReactNode;
   supported?: boolean;
+  faqs?: { question: string; answer: string }[];
 }
 
 export default function ConvertVideoClient({
@@ -36,6 +37,28 @@ export default function ConvertVideoClient({
   aboutTitle,
   aboutContent,
   supported = true,
+  faqs = [
+    {
+      question: "Is there a file size limit?",
+      answer: "Yes, you can convert video files up to 1GB. Processing happens entirely locally in your browser.",
+    },
+    {
+      question: "Are my video files uploaded to a server?",
+      answer: "No. All conversion is done securely on your device using FFmpeg WebAssembly. Your files never leave your computer.",
+    },
+    {
+      question: "Does conversion reduce video quality?",
+      answer: "It depends on the quality settings you choose. Selecting 'High' will preserve most of the original visual quality, while 'Low' will compress the file more aggressively.",
+    },
+    {
+      question: "Can I extract audio from a video?",
+      answer: "Yes, just select the 'MP3' output format and the tool will automatically extract the audio track.",
+    },
+    {
+      question: "What is H.265 (HEVC)?",
+      answer: "H.265 is a modern video codec that offers superior compression compared to H.264, meaning you get better quality at a smaller file size, though it takes slightly longer to process.",
+    }
+  ],
 }: ConvertVideoClientProps = {}) {
   const {
     fileInfo,
@@ -158,28 +181,6 @@ export default function ConvertVideoClient({
     processMedia(commandArgs, options.format, mimeType, "converted_video");
   };
 
-  const faqs = [
-    {
-      question: "Is there a file size limit?",
-      answer: "Yes, you can convert video files up to 1GB. Processing happens entirely locally in your browser.",
-    },
-    {
-      question: "Are my video files uploaded to a server?",
-      answer: "No. All conversion is done securely on your device using FFmpeg WebAssembly. Your files never leave your computer.",
-    },
-    {
-      question: "Does conversion reduce video quality?",
-      answer: "It depends on the quality settings you choose. Selecting 'High' will preserve most of the original visual quality, while 'Low' will compress the file more aggressively.",
-    },
-    {
-      question: "Can I extract audio from a video?",
-      answer: "Yes, just select the 'MP3' output format and the tool will automatically extract the audio track.",
-    },
-    {
-      question: "What is H.265 (HEVC)?",
-      answer: "H.265 is a modern video codec that offers superior compression compared to H.264, meaning you get better quality at a smaller file size, though it takes slightly longer to process.",
-    }
-  ];
 
   return (
     <ToolLayout>

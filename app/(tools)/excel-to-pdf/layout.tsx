@@ -80,7 +80,7 @@ export default function ExcelToPdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "Excel to PDF",
-        item: "https://fileinator.com/tools/pdf/excel-to-pdf",
+        item: "https://fileinator.com/excel-to-pdf",
       },
     ],
   };

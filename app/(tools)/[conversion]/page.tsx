@@ -28,17 +28,19 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
           initialToFormat={imageConfig.to}
           title={imageConfig.title}
           subtitle={imageConfig.description}
+          faqs={imageConfig.faqs}
         />
         <ToolContent 
           toolId={imageConfig.slug} 
           title={imageConfig.title} 
           description={imageConfig.description} 
-          features={[
+          features={imageConfig.features || [
             "Browser-based local conversion",
             "No data uploaded to servers",
             "Fast " + imageConfig.from + " processing algorithm",
             "No sign-up required"
           ]}
+          howToSteps={imageConfig.howToSteps}
         />
       </>
     );
@@ -54,17 +56,19 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
           title={audioConfig.title}
           subtitle={audioConfig.description}
           supported={audioConfig.supported}
+          faqs={audioConfig.faqs}
         />
         <ToolContent 
           toolId={audioConfig.slug} 
           title={audioConfig.title} 
           description={audioConfig.description} 
-          features={[
+          features={audioConfig.features || [
             "WebAssembly audio processing",
             "Maximum privacy via local execution",
             "High quality audio bitrate retention",
             "No sign-up required"
           ]}
+          howToSteps={audioConfig.howToSteps}
         />
       </>
     );
@@ -80,17 +84,19 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
           title={videoConfig.title}
           subtitle={videoConfig.description}
           supported={videoConfig.supported}
+          faqs={videoConfig.faqs}
         />
         <ToolContent 
           toolId={videoConfig.slug} 
           title={videoConfig.title} 
           description={videoConfig.description} 
-          features={[
+          features={videoConfig.features || [
             "WebAssembly video processing",
             "Zero upload times",
             "No file size limits on processing",
             "100% free with no sign-up"
           ]}
+          howToSteps={videoConfig.howToSteps}
         />
       </>
     );

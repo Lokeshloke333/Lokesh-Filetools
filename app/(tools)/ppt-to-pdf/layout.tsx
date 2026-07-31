@@ -80,7 +80,7 @@ export default function PptToPdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "PowerPoint to PDF",
-        item: "https://fileinator.com/tools/pdf/ppt-to-pdf",
+        item: "https://fileinator.com/ppt-to-pdf",
       },
     ],
   };

@@ -31,7 +31,7 @@ export default function TrimVideoLayout({
   const softwareApp = getSoftwareAppSchema({
     name: "Video Trimmer",
     description: "Cut and trim video files easily in your browser without quality loss.",
-    url: "https://fileinator.com/tools/video/trim-video",
+    url: "https://fileinator.com/trim-video",
     featureList: [
       "Trim MP4, MOV, WEBM",
       "Interactive timeline slider",

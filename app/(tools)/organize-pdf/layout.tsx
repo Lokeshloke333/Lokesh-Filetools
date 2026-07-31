@@ -80,7 +80,7 @@ export default function OrganizePdfLayout({
         "@type": "ListItem",
         position: 3,
         name: "Organize PDF",
-        item: "https://fileinator.com/tools/pdf/organize-pdf",
+        item: "https://fileinator.com/organize-pdf",
       },
     ],
   };

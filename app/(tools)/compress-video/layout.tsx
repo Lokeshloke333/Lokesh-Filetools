@@ -31,7 +31,7 @@ export default function CompressVideoLayout({
   const softwareApp = getSoftwareAppSchema({
     name: "Video Compressor",
     description: "Reduce video file sizes instantly in your browser without quality loss.",
-    url: "https://fileinator.com/tools/video/compress-video",
+    url: "https://fileinator.com/compress-video",
     featureList: [
       "Compress MP4, MOV, WEBM",
       "No file size limits",

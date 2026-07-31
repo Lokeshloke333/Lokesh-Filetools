@@ -23,6 +23,7 @@ export interface ConvertAudioClientProps {
   aboutTitle?: string;
   aboutContent?: React.ReactNode;
   supported?: boolean;
+  faqs?: { question: string; answer: string }[];
 }
 
 export default function ConvertAudioClient({
@@ -33,6 +34,20 @@ export default function ConvertAudioClient({
   aboutTitle,
   aboutContent,
   supported = true,
+  faqs = [
+    {
+      question: "Is there a file size limit?",
+      answer: "Yes, you can convert audio files up to 200MB. Since processing happens entirely locally in your browser using WebAssembly, you don't have to wait for large files to upload to a server.",
+    },
+    {
+      question: "Are my audio files secure?",
+      answer: "Absolutely. We use local browser processing (WASM). Your audio files never leave your computer, ensuring absolute privacy.",
+    },
+    {
+      question: "Which formats support metadata preservation?",
+      answer: "Most popular formats like MP3, M4A, OGG, and FLAC will preserve basic metadata (like Title, Artist, and Album art) during conversion.",
+    },
+  ],
 }: ConvertAudioClientProps = {}) {
   const {
     fileInfo,
@@ -60,8 +75,10 @@ export default function ConvertAudioClient({
 
   useEffect(() => {
     if (fileInfo?.file) {
+      const audio = new Audio();
       const audioUrl = URL.createObjectURL(fileInfo.file);
-      const audio = new Audio(audioUrl);
+      audio.src = audioUrl;
+      
       audio.onloadedmetadata = () => {
         const mins = Math.floor(audio.duration / 60);
         const secs = Math.floor(audio.duration % 60);
@@ -80,21 +97,6 @@ export default function ConvertAudioClient({
   const handleStartConversion = () => {
     processConversion(options);
   };
-
-  const faqs = [
-    {
-      question: "Is there a file size limit?",
-      answer: "Yes, you can convert audio files up to 200MB. Since processing happens entirely locally in your browser using WebAssembly, you don't have to wait for large files to upload to a server.",
-    },
-    {
-      question: "Are my audio files secure?",
-      answer: "Absolutely. We use local browser processing (WASM). Your audio files never leave your computer, ensuring absolute privacy.",
-    },
-    {
-      question: "Which formats support metadata preservation?",
-      answer: "Most popular formats like MP3, M4A, OGG, and FLAC will preserve basic metadata (like Title, Artist, and Album art) during conversion.",
-    },
-  ];
 
   return (
     <ToolLayout>

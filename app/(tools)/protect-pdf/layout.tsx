@@ -41,7 +41,7 @@ export default function ProtectPdfLayout({
               "priceCurrency": "USD"
             },
             "description": "Encrypt your PDF files with a password online for free. Secure sensitive documents using AES encryption with Fileinator.",
-            "url": "https://fileinator.com/tools/pdf/protect-pdf",
+            "url": "https://fileinator.com/protect-pdf",
             "featureList": [
               "Password protect PDF",
               "128-bit RC4 and 256-bit AES encryption",
@@ -74,7 +74,7 @@ export default function ProtectPdfLayout({
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Protect PDF",
-                "item": "https://fileinator.com/tools/pdf/protect-pdf"
+                "item": "https://fileinator.com/protect-pdf"
               }
             ]
           })
