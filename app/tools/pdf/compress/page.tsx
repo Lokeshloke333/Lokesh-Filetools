@@ -51,10 +51,10 @@ export default function CompressPdfPage() {
 
   return (
     <ToolLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className={`grid grid-cols-1 ${result ? '' : 'lg:grid-cols-3'} gap-8`}>
         
-        {/* Left Side: Header, Upload & Preview */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
+        {/* Left Side: Header, Upload & Preview (or Full Width Result) */}
+        <div className={`${result ? 'w-full max-w-4xl mx-auto' : 'lg:col-span-2'} flex flex-col gap-6`}>
           <ToolHeader 
             title="Compress PDF"
             subtitle="Reduce your PDF file size instantly while maintaining the best possible quality."
@@ -93,60 +93,56 @@ export default function CompressPdfPage() {
           )}
         </div>
 
-        {/* Right Side: Settings / Actions */}
-        <div className="lg:col-span-1">
-          <ToolSettings>
-            
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
-                  <Minimize className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-800">Compression Settings</h3>
-                  <p className="text-sm text-slate-500">Choose optimization level</p>
-                </div>
-              </div>
+        {/* Right Side: Settings / Actions (Hidden after compression) */}
+        {!result && (
+          <div className="lg:col-span-1">
+            <ToolSettings>
               
-              <PdfCompressOptions 
-                level={level}
-                setLevel={setLevel}
-                disabled={isProcessing || result !== null || !fileInfo}
-              />
-            </div>
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+                    <Minimize className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-800">Compression Settings</h3>
+                    <p className="text-sm text-slate-500">Choose optimization level</p>
+                  </div>
+                </div>
+                
+                <PdfCompressOptions 
+                  level={level}
+                  setLevel={setLevel}
+                  disabled={isProcessing || !fileInfo}
+                />
+              </div>
 
-            {/* Action Button */}
-            <div className="pt-2 pb-2">
-              <Button 
-                size="lg" 
-                className="w-full h-14 rounded-2xl text-base font-bold shadow-lg shadow-blue-500/20 transition-all disabled:opacity-70 disabled:shadow-none"
-                onClick={compressFile}
-                disabled={!fileInfo || isProcessing || result !== null}
-              >
-                {isProcessing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    {statusMessage || "Processing..."}
-                  </>
-                ) : (
-                  <>
-                    <Minimize className="w-5 h-5 mr-2" />
-                    Compress PDF
-                  </>
-                )}
-              </Button>
-            </div>
+              {/* Action Button */}
+              <div className="pt-2 pb-2">
+                <Button 
+                  size="lg" 
+                  className="w-full h-14 rounded-2xl text-base font-bold shadow-lg shadow-blue-500/20 transition-all disabled:opacity-70 disabled:shadow-none"
+                  onClick={compressFile}
+                  disabled={!fileInfo || isProcessing}
+                >
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      {statusMessage || "Processing..."}
+                    </>
+                  ) : (
+                    <>
+                      <Minimize className="w-5 h-5 mr-2" />
+                      Compress PDF
+                    </>
+                  )}
+                </Button>
+              </div>
 
-            {/* Pro Tip */}
-            <div className="mt-auto bg-blue-50/50 border border-blue-100 rounded-2xl p-4 flex gap-3">
-              <Lightbulb className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-blue-800 leading-relaxed font-medium">
-                <span className="font-bold">Pro Tip:</span> If you are sharing the PDF via email, Medium Compression is usually the best choice.
-              </p>
-            </div>
 
-          </ToolSettings>
-        </div>
+
+            </ToolSettings>
+          </div>
+        )}
 
       </div>
 

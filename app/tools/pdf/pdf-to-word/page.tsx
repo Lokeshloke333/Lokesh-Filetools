@@ -116,7 +116,13 @@ export default function PdfToWordPage() {
               title="Conversion Complete"
               successMessage="Your editable Word document is ready."
               sizeLabel="File Size"
-              resetButtonText="Convert Another PDF"
+              resetButtonText="Convert Another File"
+              downloadButtonText="Download DOCX"
+              icon={
+                <div className="w-24 h-24 bg-blue-50 rounded-3xl flex items-center justify-center mb-6 border-2 border-blue-100 shadow-inner">
+                  <FileText className="w-12 h-12 text-blue-600" />
+                </div>
+              }
             />
           )}
         </div>
@@ -186,7 +192,7 @@ export default function PdfToWordPage() {
                 You can try our other free tools to modify or protect your PDF documents.
               </p>
               <Button onClick={clearFile} variant="outline" className="w-full rounded-xl">
-                Convert Another PDF
+                Convert Another File
               </Button>
             </div>
           )}

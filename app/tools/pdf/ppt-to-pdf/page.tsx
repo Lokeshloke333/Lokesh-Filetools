@@ -5,14 +5,12 @@ import Link from "next/link";
 import { ToolLayout } from "@/components/tool/ToolLayout";
 import { ToolHeader } from "@/components/tool/ToolHeader";
 import { UploadArea } from "@/components/tool/UploadArea";
-import { ToolSettings } from "@/components/tool/ToolSettings";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { FAQSection } from "@/components/tool/FAQSection";
 import { AboutTool } from "@/components/tool/AboutTool";
 import { Button } from "@/components/ui/button";
 import { Loader2, Presentation, Lock, AlertTriangle, FileText, ArrowRight, Save } from "lucide-react";
 import { usePdfPpt } from "@/hooks/usePdfPpt";
-import { PdfPptOptions } from "@/components/tool/PdfPptOptions";
 import { useDownload } from "@/hooks/useDownload";
 import { formatFileSize } from "@/lib/utils/image";
 
@@ -26,8 +24,6 @@ export default function PptToPdfPage() {
     result,
     uploadError,
     clearUploadError,
-    options,
-    updateOptions,
     processConversion
   } = usePdfPpt();
 
@@ -148,35 +144,53 @@ export default function PptToPdfPage() {
               </p>
             </div>
           ) : (
-            <ToolSettings>
-              <PdfPptOptions 
-                options={options}
-                updateOptions={updateOptions}
-                disabled={isProcessing || result !== null}
-              />
+            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-800 mb-4">Presentation Information</h3>
+                  
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-500 font-medium">File Name</span>
+                      <span className="text-sm font-bold text-slate-800 truncate max-w-[150px]" title={fileInfo.file.name}>{fileInfo.file.name}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-500 font-medium">Total Slides</span>
+                      <span className="text-sm font-bold text-slate-800">-</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-500 font-medium">File Size</span>
+                      <span className="text-sm font-bold text-slate-800">{formatFileSize(fileInfo.file.size)}</span>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Action Button */}
-              <div className="pt-6 pb-2 border-t border-slate-200 mt-6">
-                <Button 
-                  size="lg" 
-                  className="w-full h-14 rounded-2xl text-base font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-500/20 transition-all disabled:opacity-70 disabled:shadow-none"
-                  onClick={processConversion}
-                  disabled={isProcessing || result !== null}
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      {statusMessage || "Converting..."}
-                    </>
-                  ) : (
-                    <>
-                      <Save className="w-5 h-5 mr-2" />
-                      Convert to PDF
-                    </>
-                  )}
-                </Button>
+                <div className="pt-2 border-t border-slate-100">
+                  <Button 
+                    size="lg" 
+                    className="w-full h-14 rounded-2xl text-base font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-500/20 transition-all disabled:opacity-70 disabled:shadow-none"
+                    onClick={processConversion}
+                    disabled={isProcessing || result !== null}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        {statusMessage || "Converting..."}
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-5 h-5 mr-2" />
+                        Convert to PDF
+                      </>
+                    )}
+                  </Button>
+                  
+                  <p className="text-xs text-slate-500 text-center leading-relaxed mt-4">
+                    Slides are converted exactly as they appear in your presentation.
+                  </p>
+                </div>
               </div>
-            </ToolSettings>
+            </div>
           )}
         </div>
 

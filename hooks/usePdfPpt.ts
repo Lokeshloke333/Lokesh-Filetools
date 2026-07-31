@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { PdfFileInfo, PdfPptResult } from "@/lib/pdf/types";
-import { PptToPdfOptions } from "@/lib/pdf/ppt-to-pdf";
 
 export function usePdfPpt() {
   const [fileInfo, setFileInfo] = useState<PdfFileInfo | null>(null);
@@ -9,13 +8,6 @@ export function usePdfPpt() {
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [result, setResult] = useState<PdfPptResult | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  
-  const [options, setOptions] = useState<PptToPdfOptions>({
-    pageSize: 'A4',
-    orientation: 'Landscape',
-    slidesPerPage: '1',
-    includeNotes: false
-  });
 
   const handleFileSelect = useCallback((file: File) => {
     if (!file) return;
@@ -48,9 +40,7 @@ export function usePdfPpt() {
     });
   }, []);
 
-  const updateOptions = useCallback((updates: Partial<PptToPdfOptions>) => {
-    setOptions(prev => ({ ...prev, ...updates }));
-  }, []);
+
 
   const processConversion = useCallback(async () => {
     if (!fileInfo) return;
@@ -65,7 +55,6 @@ export function usePdfPpt() {
     try {
       const formData = new FormData();
       formData.append("file", fileInfo.file);
-      formData.append("options", JSON.stringify(options));
 
       setTimeout(() => setStatusMessage("Reading slides..."), 600);
       setTimeout(() => setStatusMessage("Rendering presentation..."), 1500);
@@ -108,7 +97,7 @@ export function usePdfPpt() {
       setIsProcessing(false);
       setStatusMessage("");
     }
-  }, [fileInfo, options]);
+  }, [fileInfo]);
 
   return {
     fileInfo,
@@ -119,8 +108,6 @@ export function usePdfPpt() {
     result,
     uploadError,
     clearUploadError,
-    options,
-    updateOptions,
     processConversion
   };
 }

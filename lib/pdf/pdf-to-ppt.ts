@@ -112,6 +112,15 @@ export async function convertPdfToPpt(
       slideCount: numPages
     };
   } catch (err: any) {
+    // DEVELOPMENT LOGGING
+    console.error("================ PDF PARSER ERROR ================");
+    console.error("Parser: pdfjs-dist (legacy/build/pdf.mjs)");
+    console.error("File Size:", fileBuffer.byteLength, "bytes");
+    console.error("First 10 bytes:", Array.from(fileBuffer.subarray(0, 10)).map(b => b.toString(16).padStart(2, '0')).join(' '));
+    console.error("Exact Failing Line: pdfjsLib.getDocument({ data: uint8Array }).promise or page.getTextContent()");
+    console.error("Original Error Stack:", err?.stack || err);
+    console.error("==================================================");
+
     if (err instanceof PdfToPptError) {
       throw err;
     }

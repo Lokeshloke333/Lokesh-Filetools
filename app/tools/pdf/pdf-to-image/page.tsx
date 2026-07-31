@@ -119,7 +119,7 @@ export default function PdfToImagePage() {
                 <CheckCircle className="w-10 h-10 text-green-500" />
               </div>
               
-              <h3 className="text-2xl font-bold text-slate-800 mb-2">Conversion Complete!</h3>
+              <h3 className="text-2xl font-bold text-slate-800 mb-2">Images Ready</h3>
               <p className="text-slate-500 mb-8 max-w-md mx-auto">
                 Your PDF was successfully converted. We've packaged the images into a convenient ZIP archive.
               </p>
@@ -169,7 +169,7 @@ export default function PdfToImagePage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-800">Export Settings</h3>
-                  <p className="text-sm text-slate-500">Configure your output</p>
+                  <p className="text-sm text-slate-500">Choose your output format and pages.</p>
                 </div>
               </div>
               
@@ -191,7 +191,7 @@ export default function PdfToImagePage() {
                 {isProcessing ? (
                   <>
                     <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    {statusMessage || "Processing..."}
+                    Extracting Images...
                   </>
                 ) : (
                   <>

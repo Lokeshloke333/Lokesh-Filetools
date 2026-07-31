@@ -24,57 +24,19 @@ export function PdfToImageOptions({ options, onChange, disabled }: PdfToImageOpt
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-3">
-          <Label className="text-slate-700 font-semibold">Format</Label>
-          <Select 
-            value={options.format} 
-            onValueChange={(val) => updateOption("format", val)} 
-            disabled={disabled}
-          >
-            <SelectTrigger className="w-full h-11 rounded-xl">
-              <SelectValue placeholder="Format" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="PNG">PNG (Recommended)</SelectItem>
-              <SelectItem value="JPG">JPG</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-3">
-          <Label className="text-slate-700 font-semibold">Quality</Label>
-          <Select 
-            value={options.quality} 
-            onValueChange={(val) => updateOption("quality", val)} 
-            disabled={disabled}
-          >
-            <SelectTrigger className="w-full h-11 rounded-xl">
-              <SelectValue placeholder="Quality" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="high">High</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="low">Low</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
       <div className="space-y-3">
-        <Label className="text-slate-700 font-semibold">Resolution (DPI)</Label>
+        <Label className="text-slate-700 font-semibold">Format</Label>
         <Select 
-          value={options.dpi} 
-          onValueChange={(val) => updateOption("dpi", val)} 
+          value={options.format} 
+          onValueChange={(val) => updateOption("format", val)} 
           disabled={disabled}
         >
           <SelectTrigger className="w-full h-11 rounded-xl">
-            <SelectValue placeholder="Select DPI" />
+            <SelectValue placeholder="Format" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="72">72 DPI (Web)</SelectItem>
-            <SelectItem value="150">150 DPI (Standard)</SelectItem>
-            <SelectItem value="300">300 DPI (High Quality/Print)</SelectItem>
+            <SelectItem value="PNG">PNG (Recommended)</SelectItem>
+            <SelectItem value="JPG">JPG</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -91,7 +53,6 @@ export function PdfToImageOptions({ options, onChange, disabled }: PdfToImageOpt
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Pages</SelectItem>
-            <SelectItem value="current">First Page Only</SelectItem>
             <SelectItem value="custom">Custom Range</SelectItem>
           </SelectContent>
         </Select>

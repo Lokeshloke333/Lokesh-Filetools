@@ -72,7 +72,7 @@ export function FeaturedCategories({ onSelectCategory, toolCounts }: FeaturedCat
         <p className="text-slate-500 mt-1">Jump directly to a tool category.</p>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 auto-rows-fr">
         {CATEGORY_DATA.map((cat) => (
           <CategoryCard
             key={cat.id}

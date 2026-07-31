@@ -18,8 +18,8 @@ export function usePdfToImage() {
   const [fileInfo, setFileInfo] = useState<PdfFileInfo | null>(null);
   const [options, setOptions] = useState<PdfToImageSettings>({
     format: "PNG",
-    quality: "medium",
-    dpi: "150",
+    quality: "high",
+    dpi: "300",
     pageSelection: "all",
     customRange: "",
   });
@@ -75,45 +75,109 @@ export function usePdfToImage() {
     }
 
     setIsProcessing(true);
-    setStatusMessage("Uploading...");
+    setStatusMessage("Loading PDF Engine...");
     setResult((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url);
       return null;
     });
 
     try {
-      const formData = new FormData();
-      formData.append("file", fileInfo.file);
-      formData.append("format", options.format);
-      formData.append("quality", options.quality);
-      formData.append("dpi", options.dpi);
-      formData.append("pageSelection", options.pageSelection);
-      formData.append("customRange", options.customRange);
+      const JSZip = (await import("jszip")).default;
+      const pdfjsLib = await import("pdfjs-dist");
+      
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
-      const statuses = ["Uploading...", "Reading PDF...", "Rendering Pages...", "Converting...", "Creating ZIP..."];
-      let statusIndex = 0;
-      const progressInterval = setInterval(() => {
-        statusIndex = Math.min(statusIndex + 1, statuses.length - 1);
-        setStatusMessage(statuses[statusIndex]);
-      }, 1500);
+      setStatusMessage("Reading PDF...");
+      
+      const arrayBuffer = await fileInfo.file.arrayBuffer();
+      
+      console.log("File:", fileInfo.file);
+      console.log("ArrayBuffer length:", arrayBuffer.byteLength);
+      
+      const documentOptions = {
+        data: new Uint8Array(arrayBuffer)
+      };
+      
+      console.log("getDocument argument:", documentOptions);
+      
+      const pdf = await pdfjsLib.getDocument(documentOptions).promise;
+      const totalPages = pdf.numPages;
 
-      const response = await fetch("/api/pdf/pdf-to-image", {
-        method: "POST",
-        body: formData,
-      });
-
-      clearInterval(progressInterval);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to convert PDF");
+      let pagesToRender: number[] = [];
+      if (options.pageSelection === "all") {
+        pagesToRender = Array.from({ length: totalPages }, (_, i) => i + 1);
+      } else {
+        const parts = options.customRange.split(",");
+        for (const part of parts) {
+          const range = part.trim().split("-");
+          if (range.length === 1) {
+            const p = parseInt(range[0], 10);
+            if (!isNaN(p) && p >= 1 && p <= totalPages) pagesToRender.push(p);
+          } else if (range.length === 2) {
+            const start = parseInt(range[0], 10);
+            const end = parseInt(range[1], 10);
+            if (!isNaN(start) && !isNaN(end) && start >= 1 && end <= totalPages && start <= end) {
+              for (let i = start; i <= end; i++) pagesToRender.push(i);
+            }
+          }
+        }
+        pagesToRender = Array.from(new Set(pagesToRender)).sort((a, b) => a - b);
       }
 
-      setStatusMessage("Preparing Download...");
-      const blob = await response.blob();
-      const imageCount = parseInt(response.headers.get("X-Image-Count") || "0", 10);
-      const url = URL.createObjectURL(blob);
+      if (pagesToRender.length === 0) {
+        throw new Error("No valid pages selected for rendering.");
+      }
 
+      const zip = new JSZip();
+      const format = options.format.toLowerCase();
+      const mimeType = format === "png" ? "image/png" : "image/jpeg";
+      
+      let qualityVal = 0.8;
+      if (format === "jpg") {
+        qualityVal = options.quality === "high" ? 0.95 : options.quality === "medium" ? 0.8 : 0.6;
+      }
+      
+      const dpi = parseInt(options.dpi, 10) || 150;
+      const scale = dpi / 72;
+
+      for (let i = 0; i < pagesToRender.length; i++) {
+        const pageNum = pagesToRender[i];
+        setStatusMessage(`Rendering Page ${pageNum} (${i + 1} of ${pagesToRender.length})...`);
+        
+        const page = await pdf.getPage(pageNum);
+        const viewport = page.getViewport({ scale });
+        
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        
+        if (!context) throw new Error("Failed to create canvas context");
+        
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        
+        if (format === "jpg") {
+          context.fillStyle = "#ffffff";
+          context.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        await page.render({ canvasContext: context, viewport } as any).promise;
+        
+        const blob = await new Promise<Blob | null>((resolve) => {
+          canvas.toBlob(resolve, mimeType, qualityVal);
+        });
+
+        if (!blob) throw new Error(`Failed to generate image for page ${pageNum}`);
+
+        const paddedPage = pageNum.toString().padStart(Math.max(3, totalPages.toString().length), "0");
+        zip.file(`page-${paddedPage}.${format}`, blob);
+      }
+
+      setStatusMessage("Creating ZIP...");
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+
+      setStatusMessage("Preparing Download...");
+      
+      const url = URL.createObjectURL(zipBlob);
       const originalName = fileInfo.file.name.replace(/\.[^/.]+$/, "");
       const zipFilename = `${originalName}_images.zip`;
 
@@ -121,8 +185,8 @@ export function usePdfToImage() {
         url,
         filename: zipFilename,
         originalSize: fileInfo.file.size,
-        processedSize: blob.size,
-        imageCount,
+        processedSize: zipBlob.size,
+        imageCount: pagesToRender.length,
       });
 
       toast.success("PDF converted to images successfully!");

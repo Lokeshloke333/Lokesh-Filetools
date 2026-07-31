@@ -53,39 +53,77 @@ export function usePdfCompress() {
     }
 
     setIsProcessing(true);
-    setStatusMessage("Uploading & Analyzing...");
+    setStatusMessage("Initializing...");
     setResult((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url);
       return null;
     });
 
     try {
-      const formData = new FormData();
-      formData.append("file", fileInfo.file);
-      formData.append("level", level);
+      // Dynamically import QPDF engine
+      const { compressPdfQpdf } = await import('@/lib/pdf/qpdf-compressor');
+      
+      const originalSize = fileInfo.file.size;
+      setStatusMessage("Optimizing PDF structure...");
+      let finalBytes: Uint8Array;
+      let finalOptimized = false;
 
-      // Simulate sequential progress messages since fetch() doesn't expose it natively without streams
-      const statuses = ["Uploading...", "Analyzing PDF...", "Compressing...", "Optimizing..."];
-      let statusIndex = 0;
-      const progressInterval = setInterval(() => {
-        statusIndex = Math.min(statusIndex + 1, statuses.length - 1);
-        setStatusMessage(statuses[statusIndex]);
-      }, 1000);
+      try {
+        const qpdfResult = await compressPdfQpdf(
+          fileInfo.file, 
+          level,
+          (msg) => setStatusMessage(msg)
+        );
 
-      const response = await fetch("/api/pdf/compress", {
-        method: "POST",
-        body: formData,
-      });
+        finalBytes = qpdfResult.bytes;
+        finalOptimized = qpdfResult.optimized;
 
-      clearInterval(progressInterval);
+        // If QPDF didn't optimize much (e.g., image-heavy PDF), try falling back to canvas compressor
+        if (!finalOptimized) {
+          setStatusMessage("Compressing images...");
+          const { compressPdfClient } = await import('@/lib/pdf/client-compressor');
+          const clientResult = await compressPdfClient(
+            fileInfo.file,
+            level,
+            (msg) => setStatusMessage(msg)
+          );
+          
+          if (clientResult.optimized && clientResult.bytes.length < finalBytes.length) {
+            finalBytes = clientResult.bytes;
+            finalOptimized = true;
+          }
+        }
+      } catch (err: unknown) {
+        console.warn("QPDF compression failed, using fallback:", err);
+        setStatusMessage("Compressing images...");
+        
+        const { compressPdfClient } = await import('@/lib/pdf/client-compressor');
+        const clientResult = await compressPdfClient(
+          fileInfo.file,
+          level,
+          (msg) => setStatusMessage(msg)
+        );
+        finalBytes = clientResult.bytes;
+        finalOptimized = clientResult.optimized;
+      }
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to compress PDF");
+      if (!finalOptimized) {
+        toast.info("This PDF is already optimized and cannot be compressed much.");
+      } else {
+        toast.success("PDF compressed successfully!");
       }
 
       setStatusMessage("Preparing Download...");
-      const blob = await response.blob();
+      
+      if (!finalBytes || finalBytes.length === 0) {
+        throw new Error("Compression failed: Resulting file is empty.");
+      }
+      
+      if (!originalSize) {
+        throw new Error("Compression failed: Missing original file size.");
+      }
+
+      const blob = new Blob([finalBytes as BlobPart], { type: 'application/pdf' });
       const processedSize = blob.size;
       const url = URL.createObjectURL(blob);
 
@@ -95,14 +133,13 @@ export function usePdfCompress() {
       setResult({
         url,
         filename: compressedFilename,
-        originalSize: fileInfo.file.size,
+        originalSize,
         processedSize,
       });
 
-      toast.success("PDF compressed successfully!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Compress error:", error);
-      toast.error(error.message || "An error occurred while compressing the PDF.");
+      toast.error(error instanceof Error ? error.message : "An error occurred while compressing the PDF.");
     } finally {
       setIsProcessing(false);
       setStatusMessage("");

@@ -18,15 +18,15 @@ export function PdfCompressResultCard({ result, onDownload, onReset }: PdfCompre
 
   return (
     <div className="bg-white rounded-3xl p-8 border border-green-100 shadow-xl shadow-green-900/5 text-center flex flex-col items-center">
-      <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 relative">
-        <Zap className="w-10 h-10 text-green-500" />
-        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center">
-          <CheckCircle2 className="w-5 h-5 text-green-500" />
+      <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 relative">
+        <Zap className="w-12 h-12 text-green-500" />
+        <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-white rounded-full flex items-center justify-center">
+          <CheckCircle2 className="w-6 h-6 text-green-500" />
         </div>
       </div>
       
-      <h3 className="text-2xl font-bold text-slate-800 mb-2">Compression Complete!</h3>
-      <p className="text-slate-500 mb-8 max-w-md">
+      <h3 className="text-3xl font-black text-slate-800 mb-3">Compression Complete!</h3>
+      <p className="text-slate-500 mb-8 max-w-md text-lg">
         Your PDF has been successfully compressed and optimized.
       </p>
 
@@ -41,15 +41,19 @@ export function PdfCompressResultCard({ result, onDownload, onReset }: PdfCompre
         </div>
         
         {savedBytes > 0 ? (
-          <div className="col-span-2 bg-blue-50/50 px-4 py-3 rounded-2xl border border-blue-100 flex flex-col items-center">
-            <span className="text-sm font-semibold text-blue-600">
-              You saved {formatFileSize(savedBytes)} ({savedPercent}%)
+          <div className="col-span-2 bg-blue-50 px-6 py-5 rounded-2xl border border-blue-100 flex flex-col items-center justify-center shadow-inner">
+            <span className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">Space Saved</span>
+            <span className="text-4xl font-black text-blue-700 tracking-tight my-1">
+              {savedPercent}%
+            </span>
+            <span className="text-sm font-semibold text-blue-600/80">
+              ({formatFileSize(savedBytes)} removed)
             </span>
           </div>
         ) : (
-          <div className="col-span-2 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-200 flex flex-col items-center">
+          <div className="col-span-2 bg-slate-50 px-6 py-5 rounded-2xl border border-slate-200 flex flex-col items-center justify-center">
             <span className="text-sm font-semibold text-slate-600">
-              Already optimized (0% saved)
+              Already fully optimized
             </span>
           </div>
         )}
@@ -71,7 +75,7 @@ export function PdfCompressResultCard({ result, onDownload, onReset }: PdfCompre
           onClick={onReset}
         >
           <RotateCcw className="w-5 h-5 mr-2" />
-          Compress Another
+          Compress Another PDF
         </Button>
       </div>
     </div>

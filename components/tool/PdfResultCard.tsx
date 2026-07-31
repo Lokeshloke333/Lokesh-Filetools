@@ -12,6 +12,8 @@ interface PdfResultCardProps {
   successMessage?: string;
   sizeLabel?: string;
   resetButtonText?: string;
+  downloadButtonText?: string;
+  icon?: React.ReactNode;
 }
 
 export function PdfResultCard({
@@ -22,6 +24,8 @@ export function PdfResultCard({
   successMessage = "Your PDF document is ready!",
   sizeLabel = "PDF Size",
   resetButtonText = "Convert Another",
+  downloadButtonText = "Download PDF",
+  icon,
 }: PdfResultCardProps) {
   const pageText = result.totalPageCount === 1 ? "1 Page" : `${result.totalPageCount} Pages`;
 
@@ -42,9 +46,13 @@ export function PdfResultCard({
 
         {/* Info Area */}
         <div className="p-8 flex flex-col items-center text-center">
-          <div className="w-24 h-24 bg-red-50 rounded-3xl flex items-center justify-center mb-6 border-2 border-red-100 shadow-inner">
-            <FileText className="w-12 h-12 text-red-500" />
-          </div>
+          {icon ? (
+            icon
+          ) : (
+            <div className="w-24 h-24 bg-red-50 rounded-3xl flex items-center justify-center mb-6 border-2 border-red-100 shadow-inner">
+              <FileText className="w-12 h-12 text-red-500" />
+            </div>
+          )}
           
           <h3 className="text-2xl font-bold text-slate-800 mb-2">
             {successMessage}
@@ -81,7 +89,7 @@ export function PdfResultCard({
           className="flex-1 h-14 rounded-2xl text-base font-bold shadow-lg shadow-blue-500/20"
         >
           <Download className="w-5 h-5 mr-2" />
-          Download PDF
+          {downloadButtonText}
         </Button>
         <Button 
           onClick={onReset} 

@@ -11,6 +11,8 @@ import { AboutTool } from "@/components/tool/AboutTool";
 import { Button } from "@/components/ui/button";
 import { Loader2, Lightbulb, FileText, Wand2 } from "lucide-react";
 import { useWordToPdf } from "@/hooks/useWordToPdf";
+import { useDocumentPreview } from "@/hooks/useDocumentPreview";
+import { PreviewContainer } from "@/components/tool/Preview/PreviewContainer";
 import { WordReorderList } from "@/components/tool/WordReorderList";
 import { PdfResultCard } from "@/components/tool/PdfResultCard";
 import { useDownload } from "@/hooks/useDownload";
@@ -34,6 +36,8 @@ export default function WordToPdfPage() {
     uploadError,
     clearUploadError,
   } = useWordToPdf();
+  
+  const previewState = useDocumentPreview(files, options);
 
   const { handleDownload } = useDownload();
 
@@ -73,24 +77,33 @@ export default function WordToPdfPage() {
           />
           
           {!result && (
-            <UploadArea 
-              acceptedFormats="DOCX, DOC"
-              maxSizeMB={FILE_LIMITS.WORD_MAX_SIZE_MB}
-              onFilesSelect={handleFilesSelect}
-              multiple={true}
-              error={uploadError}
-              onErrorClear={clearUploadError}
-            />
-          )}
-
-          {!result && files.length > 0 && (
-            <div className="mt-2">
-              <WordReorderList 
-                files={files} 
-                onReorder={setFiles} 
-                onRemove={removeFile}
-                onClearAll={clearAll}
+            <div className="space-y-6 mt-2">
+              <PreviewContainer
+                previewUrl={previewState.previewUrl}
+                isLoading={previewState.isLoading}
+                error={previewState.error}
+                currentPage={previewState.currentPage}
+                totalPages={previewState.totalPages}
+                onPageChange={previewState.setCurrentPage}
               />
+              
+              <UploadArea 
+                acceptedFormats="DOCX, DOC"
+                maxSizeMB={FILE_LIMITS.WORD_MAX_SIZE_MB}
+                onFilesSelect={handleFilesSelect}
+                multiple={true}
+                error={uploadError}
+                onErrorClear={clearUploadError}
+              />
+
+              {files.length > 0 && (
+                <WordReorderList 
+                  files={files} 
+                  onReorder={setFiles} 
+                  onRemove={removeFile}
+                  onClearAll={clearAll}
+                />
+              )}
             </div>
           )}
 

@@ -424,6 +424,8 @@ export const TOOLS: ToolDefinition[] = [
     featured: true,
     popular: true,
   },
+  // TODO:
+  // Re-enable PDF ↔ Excel after implementing a production-ready Office conversion backend compatible with Vercel (LibreOffice service or external Office conversion API).
   {
     id: "excel-to-pdf",
     title: "Excel to PDF",
@@ -433,9 +435,9 @@ export const TOOLS: ToolDefinition[] = [
     href: "/tools/pdf/excel-to-pdf",
     icon: FileText,
     color: "text-green-600",
-    status: "active",
-    featured: true,
-    popular: true,
+    status: "coming-soon",
+    featured: false,
+    popular: false,
   },
   {
     id: "pdf-to-excel",
@@ -446,10 +448,12 @@ export const TOOLS: ToolDefinition[] = [
     href: "/tools/pdf/pdf-to-excel",
     icon: FileText,
     color: "text-green-500",
-    status: "active",
-    featured: true,
-    popular: true,
+    status: "coming-soon",
+    featured: false,
+    popular: false,
   },
+  // TODO:
+  // Re-enable these tools after implementing a production-ready Office conversion backend compatible with Vercel (LibreOffice service or external Office conversion API).
   {
     id: "ppt-to-pdf",
     title: "PPT to PDF",
@@ -459,9 +463,9 @@ export const TOOLS: ToolDefinition[] = [
     href: "/tools/pdf/ppt-to-pdf",
     icon: FileText,
     color: "text-orange-600",
-    status: "active",
-    featured: true,
-    popular: true,
+    status: "coming-soon",
+    featured: false,
+    popular: false,
   },
   {
     id: "pdf-to-ppt",
@@ -472,9 +476,9 @@ export const TOOLS: ToolDefinition[] = [
     href: "/tools/pdf/pdf-to-ppt",
     icon: FileText,
     color: "text-orange-500",
-    status: "active",
-    featured: true,
-    popular: true,
+    status: "coming-soon",
+    featured: false,
+    popular: false,
   },
 
   // VIDEO TOOLS

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { convertPptToPdf, PptExtractionError, PptToPdfOptions } from "@/lib/pdf/ppt-to-pdf";
+import { convertPptToPdfLocal, PptExtractionError } from "@/lib/office/pptToPdf";
 
 export const maxDuration = 60;
 
@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    const optionsStr = formData.get("options") as string;
 
     if (!file || (!file.name.toLowerCase().endsWith(".ppt") && !file.name.toLowerCase().endsWith(".pptx"))) {
       return NextResponse.json(
@@ -16,28 +15,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let options: PptToPdfOptions = {
-      pageSize: 'A4',
-      orientation: 'Landscape',
-      slidesPerPage: '1',
-      includeNotes: false
-    };
-
-    if (optionsStr) {
-      try {
-        options = JSON.parse(optionsStr);
-      } catch (e) {
-        return NextResponse.json(
-          { error: "Invalid configuration data format." },
-          { status: 400 }
-        );
-      }
-    }
-
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const { pdfBytes, slideCount } = await convertPptToPdf(buffer, file.name, options);
+    const { pdfBytes, slideCount } = await convertPptToPdfLocal(buffer, file.name);
 
     return new NextResponse(pdfBytes as any, {
       status: 200,
@@ -53,7 +34,7 @@ export async function POST(req: NextRequest) {
     if (err instanceof PptExtractionError) {
        return NextResponse.json(
          { error: err.message, code: err.code },
-         { status: 422 } // Unprocessable entity
+         { status: 422 }
        );
     }
 

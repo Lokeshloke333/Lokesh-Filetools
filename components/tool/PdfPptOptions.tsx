@@ -4,7 +4,12 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { PptToPdfOptions } from "@/lib/pdf/ppt-to-pdf";
+export interface PptToPdfOptions {
+  pageSize: "Match Slide Size" | "A4" | "Letter";
+  orientation: "Landscape" | "Portrait" | "Auto";
+  slidesPerPage: "1" | "2" | "4" | "6";
+  includeNotes: boolean;
+}
 import { Presentation, LayoutTemplate, Copy, MessageSquare } from "lucide-react";
 
 interface PdfPptOptionsProps {
