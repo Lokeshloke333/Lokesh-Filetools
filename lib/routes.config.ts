@@ -66,37 +66,37 @@ export const categoryRoutes: RouteEntry[] = [];
 
 export const toolRoutes: RouteEntry[] = [
   // Image tools
-  { path: "/tools/image/compress", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/image/convert", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/image/crop", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/image/resize", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/image/rotate", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/compress-image", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/convert-image", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/crop-image", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/resize-image", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/rotate-image", changeFrequency: "weekly", priority: 0.9 },
 
   // Video tools
-  { path: "/tools/video/compress-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/video/convert-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/video/merge-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/video/rotate-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/video/trim-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/compress-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/convert-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/merge-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/rotate-video", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/trim-video", changeFrequency: "weekly", priority: 0.9 },
 
   // PDF tools
-  { path: "/tools/pdf/compress", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/image-to-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/merge", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/pdf-to-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/split", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/unlock", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/pdf/word-to-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/compress-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/image-to-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/merge-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/pdf-to-image", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/split-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/unlock-pdf", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/word-to-pdf", changeFrequency: "weekly", priority: 0.9 },
 
   // Audio tools
-  { path: "/tools/audio/compress-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/audio/convert-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/audio/trim-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/audio/merge-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/tools/audio/extract-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/compress-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/convert-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/trim-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/merge-audio", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/extract-audio", changeFrequency: "weekly", priority: 0.9 },
 
   // AI tools
-  { path: "/tools/ai/background-remover", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/remove-background", changeFrequency: "weekly", priority: 0.9 },
 ];
 
 /* -------------------------------------------------------------------- */

@@ -121,23 +121,23 @@ export default function NotFound() {
             <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Popular Tools</h3>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/tools/image/compress" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-green-500 hover:shadow-md hover:shadow-green-500/10 transition-all group">
+            <Link href="/compress-image" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-green-500 hover:shadow-md hover:shadow-green-500/10 transition-all group">
               <ImageDown className="w-4 h-4 text-green-600 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-slate-700 group-hover:text-green-700">Compress Image</span>
             </Link>
-            <Link href="/tools/image/resize" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-blue-500 hover:shadow-md hover:shadow-blue-500/10 transition-all group">
+            <Link href="/resize-image" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-blue-500 hover:shadow-md hover:shadow-blue-500/10 transition-all group">
               <Maximize className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-slate-700 group-hover:text-blue-700">Resize Image</span>
             </Link>
-            <Link href="/tools/pdf/merge" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-orange-500 hover:shadow-md hover:shadow-orange-500/10 transition-all group">
+            <Link href="/merge-pdf" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-orange-500 hover:shadow-md hover:shadow-orange-500/10 transition-all group">
               <Layers className="w-4 h-4 text-orange-500 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-slate-700 group-hover:text-orange-700">Merge PDF</span>
             </Link>
-            <Link href="/tools/pdf/image-to-pdf" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-rose-500 hover:shadow-md hover:shadow-rose-500/10 transition-all group">
+            <Link href="/image-to-pdf" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-rose-500 hover:shadow-md hover:shadow-rose-500/10 transition-all group">
               <FileImage className="w-4 h-4 text-rose-500 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-slate-700 group-hover:text-rose-700">Image to PDF</span>
             </Link>
-            <Link href="/tools/pdf/pdf-to-image" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-500 hover:shadow-md hover:shadow-red-500/10 transition-all group">
+            <Link href="/pdf-to-image" className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full hover:border-red-500 hover:shadow-md hover:shadow-red-500/10 transition-all group">
               <FileText className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-slate-700 group-hover:text-red-700">PDF to Image</span>
             </Link>
