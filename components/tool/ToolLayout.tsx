@@ -13,7 +13,7 @@ interface ToolLayoutProps {
 
 export function ToolLayout({ children }: ToolLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-slate-50 via-white to-slate-50 font-sans text-slate-900">
+    <div className="min-h-screen flex flex-col bg-slate-50 relative font-sans text-slate-900">
       <Navbar />
 
       <main className="flex-grow flex flex-col pt-[88px] lg:pt-[104px] relative z-10">

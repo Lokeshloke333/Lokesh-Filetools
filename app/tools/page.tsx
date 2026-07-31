@@ -48,7 +48,7 @@ export default function ToolsPage() {
   ]);
 
   return (
-    <main className="min-h-screen flex flex-col bg-slate-50">
+    <main className="min-h-screen flex flex-col bg-slate-50 relative">
       <JsonLd data={breadcrumbs} />
       <Navbar />
       
