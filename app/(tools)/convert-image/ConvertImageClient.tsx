@@ -269,7 +269,7 @@ export function ConvertImageClient({
               {conversions.map((conv) => (
                 <Link 
                   key={conv.slug} 
-                  href={`/tools/image/${conv.slug}`}
+                  href={`/${conv.slug}`}
                   className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-md hover:-translate-y-1 transition-all group"
                 >
                   <span className="font-semibold text-slate-700 group-hover:text-blue-700 transition-colors">
@@ -282,15 +282,6 @@ export function ConvertImageClient({
           ))}
         </div>
       </div>
-
-      <RelatedTools />
-      
-      <FAQSection faqs={faqs} />
-      
-      <AboutTool 
-        title={aboutTitle}
-        content={aboutContent}
-      />
     </ToolLayout>
   );
 }

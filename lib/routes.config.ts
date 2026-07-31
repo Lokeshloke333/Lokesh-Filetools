@@ -64,40 +64,13 @@ export const categoryRoutes: RouteEntry[] = [];
  *   }));
  */
 
-export const toolRoutes: RouteEntry[] = [
-  // Image tools
-  { path: "/compress-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/convert-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/crop-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/resize-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/rotate-image", changeFrequency: "weekly", priority: 0.9 },
+import { TOOLS } from "@/lib/tools";
 
-  // Video tools
-  { path: "/compress-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/convert-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/merge-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/rotate-video", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/trim-video", changeFrequency: "weekly", priority: 0.9 },
-
-  // PDF tools
-  { path: "/compress-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/image-to-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/merge-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/pdf-to-image", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/split-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/unlock-pdf", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/word-to-pdf", changeFrequency: "weekly", priority: 0.9 },
-
-  // Audio tools
-  { path: "/compress-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/convert-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/trim-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/merge-audio", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/extract-audio", changeFrequency: "weekly", priority: 0.9 },
-
-  // AI tools
-  { path: "/remove-background", changeFrequency: "weekly", priority: 0.9 },
-];
+export const toolRoutes: RouteEntry[] = TOOLS.map((tool) => ({
+  path: tool.href,
+  changeFrequency: "weekly",
+  priority: tool.featured ? 1.0 : 0.9,
+}));
 
 /* -------------------------------------------------------------------- */
 /*  Aggregate export                                                     */

@@ -8,6 +8,7 @@ import { ToolSettings } from "@/components/tool/ToolSettings";
 import { RelatedTools } from "@/components/tool/RelatedTools";
 import { FAQSection } from "@/components/tool/FAQSection";
 import { AboutTool } from "@/components/tool/AboutTool";
+import { ToolContent } from "@/components/seo/ToolContent";
 import { Button } from "@/components/ui/button";
 import { FileDown, Loader2, Lightbulb, FileText, Minimize } from "lucide-react";
 import { usePdfCompress } from "@/hooks/usePdfCompress";
@@ -145,24 +146,22 @@ export default function CompressPdfPage() {
         )}
 
       </div>
-
-      <RelatedTools />
-      <FAQSection faqs={faqs} />
-      
-      <AboutTool 
-        title="About Compress PDF"
-        content={
-          <>
-            <p>
-              Our Compress PDF tool allows you to dramatically reduce the file size of your documents without losing visual clarity. This makes sharing files over email, uploading to web portals, or storing on your device much faster and more efficient.
-            </p>
-            <p>
-              We process everything securely on our servers without storing your files. Once your compressed file is generated, the original PDF is immediately discarded, ensuring your data remains private and protected.
-            </p>
-          </>
-        }
+      <ToolContent 
+        toolId="compress-pdf" 
+        title="Compress PDF" 
+        description="Reduce your PDF file size instantly while maintaining the best possible quality." 
+        howToSteps={[
+          "Drag and drop or select the PDF document you want to compress.",
+          "Choose your desired compression level (Low, Medium, or High) depending on your size needs.",
+          "Click compress and download your newly optimized PDF file instantly."
+        ]}
+        features={[
+          "Advanced QPDF WASM optimization engine",
+          "Multiple compression levels",
+          "Maintains text and vector sharpness",
+          "Zero upload time - processing happens entirely in your browser"
+        ]}
       />
-
     </ToolLayout>
   );
 }

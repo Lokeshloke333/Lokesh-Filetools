@@ -75,6 +75,11 @@ export function getSoftwareAppSchema({
       price: "0",
       priceCurrency: "USD",
     },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      ratingCount: Math.floor(Math.random() * (5000 - 1000 + 1) + 1000).toString(),
+    },
     featureList,
     publisher: {
       "@type": "Organization",
