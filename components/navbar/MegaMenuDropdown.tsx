@@ -172,7 +172,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
                 </div>
                 
                 {category.items.length > 0 ? (
-                  <ul className="grid grid-cols-1 gap-2">
+                  <ul className="grid grid-cols-1 gap-2 overflow-y-auto overscroll-contain pr-2 -mr-2 max-h-[calc(100vh-17rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300">
                     {category.items.map((item) => {
                       const isItemActive = pathname === item.href;
                       const ItemIcon = item.icon;
