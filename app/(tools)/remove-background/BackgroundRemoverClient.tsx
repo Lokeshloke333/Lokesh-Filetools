@@ -20,7 +20,11 @@ import { downloadBlob } from "@/lib/ai/imageDownload";
 import { AIQualityMode, getModelForMode } from "@/lib/ai/aiConstants";
 import { loadImage } from "@/lib/ai/imageUtils";
 
-export default function BackgroundRemoverClient() {
+interface BackgroundRemoverClientProps {
+  children?: React.ReactNode;
+}
+
+export default function BackgroundRemoverClient({ children }: BackgroundRemoverClientProps) {
   const [file, setFile] = useState<File | null>(null);
   const [originalImageUrl, setOriginalImageUrl] = useState<string | null>(null);
   const [processedBlob, setProcessedBlob] = useState<Blob | null>(null);
@@ -423,6 +427,7 @@ export default function BackgroundRemoverClient() {
           </>
         }
       />
+      {children}
     </ToolLayout>
   );
 }

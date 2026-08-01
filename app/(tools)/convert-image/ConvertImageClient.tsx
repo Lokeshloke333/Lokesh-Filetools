@@ -34,6 +34,7 @@ export interface ConvertImageClientProps {
   faqs?: { question: string; answer: string }[];
   aboutTitle?: string;
   aboutContent?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export function ConvertImageClient({
@@ -65,7 +66,8 @@ export function ConvertImageClient({
         By utilizing native server-side image processing algorithms, your photos are converted at lightning speed without installing any software.
       </p>
     </>
-  )
+  ),
+  children
 }: ConvertImageClientProps) {
   const [stripMetadata, setStripMetadata] = useState(true);
 
@@ -282,6 +284,7 @@ export function ConvertImageClient({
           ))}
         </div>
       </div>
+      {children}
     </ToolLayout>
   );
 }

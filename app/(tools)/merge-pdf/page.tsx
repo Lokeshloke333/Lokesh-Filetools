@@ -148,23 +148,6 @@ export default function MergePdfPage() {
 
       </div>
 
-      <ToolContent 
-        toolId="merge-pdf" 
-        title="Merge PDF" 
-        description="Combine multiple PDF documents into a single, organized file easily and securely." 
-        howToSteps={[
-          "Upload two or more PDF files you wish to combine.",
-          "Drag the files to rearrange them into your desired order.",
-          "Click merge and download your single combined PDF document."
-        ]}
-        features={[
-          "Drag-and-drop page reordering",
-          "Fast processing on secure servers",
-          "Files are automatically deleted after processing",
-          "No registration or watermarks"
-        ]}
-        faqs={faqs}
-      />
 
     </ToolLayout>
   );

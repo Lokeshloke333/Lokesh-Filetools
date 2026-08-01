@@ -25,6 +25,7 @@ export interface ConvertVideoClientProps {
   subtitle?: string;
   aboutTitle?: string;
   aboutContent?: React.ReactNode;
+  children?: React.ReactNode;
   supported?: boolean;
   faqs?: { question: string; answer: string }[];
 }
@@ -36,6 +37,7 @@ export default function ConvertVideoClient({
   subtitle = "Convert videos between MP4, MOV, MKV, and WEBM entirely in your browser without uploading.",
   aboutTitle,
   aboutContent,
+  children,
   supported = true,
   faqs = [
     {
@@ -294,27 +296,7 @@ export default function ConvertVideoClient({
          </div>
       </div>
 
-      <div className="mt-16 max-w-6xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-slate-800 text-center mb-12">Why use Fileinator?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           {[
-             { title: "Browser Based", desc: "Converts videos directly using your device hardware." },
-             { title: "Secure & Private", desc: "Your video files never leave your device. 100% private." },
-             { title: "No Watermarks", desc: "We never add watermarks to your converted videos." },
-             { title: "Multiple Codecs", desc: "Support for H.264, H.265 (HEVC), and VP9 encoding." },
-             { title: "GIF Creation", desc: "Easily convert short video clips into animated GIFs." },
-             { title: "High-quality output", desc: "Preserve original quality or compress to save space." }
-           ].map((f, i) => (
-             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200">
-               <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                 <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs">✓</div>
-                 {f.title}
-               </h4>
-               <p className="text-sm text-slate-600">{f.desc}</p>
-             </div>
-           ))}
-        </div>
-      </div>
+
 
       <RelatedTools />
       <FAQSection faqs={faqs} />
@@ -337,6 +319,7 @@ export default function ConvertVideoClient({
             }
           />
         )}
+      {children}
     </ToolLayout>
   );
 }

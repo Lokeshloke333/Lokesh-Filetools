@@ -22,6 +22,7 @@ export interface ConvertAudioClientProps {
   subtitle?: string;
   aboutTitle?: string;
   aboutContent?: React.ReactNode;
+  children?: React.ReactNode;
   supported?: boolean;
   faqs?: { question: string; answer: string }[];
 }
@@ -33,6 +34,7 @@ export default function ConvertAudioClient({
   subtitle = "Convert audio files between MP3, WAV, FLAC and more without losing quality.",
   aboutTitle,
   aboutContent,
+  children,
   supported = true,
   faqs = [
     {
@@ -252,6 +254,7 @@ export default function ConvertAudioClient({
             }
           />
         )}
+      {children}
     </ToolLayout>
   );
 }

@@ -212,27 +212,7 @@ export default function TrimVideoClient() {
          </div>
       </div>
 
-      <div className="mt-16 max-w-6xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-slate-800 text-center mb-12">Why use Fileinator?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           {[
-             { title: "Browser Based", desc: "Trims videos directly using your device hardware." },
-             { title: "Secure & Private", desc: "Your video files never leave your device. 100% private." },
-             { title: "Instant Processing", desc: "We use stream copying to cut videos in seconds, not minutes." },
-             { title: "No File Uploads", desc: "Because we process locally, you save bandwidth and time." },
-             { title: "Interactive Slider", desc: "Preview your cuts perfectly with our interactive HTML5 player." },
-             { title: "Free Forever", desc: "No watermarks, no hidden fees, and no account required." }
-           ].map((f, i) => (
-             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200">
-               <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                 <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs">✓</div>
-                 {f.title}
-               </h4>
-               <p className="text-sm text-slate-600">{f.desc}</p>
-             </div>
-           ))}
-        </div>
-      </div>
+
 
       <RelatedTools />
       <FAQSection faqs={faqs} />

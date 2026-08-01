@@ -17,7 +17,11 @@ import { MediaResultCard } from "@/components/tool/media/MediaResultCard";
 import { AudioExtractionOptionsPanel, AudioExtractionOptions } from "@/components/tool/media/AudioExtractionOptions";
 import { getBasicMediaMetadata, MediaMetadata } from "@/lib/utils/media";
 
-export default function ExtractAudioClient() {
+interface ExtractAudioClientProps {
+  children?: React.ReactNode;
+}
+
+export default function ExtractAudioClient({ children }: ExtractAudioClientProps) {
   const {
     fileInfo,
     handleFileSelect,
@@ -180,49 +184,6 @@ export default function ExtractAudioClient() {
         )}
       </div>
 
-      <div className="mt-16 border-t border-slate-200 pt-16 max-w-6xl mx-auto w-full">
-         <h2 className="text-3xl font-bold text-slate-800 text-center mb-12">How It Works</h2>
-         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 text-center max-w-4xl mx-auto">
-            {[
-              { step: 1, title: "Upload Video", desc: "Drag and drop your file" },
-              { step: 2, title: "Review", desc: "Check file metadata" },
-              { step: 3, title: "Format", desc: "Select audio format" },
-              { step: 4, title: "Extract", desc: "Instant local processing" },
-              { step: 5, title: "Download", desc: "Save audio to device" }
-            ].map(s => (
-               <div key={s.step} className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold text-lg mb-4">
-                     {s.step}
-                  </div>
-                  <h4 className="font-bold text-slate-800 mb-1">{s.title}</h4>
-                  <p className="text-xs text-slate-500">{s.desc}</p>
-               </div>
-            ))}
-         </div>
-      </div>
-
-      <div className="mt-16 max-w-6xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-slate-800 text-center mb-12">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           {[
-             { title: "Client-side processing", desc: "All processing happens in your browser using FFmpeg WebAssembly." },
-             { title: "Secure & Private", desc: "Your video files never leave your device. 100% private." },
-             { title: "Fast extraction", desc: "Utilizes your device's full CPU power for rapid extraction." },
-             { title: "Multiple formats", desc: "Export to MP3, WAV, AAC, FLAC, and OGG easily." },
-             { title: "High-quality audio", desc: "Preserve original quality or compress with high bitrates." },
-             { title: "No uploads", desc: "Since files aren't uploaded, you save time and bandwidth." }
-           ].map((f, i) => (
-             <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200">
-               <h4 className="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                 <div className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs">✓</div>
-                 {f.title}
-               </h4>
-               <p className="text-sm text-slate-600">{f.desc}</p>
-             </div>
-           ))}
-        </div>
-      </div>
-
       <RelatedTools />
       <FAQSection faqs={faqs} />
       
@@ -239,6 +200,7 @@ export default function ExtractAudioClient() {
           </>
         }
       />
+      {children}
     </ToolLayout>
   );
 }

@@ -146,23 +146,7 @@ export default function CompressPdfPage() {
         )}
 
       </div>
-      <ToolContent 
-        toolId="compress-pdf" 
-        title="Compress PDF" 
-        description="Reduce your PDF file size instantly while maintaining the best possible quality." 
-        howToSteps={[
-          "Drag and drop or select the PDF document you want to compress.",
-          "Choose your desired compression level (Low, Medium, or High) depending on your size needs.",
-          "Click compress and download your newly optimized PDF file instantly."
-        ]}
-        features={[
-          "Advanced QPDF WASM optimization engine",
-          "Multiple compression levels",
-          "Maintains text and vector sharpness",
-          "Zero upload time - processing happens entirely in your browser"
-        ]}
-        faqs={faqs}
-      />
+
     </ToolLayout>
   );
 }
