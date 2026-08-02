@@ -5,6 +5,7 @@ import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/common/PageHero";
 import { Container } from "@/components/ui/Container";
 import Link from "next/link";
+import NextImage from "next/image";
 import { ArrowRight, Image as ImageIcon } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -33,24 +34,30 @@ export default function BlogPage() {
   const posts = [
     {
       category: "Guides",
-      date: "Oct 12, 2023",
+      date: "Aug 02, 2026",
+      title: "How to Remove Background from Images Online",
+      imageColor: "bg-indigo-100",
+      iconColor: "text-indigo-500",
+      href: "/remove-background-from-images-online",
+      image: "/blog/bg_remove_icon.png",
+    },
+    {
+      category: "Guides",
+      date: "Aug 02, 2026",
+      title: "JPG vs PNG: Which Image Format Should You Use?",
+      imageColor: "bg-orange-100",
+      iconColor: "text-orange-500",
+      href: "/jpg-vs-png-which-image-format",
+      image: "/blog/jpg_png_icon.png",
+    },
+    {
+      category: "Guides",
+      date: "Aug 02, 2026",
       title: "How to compress PDF files without losing quality",
       imageColor: "bg-purple-100",
       iconColor: "text-purple-500",
-    },
-    {
-      category: "News",
-      date: "Oct 05, 2023",
-      title: "Introducing our new AI-powered document translator",
-      imageColor: "bg-blue-100",
-      iconColor: "text-blue-500",
-    },
-    {
-      category: "Tips",
-      date: "Sep 28, 2023",
-      title: "Top 5 ways to secure your confidential files online",
-      imageColor: "bg-emerald-100",
-      iconColor: "text-emerald-500",
+      href: "/compress-pdf-without-losing-quality",
+      image: "/blog/pdf_compress_icon.png",
     },
   ];
 
@@ -93,10 +100,14 @@ export default function BlogPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {posts.map((post, i) => (
-              <Link key={i} href="#" className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl transition-all duration-300">
-                {/* Fake Image Placeholder */}
+              <Link key={i} href={post.href || "#"} className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl transition-all duration-300">
+                {/* Image or Placeholder */}
                 <div className={`h-48 w-full ${post.imageColor} flex items-center justify-center relative overflow-hidden`}>
-                  <ImageIcon className={`w-12 h-12 ${post.iconColor} opacity-50`} />
+                  {post.image ? (
+                    <NextImage src={post.image} alt={post.title} fill className="object-cover" />
+                  ) : (
+                    <ImageIcon className={`w-12 h-12 ${post.iconColor} opacity-50`} />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
                 
