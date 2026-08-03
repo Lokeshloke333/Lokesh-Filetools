@@ -12,6 +12,8 @@ interface UploadAreaProps {
   multiple?: boolean;
   error?: string | null;
   onErrorClear?: () => void;
+  disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 export function UploadArea({
@@ -23,6 +25,8 @@ export function UploadArea({
   multiple = false,
   error,
   onErrorClear,
+  disabled = false,
+  children,
 }: UploadAreaProps) {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +84,8 @@ export function UploadArea({
     <div
       role="button"
       tabIndex={0}
-      className={`relative w-full h-[320px] rounded-3xl flex flex-col items-center justify-center p-8 transition-all duration-300 border-2 border-dashed cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+      className={`relative w-full rounded-3xl flex flex-col items-center justify-center transition-all duration-300 border-2 border-dashed cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
+        ${children ? 'p-6 min-h-[160px]' : 'p-8 min-h-[240px]'}
         ${
           isDragging
             ? "border-blue-500 bg-blue-50/50 shadow-inner"
@@ -89,12 +94,12 @@ export function UploadArea({
             : "border-slate-300 bg-white hover:bg-slate-50 hover:border-blue-300"
         }
       `}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      onClick={() => fileInputRef.current?.click()}
+      onDragOver={disabled ? undefined : handleDragOver}
+      onDragLeave={disabled ? undefined : handleDragLeave}
+      onDrop={disabled ? undefined : handleDrop}
+      onClick={() => { if (!disabled) fileInputRef.current?.click(); }}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
           fileInputRef.current?.click();
         }
@@ -107,29 +112,35 @@ export function UploadArea({
         className="hidden"
         multiple={multiple}
         accept={accept || acceptedFormats.split(", ").flatMap(f => f.includes('/') ? f.split('/').map(sub => `.${sub.toLowerCase().trim()}`) : `.${f.toLowerCase().trim()}`).join(",")}
+        disabled={disabled}
       />
       
-      <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 border ${error ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100'}`}>
-        <UploadCloud className={`w-8 h-8 ${error ? 'text-red-500' : 'text-blue-600'}`} />
-      </div>
-      
-      <h3 className="text-xl font-bold text-slate-800 mb-2 text-center pointer-events-none">
-        Drop your {multiple ? "files" : "file"} here or{" "}
-        <span className="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer pointer-events-auto">
-          browse
-        </span>
-      </h3>
-      
-      <p className="text-slate-500 text-sm text-center font-medium">
-        Supports {acceptedFormats} • Up to {maxSizeMB} MB
-      </p>
+      {children ? (
+        children
+      ) : (
+        <>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-6 border ${error ? 'bg-red-50 border-red-100' : 'bg-blue-50 border-blue-100'}`}>
+            <UploadCloud className={`w-8 h-8 ${error ? 'text-red-500' : 'text-blue-600'}`} />
+          </div>
+          
+          <h3 className="text-xl font-bold text-slate-800 mb-2 text-center pointer-events-none">
+            Drop your {multiple ? "files" : "file"} here or{" "}
+            <span className="text-blue-600 hover:text-blue-700 hover:underline cursor-pointer pointer-events-auto">
+              browse
+            </span>
+          </h3>
+          
+          <p className="text-slate-500 text-sm text-center font-medium">
+            Supports {acceptedFormats} • Up to {maxSizeMB} MB
+          </p>
 
-      {error && (
-        <div className="mt-6 px-4 py-2 bg-red-100 text-red-700 text-sm font-semibold rounded-xl animate-in fade-in slide-in-from-bottom-2">
-          {error}
-        </div>
+          {error && (
+            <div className="mt-6 px-4 py-2 bg-red-100 text-red-700 text-sm font-semibold rounded-xl animate-in fade-in slide-in-from-bottom-2">
+              {error}
+            </div>
+          )}
+        </>
       )}
-
     </div>
   );
 }

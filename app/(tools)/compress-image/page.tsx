@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { ToolLayout } from "@/components/tool/ToolLayout";
 import { ToolHeader } from "@/components/tool/ToolHeader";
 import { UploadArea } from "@/components/tool/UploadArea";
@@ -13,12 +13,13 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Minimize2, Wand2, Lightbulb, Zap } from "lucide-react";
+import { Minimize2, Wand2, Lightbulb, Zap, Loader2, CheckCircle2, Download, Plus } from "lucide-react";
 import { useBatchImageCompressor } from "@/hooks/useBatchImageCompressor";
 import { useDownload } from "@/hooks/useDownload";
 import { BatchResultCard } from "@/components/tool/BatchResultCard";
 import { BatchSummaryCard } from "@/components/tool/BatchSummaryCard";
 import { FILE_LIMITS } from "@/lib/config";
+import { formatFileSize } from "@/lib/utils/image";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function CompressImagePage() {
@@ -39,14 +40,14 @@ export default function CompressImagePage() {
 
   const { handleDownload, handleBatchDownload } = useDownload();
 
-  const handleStartCompression = () => {
+  const handleStartCompression = React.useCallback(() => {
     processAll({
       quality,
       format: targetFormat,
       stripMetadata,
       progressive,
     });
-  };
+  }, [processAll, quality, targetFormat, stripMetadata, progressive]);
 
   const handleDownloadAll = async () => {
     setIsZipping(true);
@@ -63,7 +64,29 @@ export default function CompressImagePage() {
 
   const pendingItems = items.filter(i => i.status === "pending" || i.status === "error");
   const hasItems = items.length > 0;
-  const allCompleted = hasItems && items.every(i => i.status === "completed");
+  const completedItems = items.filter(i => i.status === "completed");
+  const allCompleted = hasItems && completedItems.length === items.length;
+
+  useEffect(() => {
+    // If we have pending items, are not processing, and there's already a completed item in the list
+    // it means the user just added more items to an existing batch. Start processing automatically.
+    if (pendingItems.length > 0 && !isProcessing && items.some(i => i.status === "completed")) {
+      handleStartCompression();
+    }
+  }, [pendingItems.length, isProcessing, items, handleStartCompression]);
+
+  const summary = useMemo(() => {
+    const totalOriginal = completedItems.reduce((acc, item) => acc + (item.file.size || 0), 0);
+    const totalCompressed = completedItems.reduce((acc, item) => {
+      const isAlreadyOptimized = item.result?.message === "Already Optimized ✓" || (item.result && item.result.processedSize >= item.result.originalSize);
+      return acc + (isAlreadyOptimized ? item.file.size : (item.result?.processedSize || 0));
+    }, 0);
+    
+    const totalSaved = totalOriginal - totalCompressed;
+    const savedPercentage = totalOriginal > 0 ? (totalSaved / totalOriginal) * 100 : 0;
+    
+    return { totalOriginal, totalCompressed, totalSaved, savedPercentage };
+  }, [completedItems]);
 
   const faqs = [
     {
@@ -99,9 +122,70 @@ export default function CompressImagePage() {
           <UploadArea 
             acceptedFormats="JPG/JPEG, PNG, WebP, GIF, AVIF"
             maxSizeMB={FILE_LIMITS.IMAGE_MAX_SIZE_MB}
-            onFilesSelect={addFiles}
+            onFilesSelect={(files) => {
+              addFiles(files);
+              // Automatically start processing if we add files while processing or if we were completed?
+              // The user requested: "Add 5 more images -> Batch 2 starts".
+              // For safety, let the user click "Optimize" or auto-start if already processed previously.
+              // Let's implement auto-start if we add more items and we already completed a batch.
+              // We can't call processAll here cleanly since state needs to update. We will rely on user clicking Optimize, OR we can add a useEffect to auto-start.
+              // Let's stick to simple UI for now.
+            }}
             multiple={true}
-          />
+            disabled={isProcessing}
+          >
+            {isProcessing ? (
+              <div className="flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300 w-full text-center">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6">
+                  <Loader2 className="w-8 h-8 text-white animate-spin" />
+                </div>
+                <h3 className="text-2xl font-bold text-slate-800 mb-2 flex items-center justify-center w-full">
+                  <Zap className="w-6 h-6 mr-2 text-blue-600" />
+                  Optimizing Images...
+                </h3>
+                <p className="text-slate-500 font-medium mb-6">Processing {items.length} images</p>
+                
+                {/* Progress bar mock (since we don't track overall % easily, we can just show a generic pulse) */}
+                <div className="w-full max-w-md h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-500 rounded-full animate-[pulse_2s_ease-in-out_infinite] w-full origin-left scale-x-75"></div>
+                </div>
+                
+                <p className="text-sm text-slate-400 mt-6">Please keep this tab open while optimization completes.</p>
+              </div>
+            ) : allCompleted ? (
+              <div className="flex flex-col items-center justify-center animate-in fade-in zoom-in duration-300 w-full text-center">
+                <div className="w-14 h-14 flex-none shrink-0 aspect-square bg-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 mb-4">
+                  <CheckCircle2 className="w-7 h-7 text-white shrink-0" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-6">
+                  Images Optimized Successfully
+                </h3>
+
+                <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[90%] mb-4">
+                  <Button 
+                    size="lg" 
+                    className="flex-1 rounded-xl shadow-lg shadow-blue-500/20 pointer-events-auto" 
+                    onClick={(e) => { e.stopPropagation(); handleDownloadAll(); }}
+                    disabled={isZipping}
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    {isZipping ? "Zipping..." : "Download All"}
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="flex-1 rounded-xl bg-white border-slate-200 pointer-events-auto"
+                    onClick={(e) => { e.stopPropagation(); /* parent onClick triggers file picker */ }}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add More Images
+                  </Button>
+                </div>
+                
+                <p className="text-xs text-slate-500 font-medium">You can drag more images here or browse to optimize another batch.</p>
+              </div>
+            ) : null}
+          </UploadArea>
 
           {hasItems && (
             <div className="mt-4 flex flex-col gap-3">
@@ -109,7 +193,7 @@ export default function CompressImagePage() {
                 <h3 className="font-bold text-slate-800 text-lg">
                   Files ({items.length})
                 </h3>
-                {pendingItems.length > 0 && (
+                {items.length > 0 && (
                   <Button variant="ghost" size="sm" onClick={clearAll} className="text-slate-500 hover:text-red-600">
                     Clear All
                   </Button>
@@ -137,7 +221,12 @@ export default function CompressImagePage() {
             <BatchSummaryCard 
               items={items}
               onDownloadAll={handleDownloadAll}
-              onCompressMore={clearAll}
+              onCompressMore={() => {
+                // To "compress more", we can just open the file dialog
+                // We'll leave the clearAll to the clear all button so they can keep their results.
+                const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+                if (input) input.click();
+              }}
               isDownloading={isZipping}
             />
           )}
@@ -175,7 +264,7 @@ export default function CompressImagePage() {
                 ) : (
                   <>
                     <Wand2 className="w-5 h-5 mr-2" />
-                    Optimize Images
+                    Optimize {pendingItems.length > 0 ? pendingItems.length : ""} Images
                   </>
                 )}
               </Button>
