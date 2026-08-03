@@ -73,24 +73,25 @@ export async function processCompress(params: ProcessImageParams<CompressSetting
       outputBuffer = buffer;
     }
 
-    // Stop if we found a smaller file, or if it's not the same format (we don't strictly enforce size for format conversion)
-    if (outputBuffer.length < originalSize || !isSameFormat) {
+    // Stop if we found a smaller file
+    if (outputBuffer.length < originalSize) {
       finalBuffer = outputBuffer;
       break;
     }
 
-    // It's the same format and output is larger
+    // Output is larger, decrease quality and try again
     currentQuality -= 5;
     if (currentQuality < minQuality) {
+      finalBuffer = outputBuffer;
       break;
     }
   }
 
-  // After loop, if finalBuffer is still null, it means we never found a smaller version (for same format)
-  // Or if the finalBuffer we ended up with is STILL larger than original (edge cases)
-  if (!finalBuffer || (isSameFormat && finalBuffer.length >= originalSize)) {
+  // After loop, if finalBuffer is still null or it's larger than the original
+  if (!finalBuffer || finalBuffer.length >= originalSize) {
     finalBuffer = buffer; // Return original
-    message = "This image is already highly optimized. Returning the original file because no smaller version could be produced without reducing quality.";
+    outputFormat = originalFormat; // Revert format
+    message = "Already Optimized ✓";
   }
 
   const metadata = await getMetadata(finalBuffer);
