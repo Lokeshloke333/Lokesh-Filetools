@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 
-const CATEGORIES = ["All Tools", "Image", "PDF", "Video", "Audio", "Utilities"];
+const CATEGORIES = ["All Tools", "Image", "PDF", "Video", "Audio", "AI", "Utilities"];
 const POPULAR_SEARCHES = ["Compress Image", "Resize Image", "Crop Image", "PDF", "Convert", "PNG", "JPG", "WEBP"];
 
 export function ToolsDirectory() {
@@ -75,7 +75,7 @@ export function ToolsDirectory() {
       params.set("category", cat.toLowerCase());
     }
     // Delete search param if they switch categories explicitly? Or keep it? The user said "preserve search functionality" so maybe keep it.
-    router.push(`/tools?${params.toString()}`, { scroll: false });
+    router.push(`/alltools?${params.toString()}`, { scroll: false });
   };
 
   const handleSearchChange = (query: string) => {
@@ -86,7 +86,7 @@ export function ToolsDirectory() {
     } else {
       params.delete("q");
     }
-    router.replace(`/tools?${params.toString()}`, { scroll: false });
+    router.replace(`/alltools?${params.toString()}`, { scroll: false });
   };
 
   // Calculate counts for categories
@@ -125,7 +125,7 @@ export function ToolsDirectory() {
   }, [selectedCategory, searchQuery]);
 
   const handlePopularSearch = (term: string) => {
-    router.push(`/tools?q=${encodeURIComponent(term)}`);
+    router.push(`/alltools?q=${encodeURIComponent(term)}`);
     const toolsSection = document.getElementById("all-tools-grid");
     if (toolsSection) {
       const y = toolsSection.getBoundingClientRect().top + window.scrollY - 100;
@@ -202,7 +202,7 @@ export function ToolsDirectory() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <ToolGrid tools={filteredAndSortedTools} />
+              <ToolGrid tools={filteredAndSortedTools} variant="compact" />
             </motion.div>
           </AnimatePresence>
         </div>

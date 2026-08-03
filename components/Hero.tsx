@@ -204,7 +204,7 @@ export function Hero() {
           className="flex items-center justify-center mt-[32px] mb-[32px]"
         >
           <Link 
-            href="/tools" 
+            href="/alltools" 
             className="group inline-flex items-center gap-[8px] px-[24px] py-[12px] rounded-full bg-slate-900 shadow-md shadow-slate-900/10 text-[15px] font-semibold text-white hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/20 hover:-translate-y-[1px] transition-all duration-200"
           >
             Explore All Tools 

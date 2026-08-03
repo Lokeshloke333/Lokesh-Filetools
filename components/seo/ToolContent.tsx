@@ -117,7 +117,7 @@ export function ToolContent({ toolId, title, description, features, howToSteps, 
         <section>
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-2xl font-bold text-slate-900">Related Tools</h3>
-            <Link href="/tools" className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1">
+            <Link href="/alltools" className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1">
               View all <ChevronRight className="w-4 h-4" />
             </Link>
           </div>

@@ -31,7 +31,7 @@ export function CategorySection() {
               key={cat.id}
               category={cat}
               toolCount={toolCounts[cat.id] || 0}
-              href={cat.status === "active" ? `/tools?category=${cat.id}` : "#"}
+              href={cat.status === "active" ? `/alltools?category=${cat.id}` : "#"}
             />
           ))}
         </div>

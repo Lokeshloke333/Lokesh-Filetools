@@ -37,7 +37,7 @@ export const CATEGORY_DATA: CategoryData[] = [
     icon: Video,
     gradient: "from-blue-500 to-indigo-600",
     shadow: "shadow-blue-500/20",
-    status: "coming-soon",
+    status: "active",
   },
   {
     id: "Audio",
@@ -55,7 +55,16 @@ export const CATEGORY_DATA: CategoryData[] = [
     icon: Wrench,
     gradient: "from-emerald-500 to-teal-600",
     shadow: "shadow-emerald-500/20",
-    status: "coming-soon",
+    status: "active",
+  },
+  {
+    id: "AI",
+    title: "AI Tools",
+    description: "Image Upscaler, Object Remover, and AI Enhancers.",
+    icon: Sparkles,
+    gradient: "from-fuchsia-500 to-pink-600",
+    shadow: "shadow-fuchsia-500/20",
+    status: "active",
   },
 ];
 

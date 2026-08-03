@@ -73,20 +73,13 @@ export function Navbar() {
             {navigationData.map((category) => (
               <MegaMenuDropdown key={category.title} category={category} />
             ))}
-            
-            <Link 
-              href="/tools" 
-              className="text-sm font-semibold text-slate-700 hover:text-blue-700 hover:bg-white hover:shadow-sm px-4 py-2 rounded-full transition-all duration-200 hover:-translate-y-[1px]"
-            >
-              Browse Tools
-            </Link>
           </div>
         </nav>
 
         {/* CTA Button Desktop */}
         <div className="hidden lg:flex items-center flex-shrink-0">
           <Button asChild className="rounded-full px-7 py-2.5 h-auto text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:via-indigo-500 hover:to-purple-500 text-white shadow-md shadow-blue-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500/50">
-            <Link href="/contact">Contact</Link>
+            <Link href="/alltools">All Tools</Link>
           </Button>
         </div>
 

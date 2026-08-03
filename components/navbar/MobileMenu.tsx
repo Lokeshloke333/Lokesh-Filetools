@@ -45,14 +45,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </div>
 
             {/* Other Links */}
-            <Link href="/tools" onClick={onClose} className="border-b border-slate-100 py-4 text-lg font-medium text-slate-800 hover:text-blue-600 transition-colors">
-              Browse Tools
-            </Link>
 
             {/* CTA */}
             <div className="pt-8 pb-4">
               <Button asChild size="lg" className="w-full rounded-full text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-500/25 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 border border-white/20">
-                <Link href="/contact" onClick={onClose}>Contact</Link>
+                <Link href="/alltools" onClick={onClose}>All Tools</Link>
               </Button>
             </div>
           </div>
@@ -184,7 +181,7 @@ function MobileCategoryItem({
                           ))}
                           
                           <Link 
-                            href={`/tools?category=${category.title.split(' ')[0].toLowerCase()}`}
+                            href={`/alltools?category=${category.title.split(' ')[0].toLowerCase()}`}
                             onClick={onClose}
                             className="text-xs font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700 mt-2 py-1.5"
                           >

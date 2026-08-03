@@ -9,7 +9,8 @@ import {
   FileText, 
   Video, 
   Music, 
-  Wrench 
+  Wrench,
+  Sparkles
 } from "lucide-react";
 
 interface ToolsFilterBarProps {
@@ -27,6 +28,7 @@ const CategoryIcon = ({ category, className }: { category: string, className?: s
     case "PDF": return <FileText className={className} />;
     case "Video": return <Video className={className} />;
     case "Audio": return <Music className={className} />;
+    case "AI": return <Sparkles className={className} />;
     case "Utilities": return <Wrench className={className} />;
     default: return null;
   }

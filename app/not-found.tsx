@@ -103,7 +103,7 @@ export default function NotFound() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="rounded-full px-8 w-full sm:w-auto h-12 text-base border-slate-200 hover:bg-slate-50 text-slate-900" asChild>
-              <Link href="/tools">
+              <Link href="/alltools">
                 Browse All Tools
               </Link>
             </Button>

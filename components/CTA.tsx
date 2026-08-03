@@ -100,7 +100,7 @@ export function CTA() {
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Button size="lg" className="group relative bg-white text-blue-700 hover:bg-slate-50 hover:text-blue-800 rounded-full px-8 w-full sm:w-auto h-[56px] text-[17px] font-bold shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all duration-300 overflow-hidden" asChild>
-                <Link href="/tools">
+                <Link href="/alltools">
                   <span className="relative z-10 flex items-center">
                     Get Started Free
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
@@ -109,7 +109,7 @@ export function CTA() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="group bg-white/5 text-white border-white/20 hover:bg-white/10 hover:border-white/40 hover:text-white rounded-full px-8 w-full sm:w-auto h-[56px] text-[17px] font-bold backdrop-blur-md hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300" asChild>
-                <Link href="/tools">
+                <Link href="/alltools">
                   Explore Tools
                 </Link>
               </Button>

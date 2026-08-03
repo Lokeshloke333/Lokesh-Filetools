@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, KeyboardEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight, Sparkles } from "lucide-react";
 import { Category } from "@/lib/navigation";
 
 interface MegaMenuDropdownProps {
@@ -154,7 +154,9 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[750px] bg-[rgba(255,255,255,0.92)] backdrop-blur-[36px] isolate rounded-3xl shadow-2xl shadow-slate-400/30 border border-white/60 overflow-hidden z-50 flex flex-col"
+            className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-[rgba(255,255,255,0.92)] backdrop-blur-[36px] isolate rounded-3xl shadow-2xl shadow-slate-400/30 border border-white/60 overflow-hidden z-50 flex flex-col origin-top ${
+              hasConversions ? 'w-[750px]' : 'w-[400px]'
+            } max-w-[90vw]`}
             role="menu"
           >
             {/* Mega Menu Content Grid */}
@@ -185,7 +187,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
                               item.comingSoon 
                                 ? 'cursor-default opacity-60' 
                                 : isItemActive 
-                                  ? 'bg-blue-50 ring-1 ring-blue-200' 
+                                  ? 'bg-blue-50 ring-1 ring-inset ring-blue-200' 
                                   : 'hover:bg-slate-50'
                             }`}
                             tabIndex={0}
@@ -227,7 +229,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
 
               {/* Column 2: Conversions */}
               {hasConversions && (
-                <div className={`rounded-2xl p-5 md:p-6 ring-1 ring-black/5 ${theme.bg}`}>
+                <div className={`rounded-2xl p-5 md:p-6 ring-1 ring-black/5 ${theme.bg} overflow-y-auto overscroll-contain max-h-[calc(100vh-17rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300`}>
                   <div className="flex items-center gap-2 mb-4">
                     <h3 className={`font-bold text-lg py-1 ${theme.text}`}>
                       Popular Conversions
@@ -268,7 +270,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
                 30+ Supported Formats
               </span>
               <Link 
-                href={`/tools?category=${category.title.split(' ')[0].toLowerCase()}`}
+                href={`/alltools?category=${category.title.split(' ')[0].toLowerCase()}`}
                 className="text-sm font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700 hover:underline"
                 onClick={() => setIsOpen(false)}
               >

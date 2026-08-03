@@ -1,4 +1,4 @@
-import { ImageIcon, FileText, Video, Headphones } from "lucide-react";
+import { ImageIcon, FileText, Video, Headphones, Wand2, Sparkles } from "lucide-react";
 import { TOOLS } from "./tools";
 
 export type ToolItem = {
@@ -30,6 +30,9 @@ const createToolItem = (t: typeof TOOLS[0]) => ({
 const imageTools = TOOLS.filter(t => t.category === "Image" && !t.isSubTool).map(createToolItem);
 const imageConversions = TOOLS.filter(t => t.category === "Image" && t.isSubTool).map(createToolItem);
 
+// AI Tools
+const aiTools = TOOLS.filter(t => t.category === "AI").map(createToolItem);
+
 // PDF Tools
 // Automatically categorize "-to-" as conversions, except those marked as main tools.
 const pdfTools = TOOLS.filter(t => t.category === "PDF" && !t.id.includes("-to-")).map(createToolItem);
@@ -43,7 +46,9 @@ const videoConversions = TOOLS.filter(t => t.category === "Video" && t.isSubTool
 const audioTools = TOOLS.filter(t => t.category === "Audio" && !t.isSubTool).map(createToolItem);
 const audioConversions = TOOLS.filter(t => t.category === "Audio" && t.isSubTool).map(createToolItem);
 
-
+// Utilities Tools
+const utilitiesTools = TOOLS.filter(t => t.category === "Utilities" && !t.isSubTool).map(createToolItem);
+const utilitiesConversions = TOOLS.filter(t => t.category === "Utilities" && t.isSubTool).map(createToolItem);
 
 export const navigationData: Category[] = [
   {
@@ -69,5 +74,16 @@ export const navigationData: Category[] = [
     icon: Headphones,
     items: audioTools,
     conversionItems: audioConversions,
+  },
+  {
+    title: "Utilities",
+    icon: Wand2,
+    items: utilitiesTools,
+    conversionItems: utilitiesConversions,
+  },
+  {
+    title: "AI Tools",
+    icon: Sparkles,
+    items: aiTools,
   }
 ];

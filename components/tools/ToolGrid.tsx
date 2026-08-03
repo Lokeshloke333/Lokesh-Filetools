@@ -46,6 +46,15 @@ const getCategoryColors = (category: string) => {
         textHover: "group-hover:text-emerald-600",
         pillBg: "bg-emerald-50 text-emerald-700",
       };
+    case 'ai':
+      return {
+        iconGradient: "from-fuchsia-500 to-fuchsia-600",
+        iconGlow: "shadow-fuchsia-500/25",
+        borderHover: "hover:border-fuchsia-300",
+        shadowHover: "hover:shadow-fuchsia-500/10",
+        textHover: "group-hover:text-fuchsia-600",
+        pillBg: "bg-fuchsia-50 text-fuchsia-700",
+      };
     case 'utilities':
     default:
       return {

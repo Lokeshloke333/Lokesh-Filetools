@@ -21,7 +21,7 @@ export function PopularTools() {
             align="left"
             className="!mb-0"
           />
-          <Link href="/tools" className="text-blue-600 font-medium flex items-center hover:underline whitespace-nowrap pb-4">
+          <Link href="/alltools" className="text-blue-600 font-medium flex items-center hover:underline whitespace-nowrap pb-4">
             View all tools <ArrowRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
