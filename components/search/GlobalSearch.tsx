@@ -154,7 +154,7 @@ export function GlobalSearch({
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-500 truncate mt-0.5">
+                          <p className="text-xs text-slate-500 truncate mt-0.5 text-left">
                             {tool.description}
                           </p>
                         </div>

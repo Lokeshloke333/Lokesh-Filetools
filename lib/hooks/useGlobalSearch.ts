@@ -68,7 +68,12 @@ export function useGlobalSearch({
     if (query.trim()) {
       setIsOpen(false);
       if (onClose) onClose();
-      router.push(`/tools?q=${encodeURIComponent(query.trim())}`);
+      
+      if (searchResults.length === 1 && searchResults[0].status === "active") {
+        router.push(searchResults[0].href);
+      } else {
+        router.push(`/alltools?q=${encodeURIComponent(query.trim())}`);
+      }
     }
   };
 
