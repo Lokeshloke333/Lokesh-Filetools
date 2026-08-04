@@ -13,7 +13,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 
 const CATEGORIES = ["All Tools", "Image", "PDF", "Video", "Audio", "AI", "Utilities"];
-const POPULAR_SEARCHES = ["Compress Image", "Resize Image", "Crop Image", "PDF", "Convert", "PNG", "JPG", "WEBP"];
 
 export function ToolsDirectory() {
   const searchParams = useSearchParams();
@@ -124,15 +123,6 @@ export function ToolsDirectory() {
     return result;
   }, [selectedCategory, searchQuery]);
 
-  const handlePopularSearch = (term: string) => {
-    router.push(`/alltools?q=${encodeURIComponent(term)}`);
-    const toolsSection = document.getElementById("all-tools-grid");
-    if (toolsSection) {
-      const y = toolsSection.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="flex flex-col">
       {/* 1. Sticky Search + Filter Bar */}
@@ -205,25 +195,6 @@ export function ToolsDirectory() {
               <ToolGrid tools={filteredAndSortedTools} variant="compact" />
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* 4. Popular Searches */}
-        <div className="border-t border-slate-200 pt-10 pb-16">
-          <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <Search className="w-5 h-5 text-slate-400" />
-            Popular Searches
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {POPULAR_SEARCHES.map((term) => (
-              <button
-                key={term}
-                onClick={() => handlePopularSearch(term)}
-                className="px-4 py-2 bg-slate-50 border border-slate-200 text-slate-600 rounded-full text-sm font-medium hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
         </div>
       </Container>
     </div>

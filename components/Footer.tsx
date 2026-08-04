@@ -11,7 +11,7 @@ export function Footer() {
       <Container>
 
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-12 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
 
           {/* Column 1: Brand & Newsletter */}
           <div className="col-span-2 lg:col-span-2">
@@ -42,13 +42,23 @@ export function Footer() {
             </div> */}
           </div>
 
-          {/* Column 2: Products */}
-          <div className="col-span-1 lg:col-span-1 lg:col-start-4">
+          {/* Column 2: Products Left */}
+          <div className="col-span-1 lg:col-span-1">
             <h4 className="text-white font-semibold mb-6">Products</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/#tools" className="hover:text-blue-400 transition-colors">All Tools</Link></li>
-              <li><Link href="/compress-pdf" className="hover:text-blue-400 transition-colors">Compress PDF</Link></li>
-              <li><Link href="/remove-background" className="hover:text-blue-400 transition-colors">Remove Background</Link></li>
+              <li><Link href="/alltools?category=Image" className="hover:text-blue-400 transition-colors">Image Tools</Link></li>
+              <li><Link href="/alltools?category=Video" className="hover:text-blue-400 transition-colors">Video Tools</Link></li>
+              <li><Link href="/alltools?category=Utilities" className="hover:text-blue-400 transition-colors">Utilities</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Products Right */}
+          <div className="col-span-1 lg:col-span-1">
+            <h4 className="text-white font-semibold mb-6">Products</h4>
+            <ul className="space-y-4 text-sm">
+              <li><Link href="/alltools?category=PDF" className="hover:text-blue-400 transition-colors">PDF Tools</Link></li>
+              <li><Link href="/alltools?category=Audio" className="hover:text-blue-400 transition-colors">Audio Tools</Link></li>
+              <li><Link href="/alltools?category=AI" className="hover:text-blue-400 transition-colors">AI Tools</Link></li>
             </ul>
           </div>
 
@@ -56,19 +66,9 @@ export function Footer() {
           <div className="col-span-1">
             <h4 className="text-white font-semibold mb-6">Company</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/contact" className="hover:text-blue-400 transition-colors">Contact Us</Link></li>
-              <li><Link href="#" className="hover:text-blue-400 transition-colors">About Us</Link></li>
-              <li><Link href="/blog" className="hover:text-blue-400 transition-colors">Blog</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Legal */}
-          <div className="col-span-1">
-            <h4 className="text-white font-semibold mb-6">Legal</h4>
-            <ul className="space-y-4 text-sm">
-              <li><Link href="/privacy-policy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms-and-conditions" className="hover:text-blue-400 transition-colors">Terms & Conditions</Link></li>
-              <li><Link href="/cookie-policy" className="hover:text-blue-400 transition-colors">Cookie Policy</Link></li>
+              <li><Link href="/contact" className="hover:text-blue-400 transition-colors">Reach Us</Link></li>
+              <li><Link href="#" className="hover:text-blue-400 transition-colors">About</Link></li>
+              <li><Link href="/blog" className="hover:text-blue-400 transition-colors">Blogs</Link></li>
             </ul>
           </div>
 
@@ -77,9 +77,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
           <p>© {new Date().getFullYear()} Fileinator Inc. All rights reserved.</p>
-          <div className="flex gap-4">
-            <Link href="#" className="hover:text-white transition-colors">English (US)</Link>
-            <Link href="#" className="hover:text-white transition-colors">System Status</Link>
+          <div className="flex flex-wrap justify-center md:justify-end gap-4">
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
+            <Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link>
           </div>
         </div>
 

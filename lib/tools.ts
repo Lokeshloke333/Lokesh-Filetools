@@ -23,20 +23,6 @@ export interface ToolDefinition {
 
 export const TOOLS: ToolDefinition[] = [
   // IMAGE TOOLS
-  {
-    id: "background-remover",
-    title: "Background Remover",
-    description: "Remove background from images instantly with AI.",
-    category: "Image",
-    keywords: ["background", "remove", "ai", "transparent", "png"],
-    href: "/remove-background",
-    icon: FileDown,
-    color: "text-indigo-600",
-    status: "active",
-    featured: true,
-    popular: true,
-    relatedToolIds: ["compress-image", "resize-image"],
-  },
   // Sub-tools for Image Conversions
   {
     id: "jpg-to-png",
@@ -711,7 +697,20 @@ export const TOOLS: ToolDefinition[] = [
   },
 
   // AI TOOLS
-
+  {
+    id: "background-remover",
+    title: "Background Remover",
+    description: "Remove background from images instantly with AI.",
+    category: "AI",
+    keywords: ["background", "remove", "ai", "transparent", "png"],
+    href: "/remove-background",
+    icon: FileDown,
+    color: "text-indigo-600",
+    status: "active",
+    featured: true,
+    popular: true,
+    relatedToolIds: ["compress-image", "resize-image"],
+  },
   {
     id: "image-upscaler",
     title: "Image Upscaler",

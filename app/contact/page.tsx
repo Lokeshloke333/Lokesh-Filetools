@@ -194,7 +194,7 @@ export default function ContactPage() {
                           value={formData.name}
                           onChange={handleChange}
                           placeholder="John Doe"
-                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
+                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base placeholder:text-slate-400"
                         />
                       </div>
                     </div>
@@ -210,7 +210,7 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="john@example.com"
-                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
+                          className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base placeholder:text-slate-400"
                         />
                       </div>
                     </div>
@@ -227,7 +227,7 @@ export default function ContactPage() {
                         value={formData.subject}
                         onChange={handleChange}
                         placeholder="How can we help you?"
-                        className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base"
+                        className="h-14 pl-12 rounded-2xl bg-slate-50/50 border-slate-200 focus:bg-white hover:bg-slate-50 transition-all focus-visible:ring-blue-600 text-base placeholder:text-slate-400"
                       />
                     </div>
                   </div>

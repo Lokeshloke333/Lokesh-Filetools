@@ -7,7 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Type, Link as LinkIcon, Mail, Phone, MessageSquare, Wifi, Contact } from "lucide-react";
+import { Type, Link as LinkIcon, Mail, Phone, MessageSquare, Wifi, Contact, Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { QRData, QRType } from "./types";
 
 interface QRInputPanelProps {
@@ -268,6 +269,63 @@ export function QRInputPanel({ data, onChange }: QRInputPanelProps) {
               className="min-h-[80px] rounded-xl resize-none"
               placeholder="123 Main St, City, Country"
             />
+          </div>
+
+          {/* Custom Fields Section */}
+          <div className="space-y-4 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-between">
+              <Label className="text-slate-800 font-semibold">Custom Links & Fields</Label>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 text-xs rounded-lg flex items-center gap-1.5"
+                onClick={() => {
+                  const currentFields = data.vcard.customFields || [];
+                  onChange({ vcard: { ...data.vcard, customFields: [...currentFields, { label: "", value: "" }] } });
+                }}
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Add Field
+              </Button>
+            </div>
+            
+            {(data.vcard.customFields || []).map((field, index) => (
+              <div key={index} className="flex items-start gap-2 animate-in fade-in slide-in-from-top-1">
+                <div className="grid grid-cols-3 gap-2 flex-1">
+                  <Input 
+                    placeholder="Label (e.g. LinkedIn)" 
+                    value={field.label}
+                    onChange={(e) => {
+                      const newFields = [...(data.vcard.customFields || [])];
+                      newFields[index].label = e.target.value;
+                      onChange({ vcard: { ...data.vcard, customFields: newFields } });
+                    }}
+                    className="col-span-1 h-10 rounded-lg text-sm"
+                  />
+                  <Input 
+                    placeholder="URL or Value" 
+                    value={field.value}
+                    onChange={(e) => {
+                      const newFields = [...(data.vcard.customFields || [])];
+                      newFields[index].value = e.target.value;
+                      onChange({ vcard: { ...data.vcard, customFields: newFields } });
+                    }}
+                    className="col-span-2 h-10 rounded-lg text-sm"
+                  />
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10 shrink-0 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50"
+                  onClick={() => {
+                    const newFields = (data.vcard.customFields || []).filter((_, i) => i !== index);
+                    onChange({ vcard: { ...data.vcard, customFields: newFields } });
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
           </div>
         </TabsContent>
 

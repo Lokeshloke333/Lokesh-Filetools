@@ -23,6 +23,7 @@ const INITIAL_DATA: QRData = {
     email: "",
     website: "",
     address: "",
+    customFields: [],
   }
 };
 
@@ -78,6 +79,10 @@ export function QRCodeGenerator() {
           data.vcard.email ? `EMAIL:${data.vcard.email}` : "",
           data.vcard.website ? `URL:${data.vcard.website}` : "",
           data.vcard.address ? `ADR;TYPE=WORK:;;${data.vcard.address};;;;` : "",
+          ...(data.vcard.customFields || []).flatMap((field, index) => [
+            `item${index + 1}.URL:${field.value}`,
+            `item${index + 1}.X-ABLabel:${field.label}`
+          ]),
           "END:VCARD"
         ].filter(Boolean).join("\n");
       default:

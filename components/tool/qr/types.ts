@@ -17,6 +17,7 @@ export interface QRData {
     email: string;
     website: string;
     address: string;
+    customFields?: { label: string; value: string }[];
   };
 }
 

@@ -76,14 +76,14 @@ export const navigationData: Category[] = [
     conversionItems: audioConversions,
   },
   {
+    title: "AI Tools",
+    icon: Sparkles,
+    items: aiTools,
+  },
+  {
     title: "Utilities",
     icon: Wand2,
     items: utilitiesTools,
     conversionItems: utilitiesConversions,
-  },
-  {
-    title: "AI Tools",
-    icon: Sparkles,
-    items: aiTools,
   }
 ];
