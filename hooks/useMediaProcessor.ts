@@ -166,8 +166,8 @@ export function useMediaProcessor() {
       toast.success("Processing completed successfully!");
     } catch (err: unknown) {
       const error = err as Error;
-      console.error("Processing error:", error);
-      toast.error("An error occurred during media processing.");
+      console.error("Media processing error:", error);
+      toast.error(error?.message || "An error occurred during media processing.");
     } finally {
       if (ffmpegInstance) {
         ffmpegInstance.off("progress", onProgress);

@@ -71,11 +71,17 @@ export default function CompressVideoClient() {
       mimeType = 'video/x-matroska';
     }
 
-    // Video Codec (Use h264 for MP4/MKV, vp9 for WEBM)
+    // Video Codec & Encoding Preset
     if (outputExt === 'webm') {
-      commandArgs.push('-vcodec', 'libvpx-vp9');
+      // Use VP8 with realtime speed settings for WEBM
+      commandArgs.push('-vcodec', 'libvpx', '-quality', 'realtime', '-cpu-used', '8');
     } else {
-      commandArgs.push('-vcodec', 'libx264', '-preset', 'ultrafast');
+      // H.264 with ultrafast preset & yuv420p for standard browser compatibility
+      commandArgs.push(
+        '-vcodec', 'libx264',
+        '-preset', 'ultrafast',
+        '-pix_fmt', 'yuv420p'
+      );
     }
 
     // CRF (Quality)
@@ -84,29 +90,33 @@ export default function CompressVideoClient() {
     } else {
       let crf = '28'; // balanced
       if (options.preset === 'light') crf = '23';
-      if (options.preset === 'max') crf = '35';
+      if (options.preset === 'max') crf = '32';
       commandArgs.push('-crf', crf);
     }
 
     // Max Bitrate
     if (options.videoBitrate !== "auto") {
       commandArgs.push('-b:v', options.videoBitrate);
-      // Also set maxrate and bufsize to enforce the limit
       commandArgs.push('-maxrate', options.videoBitrate);
       commandArgs.push('-bufsize', String(parseInt(options.videoBitrate.replace('k', '')) * 2) + 'k');
     }
 
-    // Resolution
+    // Smart Resolution Scaling (Auto-cap >1080p if original is selected to prevent WASM OOM and slow encode)
     if (options.resolution !== 'original') {
       if (options.resolution === '1080p') commandArgs.push('-vf', 'scale=-2:1080');
       else if (options.resolution === '720p') commandArgs.push('-vf', 'scale=-2:720');
       else if (options.resolution === '480p') commandArgs.push('-vf', 'scale=-2:480');
       else if (options.resolution === '360p') commandArgs.push('-vf', 'scale=-2:360');
+    } else if (metadata?.width && metadata?.height && (metadata.width > 1920 || metadata.height > 1080)) {
+      // Auto-cap 4K/2K videos to 1080p for browser performance
+      commandArgs.push('-vf', 'scale=-2:1080');
     }
 
-    // Frame Rate
+    // Frame Rate Cap (Auto-cap >30fps to 30fps if original is selected)
     if (options.frameRate !== 'original') {
       commandArgs.push('-r', options.frameRate);
+    } else if (metadata?.fps && metadata.fps > 30) {
+      commandArgs.push('-r', '30');
     }
 
     // Audio
@@ -116,7 +126,6 @@ export default function CompressVideoClient() {
       if (outputExt === 'webm') {
         commandArgs.push('-acodec', 'libvorbis', '-b:a', '96k');
       } else {
-        // Use aac and slightly compress audio to save more space
         let audioBitrate = '128k';
         if (options.preset === 'light') audioBitrate = '192k';
         if (options.preset === 'max') audioBitrate = '64k';

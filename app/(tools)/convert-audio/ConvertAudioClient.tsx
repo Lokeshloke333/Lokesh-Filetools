@@ -14,6 +14,7 @@ import { Loader2, Music, AlertTriangle, ArrowRight, AudioWaveform } from "lucide
 import { useAudioConverter } from "@/hooks/useAudioConverter";
 import { useDownload } from "@/hooks/useDownload";
 import { formatFileSize } from "@/lib/utils/image";
+import { MediaResultCard } from "@/components/tool/media/MediaResultCard";
 
 export interface ConvertAudioClientProps {
   initialFromFormat?: string;
@@ -202,35 +203,15 @@ export default function ConvertAudioClient({
         )}
 
         {result && (
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <AudioWaveform className="w-10 h-10 text-emerald-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">Audio Converted Successfully</h3>
-            <p className="text-slate-600 mb-6 max-w-md mx-auto">
-              Your audio has been successfully converted from <span className="font-bold">{result.originalFormat}</span> to <span className="font-bold">{result.newFormat}</span>.
-            </p>
-            
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-8 text-left bg-white p-4 rounded-xl border border-emerald-100">
-               <div className="space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Original</p>
-                  <p className="text-sm font-medium text-slate-700 truncate">{fileInfo?.file.name}</p>
-                  <p className="text-xs text-slate-500">{formatFileSize(result.originalSize)}</p>
-               </div>
-               <div className="space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Converted</p>
-                  <p className="text-sm font-medium text-slate-700 truncate">{result.filename}</p>
-                  <p className="text-xs text-slate-500">{formatFileSize(result.processedSize)}</p>
-               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button variant="outline" size="lg" onClick={clearAll} className="bg-white">Convert Another File</Button>
-              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20" onClick={() => handleDownload(result.url, result.filename)}>
-                Download Audio
-              </Button>
-            </div>
-          </div>
+          <MediaResultCard
+            result={result}
+            onDownload={() => handleDownload(result.url, result.filename)}
+            onReset={clearAll}
+            resetButtonText="Convert Another Audio"
+            downloadButtonText="Download Audio"
+            mediaType="audio"
+            options={options}
+          />
         )}
       </div>
 

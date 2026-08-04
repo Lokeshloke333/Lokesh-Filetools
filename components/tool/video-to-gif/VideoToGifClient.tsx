@@ -17,6 +17,7 @@ import { formatFileSize } from "@/lib/utils/image";
 import { fetchFile } from "@ffmpeg/util";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import { MediaProgressIndicator } from "@/components/tool/media/MediaProgressIndicator";
 
 export interface VideoToGifClientProps {
   initialFromFormat?: string;
@@ -252,7 +253,8 @@ export default function VideoToGifClient({
         )}
 
         {file && !result && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
+            <MediaProgressIndicator state={{ isProcessing, progress, stage }} />
             
             {/* Settings Panel */}
             <div className="lg:col-span-1 flex flex-col gap-4">
@@ -397,32 +399,14 @@ export default function VideoToGifClient({
                   )}
                 </div>
 
-                {!isProcessing ? (
-                  <Button 
-                    size="lg" 
-                    className="w-full h-14 text-lg rounded-2xl bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    onClick={handleStartConversion}
-                    disabled={currentDuration > 30}
-                  >
-                    Generate GIF <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                ) : (
-                  <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                    <div className="flex justify-between text-sm font-medium mb-3">
-                      <span className="text-slate-700 flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-purple-500 animate-pulse" />
-                        {stage}
-                      </span>
-                      <span className="text-purple-600">{Math.round(progress)}%</span>
-                    </div>
-                    <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-purple-600 rounded-full transition-all duration-300"
-                        style={{ width: `${progress}%` }}
-                      />
-                    </div>
-                  </div>
-                )}
+                <Button 
+                  size="lg" 
+                  className={`w-full h-14 text-lg rounded-2xl bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed ${isProcessing ? 'hidden' : ''}`}
+                  onClick={handleStartConversion}
+                  disabled={currentDuration > 30 || isProcessing}
+                >
+                  Generate GIF <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
               </div>
             </div>
           </div>
@@ -430,7 +414,7 @@ export default function VideoToGifClient({
 
         {/* Result Preview */}
         {result && (
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 text-center max-w-2xl mx-auto w-full">
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-5 sm:p-8 text-center max-w-2xl mx-auto w-full box-border overflow-hidden flex flex-col items-center justify-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6">
               <Download className="w-8 h-8" />
             </div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { toBlobURL } from "@ffmpeg/util";
 
@@ -12,9 +12,9 @@ export function useFFmpeg() {
   const [loadStatus, setLoadStatus] = useState<string>("");
 
   const loadFFmpeg = useCallback(async () => {
-    if (isGlobalLoaded) {
+    if (isGlobalLoaded && globalFfmpegInstance) {
       setIsLoaded(true);
-      return globalFfmpegInstance!;
+      return globalFfmpegInstance;
     }
 
     if (globalLoadPromise) {
@@ -24,29 +24,57 @@ export function useFFmpeg() {
       return globalFfmpegInstance!;
     }
 
-    setLoadStatus("Loading converter engine...");
+    setLoadStatus("Loading multi-threaded engine...");
 
     globalLoadPromise = (async () => {
       globalFfmpegInstance = new FFmpeg();
-      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
       
-      globalFfmpegInstance.on('log', ({ message }) => {
+      globalFfmpegInstance.on("log", ({ message }) => {
         console.log("[FFmpeg]", message);
       });
-      
+
+      const isMultiThread = typeof window !== "undefined" && window.crossOriginIsolated;
+
+      if (isMultiThread) {
+        try {
+          console.log("[FFmpeg] Cross-Origin Isolation active: trying multi-threaded core (@ffmpeg/core-mt)");
+          const baseURL = "https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/umd";
+          await globalFfmpegInstance.load({
+            coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+            wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
+            workerURL: await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, "text/javascript"),
+          });
+          isGlobalLoaded = true;
+          return;
+        } catch (mtError) {
+          console.warn("[FFmpeg] Multi-threaded core failed to load, falling back to single-threaded core:", mtError);
+          globalFfmpegInstance = new FFmpeg();
+          globalFfmpegInstance.on("log", ({ message }) => {
+            console.log("[FFmpeg]", message);
+          });
+        }
+      }
+
+      console.log("[FFmpeg] Loading single-threaded core (@ffmpeg/core)");
+      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
       await globalFfmpegInstance.load({
-        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
       });
       
       isGlobalLoaded = true;
     })();
 
-    await globalLoadPromise;
-    setIsLoaded(true);
-    setLoadStatus("");
-    
-    return globalFfmpegInstance!;
+    try {
+      await globalLoadPromise;
+      setIsLoaded(true);
+      setLoadStatus("");
+      return globalFfmpegInstance!;
+    } catch (err) {
+      globalLoadPromise = null;
+      isGlobalLoaded = false;
+      throw err;
+    }
   }, []);
 
   const getFFmpeg = useCallback(() => {

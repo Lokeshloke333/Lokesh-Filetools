@@ -13,6 +13,7 @@ import { Loader2, Music, AlertTriangle, ArrowRight, AudioLines, Download } from 
 import { useAudioCompressor } from "@/hooks/useAudioCompressor";
 import { useDownload } from "@/hooks/useDownload";
 import { formatFileSize } from "@/lib/utils/image";
+import { MediaResultCard } from "@/components/tool/media/MediaResultCard";
 
 export default function CompressAudioPage() {
   const {
@@ -147,37 +148,18 @@ export default function CompressAudioPage() {
         )}
 
         {result && (
-          <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <AudioLines className="w-10 h-10 text-emerald-600" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">Audio Compressed Successfully</h3>
-            <p className="text-slate-600 mb-6 max-w-md mx-auto">
-              We've successfully reduced your file size by <span className="font-bold text-emerald-700">{Math.round((1 - (result.processedSize / result.originalSize)) * 100)}%</span>!
-            </p>
-            
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto mb-8 text-left bg-white p-4 rounded-xl border border-emerald-100">
-               <div className="space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Original Size</p>
-                  <p className="text-lg font-medium text-slate-700 truncate">{formatFileSize(result.originalSize)}</p>
-               </div>
-               <div className="space-y-1">
-                  <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Compressed Size</p>
-                  <p className="text-lg font-bold text-emerald-600 truncate">{formatFileSize(result.processedSize)}</p>
-               </div>
-               <div className="col-span-2 pt-2 mt-2 border-t border-slate-100 space-y-1">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Space Saved</p>
-                  <p className="text-md font-medium text-slate-700 truncate">{formatFileSize(result.originalSize - result.processedSize)}</p>
-               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button variant="outline" size="lg" onClick={clearAll} className="bg-white">Compress Another</Button>
-              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20" onClick={() => handleDownload(result.url, result.filename)}>
-                <Download className="w-4 h-4 mr-2" /> Download File
-              </Button>
-            </div>
-          </div>
+          <MediaResultCard
+            result={{
+              ...result,
+              originalFormat: fileInfo?.file.name.split('.').pop()?.toUpperCase() || result.format.toUpperCase(),
+              newFormat: result.format.toUpperCase(),
+            }}
+            onDownload={() => handleDownload(result.url, result.filename)}
+            onReset={clearAll}
+            resetButtonText="Compress Another"
+            downloadButtonText="Download Compressed Audio"
+            mediaType="audio"
+          />
         )}
       </div>
 
