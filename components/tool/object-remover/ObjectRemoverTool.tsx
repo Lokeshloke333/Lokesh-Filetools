@@ -22,6 +22,7 @@ export function ObjectRemoverTool() {
   // Processing state
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState("Ready");
 
   const handleImageUpload = (files: File[]) => {
     if (files.length === 0) return;
@@ -176,6 +177,8 @@ export function ObjectRemoverTool() {
             setIsProcessing={setIsProcessing}
             progress={progress}
             setProgress={setProgress}
+            status={status}
+            setStatus={setStatus}
           />
         </div>
 

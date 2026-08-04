@@ -15,12 +15,21 @@ export const AI_MODELS = {
     inputSize: [512, 512],
     mean: [127.5, 127.5, 127.5], 
     std: [127.5, 127.5, 127.5],
+  },
+  // LaMa Inpainting Model (Fixed 512x512)
+  LAMA: {
+    url: "https://huggingface.co/mayocream/lama-manga-onnx/resolve/main/lama-manga.onnx",
+    id: "lama-inpaint",
+    inputSize: [512, 512],
+    mean: [0, 0, 0], // Not using norm for basic preprocess
+    std: [1, 1, 1]
   }
 };
 
-export type AIQualityMode = "fast" | "high";
+export type AIQualityMode = "fast" | "high" | "inpaint";
 
 export function getModelForMode(mode: AIQualityMode) {
+  if (mode === "inpaint") return AI_MODELS.LAMA;
   return mode === "high" ? AI_MODELS.HIGH_QUALITY : AI_MODELS.FAST;
 }
 

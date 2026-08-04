@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { ImageItem, UpscaleResult } from "./types";
 import { UploadArea } from "@/components/tool/UploadArea";
 import { Button } from "@/components/ui/button";
-import { Download, Image as ImageIcon, Sparkles } from "lucide-react";
+import { Download, Image as ImageIcon, Sparkles, ChevronsLeftRight } from "lucide-react";
 
 interface UpscalerWorkspaceProps {
   images: ImageItem[];
@@ -112,50 +112,45 @@ export function UpscalerWorkspace({
           <img 
             src={currentResult ? currentResult.resultSrc : currentImage.originalSrc} 
             alt={currentResult ? "Upscaled" : "Original"} 
-            className="block max-w-full max-h-[calc(100vh-350px)] object-contain pointer-events-none"
+            className="block max-w-full max-h-[calc(100vh-350px)] object-contain pointer-events-none select-none"
+            style={{ WebkitUserDrag: "none" }}
           />
 
           {/* Interactive Comparison Layer (Only when upscaled) */}
           {currentResult && (
             <>
-              {/* Original Image (Masked) */}
+              {/* Original Image (Masked via clip-path) */}
               <div 
-                className="absolute top-0 left-0 bottom-0 overflow-hidden pointer-events-none"
-                style={{ width: `${comparePosition}%` }}
+                className="absolute top-0 left-0 w-full h-full pointer-events-none select-none overflow-hidden"
+                style={{ 
+                  clipPath: `inset(0 calc(100% - ${comparePosition}%) 0 0)`,
+                  WebkitClipPath: `inset(0 calc(100% - ${comparePosition}%) 0 0)`
+                }}
               >
-                {/* 
-                  Because the upscaled image (base layer) is larger in pixels but scaled by CSS `object-contain`,
-                  we need to ensure the original image (which has fewer pixels) stretches to exactly match 
-                  the rendered dimensions of the upscaled image. Using w-full h-full object-fill or object-contain on the parent works.
-                */}
                 <img 
                   src={currentImage.originalSrc} 
                   alt="Original" 
-                  className="block w-full h-full object-fill pointer-events-none"
-                  style={{ width: containerRef.current?.offsetWidth || 'auto', height: containerRef.current?.offsetHeight || 'auto' }}
+                  className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
+                  style={{ WebkitUserDrag: "none" }}
                 />
-                
-                <div className="absolute top-4 left-4 bg-black/50 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                  Original
-                </div>
+              </div>
+              
+              {/* Badges */}
+              <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg z-10 pointer-events-none border border-white/10">
+                Original
+              </div>
+              <div className="absolute top-4 right-4 bg-blue-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg z-10 pointer-events-none border border-blue-400/30">
+                AI Upscaled
               </div>
 
               {/* Slider Line */}
               <div 
-                className="absolute top-0 bottom-0 w-1 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] -ml-[2px] pointer-events-none z-10"
-                style={{ left: `${comparePosition}%` }}
+                className="absolute top-0 bottom-0 w-[2px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] pointer-events-none z-10"
+                style={{ left: `calc(${comparePosition}% - 1px)` }}
               >
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-blue-500 text-white rounded-full shadow-lg flex items-center justify-center border-2 border-white">
-                  <div className="flex gap-1">
-                    <div className="w-0.5 h-3 bg-white rounded-full" />
-                    <div className="w-0.5 h-3 bg-white rounded-full" />
-                  </div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-blue-600 text-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.4)] flex items-center justify-center border-2 border-white pointer-events-none">
+                  <ChevronsLeftRight className="w-5 h-5" />
                 </div>
-              </div>
-
-              {/* Upscaled Label */}
-              <div className="absolute top-4 right-4 bg-blue-600/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg z-10 pointer-events-none">
-                AI Upscaled
               </div>
             </>
           )}

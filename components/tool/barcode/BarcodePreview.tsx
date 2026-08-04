@@ -5,7 +5,8 @@ import JsBarcode from "jsbarcode";
 import { jsPDF } from "jspdf";
 import { BarcodeSettings } from "./types";
 import { Button } from "@/components/ui/button";
-import { Download, FileImage, FileType, FileText, AlertCircle } from "lucide-react";
+import { Download, FileImage, FileType, FileText, AlertCircle, Printer } from "lucide-react";
+import { toast } from "sonner";
 
 interface BarcodePreviewProps {
   settings: BarcodeSettings;
@@ -124,14 +125,114 @@ export function BarcodePreview({ settings }: BarcodePreviewProps) {
     document.body.removeChild(a);
   };
 
+  const handlePrint = () => {
+    if (!svgRef.current || error) return;
+    
+    // Show helper message before opening print dialog
+    toast.info("For the cleanest print, disable 'Headers and Footers' in your browser's print settings.", {
+      duration: 5000,
+      position: "top-center"
+    });
+    
+    const iframe = document.createElement("iframe");
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "none";
+    document.body.appendChild(iframe);
+
+    // Get SVG and remove explicit width/height to let CSS handle the scaling while preserving aspect ratio
+    const svgClone = svgRef.current.cloneNode(true) as SVGSVGElement;
+    svgClone.removeAttribute("width");
+    svgClone.removeAttribute("height");
+    const svgData = new XMLSerializer().serializeToString(svgClone);
+
+    const doc = iframe.contentWindow?.document;
+    
+    if (doc) {
+      doc.open();
+      doc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Print Barcode - Fileinator</title>
+            <style>
+              @page {
+                size: auto;
+                margin: 12mm;
+              }
+              html, body {
+                margin: 0;
+                padding: 0;
+                background: white;
+              }
+              body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+              }
+              .barcode-container {
+                width: 75vw;
+                max-width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+              svg {
+                width: 100%;
+                height: auto;
+                max-height: 80vh;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="barcode-container">
+              ${svgData}
+            </div>
+          </body>
+        </html>
+      `);
+      doc.close();
+
+      setTimeout(() => {
+        if (iframe.contentWindow) {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+        }
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 1000);
+      }, 500);
+    }
+  };
+
   return (
     <div className="bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-full overflow-hidden">
       <div className="flex-1 bg-slate-50/50 flex flex-col items-center justify-center p-8 relative overflow-hidden custom-scrollbar">
         
+        {/* Print Button */}
+        <div className="absolute top-4 right-4 z-10 print:hidden">
+          <Button 
+            variant="outline" 
+            className="h-10 rounded-xl bg-white/80 backdrop-blur border-slate-200 text-slate-700 hover:bg-white shadow-sm transition-all"
+            onClick={handlePrint}
+            disabled={!!error}
+          >
+            <Printer className="w-4 h-4 mr-2" />
+            Print
+          </Button>
+        </div>
+
         {/* Background Grid Pattern */}
-        <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10 bg-[length:20px_20px]" />
+        <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10 bg-[length:20px_20px] print:hidden" />
         
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center min-w-[200px] min-h-[150px] relative">
+        <div 
+          id="barcode-print-area"
+          className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center min-w-[200px] min-h-[150px] relative"
+        >
           <svg ref={svgRef} className={error ? "opacity-20" : ""} />
           
           {error && (

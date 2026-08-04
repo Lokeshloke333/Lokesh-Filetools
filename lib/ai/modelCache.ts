@@ -24,7 +24,12 @@ export async function fetchModelWithCache(url: string, onProgress?: (progress: n
   }
 
   const contentLength = response.headers.get("Content-Length");
-  const total = contentLength ? parseInt(contentLength, 10) : 0;
+  let total = contentLength ? parseInt(contentLength, 10) : 0;
+  
+  // Hugging Face hides Content-Length due to CORS. If it's an ONNX model, assume ~200MB to enable the stream reader progress.
+  if (total === 0 && url.endsWith(".onnx")) {
+    total = 207000000; 
+  }
   
   if (!total || !response.body) {
     // Cannot track progress, just fetch and cache

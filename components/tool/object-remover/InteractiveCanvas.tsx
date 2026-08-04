@@ -230,7 +230,7 @@ export function InteractiveCanvas({
   return (
     <div 
       ref={containerRef}
-      className={`relative w-full h-full bg-slate-900 rounded-xl overflow-hidden touch-none ${
+      className={`relative w-full h-full max-h-[70vh] bg-slate-900 rounded-xl overflow-hidden touch-none ${
         toolMode === 'pan' ? 'cursor-grab active:cursor-grabbing' : 'cursor-crosshair'
       }`}
       onPointerDown={handlePointerDown}

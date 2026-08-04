@@ -13,6 +13,7 @@ interface UpscaleSettingsProps {
   onProcess: () => void;
   isProcessing: boolean;
   progress: number;
+  status: string;
   hasImages: boolean;
 }
 
@@ -22,6 +23,7 @@ export function UpscaleSettings({
   onProcess, 
   isProcessing, 
   progress,
+  status,
   hasImages
 }: UpscaleSettingsProps) {
   
@@ -86,7 +88,7 @@ export function UpscaleSettings({
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm">
               <span className="font-semibold text-blue-700 flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Processing AI...
+                <Loader2 className="w-4 h-4 animate-spin" /> {status}
               </span>
               <span className="font-bold text-blue-700">{Math.round(progress)}%</span>
             </div>

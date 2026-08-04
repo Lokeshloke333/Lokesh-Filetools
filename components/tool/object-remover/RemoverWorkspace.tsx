@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { ImageItem, ToolMode, BrushStroke } from "./types";
 import { UploadArea } from "@/components/tool/UploadArea";
 import { Button } from "@/components/ui/button";
-import { Download, Image as ImageIcon, RotateCcw, Undo2, Redo2, Loader2, Maximize } from "lucide-react";
+import { Download, Image as ImageIcon, RotateCcw, Undo2, Redo2, Loader2, Maximize, ChevronsLeftRight } from "lucide-react";
 import { InteractiveCanvas } from "./InteractiveCanvas";
 import { InpaintingEngine } from "./InpaintingEngine";
 
@@ -23,6 +23,8 @@ interface RemoverWorkspaceProps {
   setIsProcessing: (val: boolean) => void;
   progress: number;
   setProgress: (val: number) => void;
+  status: string;
+  setStatus: (val: string) => void;
 }
 
 export function RemoverWorkspace({ 
@@ -39,7 +41,9 @@ export function RemoverWorkspace({
   isProcessing,
   setIsProcessing,
   progress,
-  setProgress
+  setProgress,
+  status,
+  setStatus
 }: RemoverWorkspaceProps) {
   
   const [resultSrc, setResultSrc] = useState<string | null>(null);
@@ -75,7 +79,10 @@ export function RemoverWorkspace({
       // Since it's pure JS, we'll use a setTimeout to let the UI update the "processing" state first.
       await new Promise(resolve => setTimeout(resolve, 50));
       
-      const resultData = InpaintingEngine.process(imgData, maskData, (p) => setProgress(p));
+      const resultData = await InpaintingEngine.process(imgData, maskData, (p, s) => {
+        setProgress(p);
+        setStatus(s);
+      });
       
       // Create a new canvas to convert ImageData to DataURL
       const outCanvas = document.createElement('canvas');
@@ -87,12 +94,19 @@ export function RemoverWorkspace({
         setResultSrc(outCanvas.toDataURL("image/png"));
       }
     } catch (e) {
-      console.error(e);
-      alert("Failed to process image.");
+      console.error("[RemoverWorkspace] Processing error:", e);
+      if (e instanceof Error) {
+        alert("Failed: " + e.message);
+      } else {
+        alert("Failed: " + String(e));
+      }
     } finally {
       setIsProcessing(false);
-      setProgress(100);
-      setTimeout(() => setProgress(0), 1000);
+      setStatus("Complete");
+      setTimeout(() => {
+        setProgress(0);
+        setStatus("Ready");
+      }, 1000);
     }
   };
 
@@ -141,7 +155,7 @@ export function RemoverWorkspace({
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-full min-h-[500px] overflow-hidden">
+    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col h-full overflow-hidden">
       
       {/* Top Bar */}
       <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-4">
@@ -170,7 +184,7 @@ export function RemoverWorkspace({
                 className="bg-purple-600 hover:bg-purple-700 text-white ml-2"
               >
                 {isProcessing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Maximize className="w-4 h-4 mr-2" />}
-                {isProcessing ? `Processing ${Math.round(progress)}%` : "Remove Object"}
+                {isProcessing ? status : "Remove Object"}
               </Button>
             </>
           )}
@@ -201,47 +215,49 @@ export function RemoverWorkspace({
           />
         ) : (
           <div 
-            className="relative max-w-full max-h-[calc(100vh-350px)] rounded-xl overflow-hidden shadow-2xl select-none cursor-ew-resize touch-none"
+            className="relative w-full max-w-full h-[70vh] rounded-xl overflow-hidden shadow-2xl select-none cursor-ew-resize touch-none flex items-center justify-center"
             onPointerDown={handlePointerDown}
-            style={{ width: "fit-content", height: "fit-content" }}
           >
             {/* Base Layer: Cleaned Image */}
             <img 
               src={resultSrc} 
               alt="Cleaned" 
-              className="block max-w-full max-h-[calc(100vh-350px)] object-contain pointer-events-none"
+              className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
+              style={{ WebkitUserDrag: "none" }}
             />
 
-            {/* Original Image Masked */}
+            {/* Original Image (Masked via clip-path) */}
             <div 
-              className="absolute top-0 left-0 bottom-0 overflow-hidden pointer-events-none"
-              style={{ width: `${comparePosition}%` }}
+              className="absolute top-0 left-0 w-full h-full pointer-events-none select-none overflow-hidden"
+              style={{ 
+                clipPath: `inset(0 calc(100% - ${comparePosition}%) 0 0)`,
+                WebkitClipPath: `inset(0 calc(100% - ${comparePosition}%) 0 0)`
+              }}
             >
               <img 
                 src={image.originalSrc} 
                 alt="Original" 
-                className="block max-w-full max-h-[calc(100vh-350px)] object-cover pointer-events-none"
+                className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
+                style={{ WebkitUserDrag: "none" }}
               />
-              <div className="absolute top-4 left-4 bg-black/50 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                Original
-              </div>
+            </div>
+
+            {/* Badges */}
+            <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg z-10 pointer-events-none border border-white/10">
+              Original
+            </div>
+            <div className="absolute top-4 right-4 bg-purple-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-lg z-10 pointer-events-none border border-purple-400/30">
+              Cleaned
             </div>
 
             {/* Slider Line */}
             <div 
-              className="absolute top-0 bottom-0 w-1 bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)] -ml-[2px] pointer-events-none z-10"
-              style={{ left: `${comparePosition}%` }}
+              className="absolute top-0 bottom-0 w-[2px] bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] pointer-events-none z-10"
+              style={{ left: `calc(${comparePosition}% - 1px)` }}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-purple-500 text-white rounded-full shadow-lg flex items-center justify-center border-2 border-white">
-                <div className="flex gap-1">
-                  <div className="w-0.5 h-3 bg-white rounded-full" />
-                  <div className="w-0.5 h-3 bg-white rounded-full" />
-                </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-purple-600 text-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.4)] flex items-center justify-center border-2 border-white pointer-events-none">
+                <ChevronsLeftRight className="w-5 h-5" />
               </div>
-            </div>
-
-            <div className="absolute top-4 right-4 bg-purple-600/90 backdrop-blur text-white text-xs font-bold px-3 py-1.5 rounded-lg z-10 pointer-events-none">
-              Cleaned
             </div>
           </div>
         )}

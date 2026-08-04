@@ -44,22 +44,53 @@ export class UpscalerEngine {
   public static async upscale(
     src: string, 
     scale: UpscaleFactor, 
-    onProgress?: (progress: number) => void
+    onProgress?: (progress: number, status: string) => void
   ): Promise<string> {
     
-    // Ensure initialized
+    if (onProgress) onProgress(0, "Loading model...");
     await this.init(scale);
 
-    // Patch size prevents WebGL out-of-memory errors on large images
-    // Padding helps remove edge artifacts between tiles
-    return await upscalerInstance.upscale(src, {
-      patchSize: 64,
-      padding: 2,
-      progress: (percent: number) => {
-        if (onProgress) {
-          onProgress(percent * 100);
+    if (scale === 2) {
+      if (onProgress) onProgress(10, "Preparing image...");
+      
+      return await upscalerInstance.upscale(src, {
+        patchSize: 64,
+        padding: 2,
+        progress: (percent: number) => {
+          if (onProgress) {
+            onProgress(10 + (percent * 80), "Upscaling (2x)...");
+          }
         }
-      }
-    });
+      });
+    } else if (scale === 4) {
+      // 4x is achieved by upscaling 2x twice to avoid loading a heavy 4x model.
+      if (onProgress) onProgress(5, "Preparing image...");
+      
+      const firstPass = await upscalerInstance.upscale(src, {
+        patchSize: 64,
+        padding: 2,
+        progress: (percent: number) => {
+          if (onProgress) {
+            onProgress(5 + (percent * 45), "Upscaling pass 1/2...");
+          }
+        }
+      });
+
+      if (onProgress) onProgress(50, "Preparing second pass...");
+
+      const secondPass = await upscalerInstance.upscale(firstPass, {
+        patchSize: 64,
+        padding: 2,
+        progress: (percent: number) => {
+          if (onProgress) {
+            onProgress(50 + (percent * 45), "Upscaling pass 2/2...");
+          }
+        }
+      });
+
+      return secondPass;
+    }
+
+    throw new Error(`Unsupported scale factor: ${scale}`);
   }
 }

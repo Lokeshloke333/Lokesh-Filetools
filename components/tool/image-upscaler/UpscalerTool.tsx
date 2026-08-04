@@ -16,6 +16,7 @@ export function UpscalerTool() {
   const [scale, setScale] = useState<UpscaleFactor>(2);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [status, setStatus] = useState("Ready");
   const [results, setResults] = useState<UpscaleResult[]>([]);
 
   // Cleanup Upscaler on unmount to free memory
@@ -65,26 +66,34 @@ export function UpscalerTool() {
         const resultSrc = await UpscalerEngine.upscale(
           img.originalSrc, 
           scale, 
-          (p) => {
-            // Calculate overall progress across all images in batch
+          (p, s) => {
             const baseProgress = (i / totalImages) * 100;
             const currentImgProgress = (p / totalImages);
             setProgress(baseProgress + currentImgProgress);
+            setStatus(s || "Processing...");
           }
         );
+        
+        if (!resultSrc || resultSrc.length < 100) {
+          throw new Error("Invalid upscale output.");
+        }
         
         newResults.push({ id: img.id, resultSrc });
       }
       
       setResults(newResults);
       setProgress(100);
+      setStatus("Complete");
       
     } catch (error) {
       console.error("Upscaling failed:", error);
       alert("An error occurred during upscaling. This can happen if the image is too large for your device's memory.");
     } finally {
       setIsProcessing(false);
-      setTimeout(() => setProgress(0), 1000);
+      setTimeout(() => {
+        setProgress(0);
+        setStatus("Ready");
+      }, 1000);
     }
   };
 
@@ -129,6 +138,7 @@ export function UpscalerTool() {
               onProcess={handleProcess}
               isProcessing={isProcessing}
               progress={progress}
+              status={status}
               hasImages={images.length > 0}
             />
           </div>
@@ -171,6 +181,7 @@ export function UpscalerTool() {
               onProcess={handleProcess}
               isProcessing={isProcessing}
               progress={progress}
+              status={status}
               hasImages={images.length > 0}
             />
           </div>
