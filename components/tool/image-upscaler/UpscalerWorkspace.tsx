@@ -113,7 +113,7 @@ export function UpscalerWorkspace({
             src={currentResult ? currentResult.resultSrc : currentImage.originalSrc} 
             alt={currentResult ? "Upscaled" : "Original"} 
             className="block max-w-full max-h-[calc(100vh-350px)] object-contain pointer-events-none select-none"
-            style={{ WebkitUserDrag: "none" }}
+            draggable={false}
           />
 
           {/* Interactive Comparison Layer (Only when upscaled) */}
@@ -131,7 +131,7 @@ export function UpscalerWorkspace({
                   src={currentImage.originalSrc} 
                   alt="Original" 
                   className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
-                  style={{ WebkitUserDrag: "none" }}
+                  draggable={false}
                 />
               </div>
               

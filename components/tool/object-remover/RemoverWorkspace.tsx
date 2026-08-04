@@ -223,7 +223,7 @@ export function RemoverWorkspace({
               src={resultSrc} 
               alt="Cleaned" 
               className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
-              style={{ WebkitUserDrag: "none" }}
+              draggable={false}
             />
 
             {/* Original Image (Masked via clip-path) */}
@@ -238,7 +238,7 @@ export function RemoverWorkspace({
                 src={image.originalSrc} 
                 alt="Original" 
                 className="absolute top-0 left-0 w-full h-full object-contain pointer-events-none select-none"
-                style={{ WebkitUserDrag: "none" }}
+                draggable={false}
               />
             </div>
 

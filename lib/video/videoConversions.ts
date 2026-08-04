@@ -13,28 +13,29 @@ export interface VideoConversion {
 
 export const videoConversions: VideoConversion[] = [
   {
-    slug: "mp4-to-gif",
-    from: "MP4",
+    slug: "video-to-gif",
+    from: "Video",
     to: "GIF",
-    title: "Convert MP4 to GIF",
-    description: "Easily convert your MP4 videos into looping GIF animations. Perfect for creating social media memes, tutorials, and short shareable clips.",
-    keywords: ["mp4 to gif", "convert mp4 to gif", "video to gif", "gif maker", "create gif from video"],
-    supported: false,
+    title: "Video to GIF Converter – Convert Videos to Animated GIF Online | Fileinator",
+    description: "Convert videos to animated GIFs online for free. Supports MP4, MOV, WEBM, AVI, MKV and more. Fast, secure, and browser-based.",
+    keywords: ["video to gif", "convert video to gif", "mp4 to gif", "mov to gif", "gif maker", "create gif from video"],
+    supported: true,
     features: [
+      "Supports MP4, MOV, WEBM, AVI, MKV, M4V",
       "Custom framerate optimization for GIFs",
       "Seamless looping support",
-      "Fast local processing",
+      "Fast local browser-based processing",
       "No watermarks added"
     ],
     howToSteps: [
-      "Select the MP4 video you want to convert.",
+      "Select any video file (MP4, MOV, WEBM, etc) you want to convert.",
       "Click the convert button to begin rendering.",
       "Save your new looping GIF animation."
     ],
     faqs: [
       {
-        question: "Why should I convert an MP4 to a GIF?",
-        answer: "GIFs are universally supported across the web, making them perfect for forums, emails, and social media platforms where video playback might be restricted or require user interaction to start."
+        question: "What video formats are supported?",
+        answer: "Our universal converter supports all major video formats including MP4, MOV, WEBM, AVI, MKV, and M4V."
       },
       {
         question: "Will the GIF have sound?",

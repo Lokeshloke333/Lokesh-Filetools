@@ -22,14 +22,14 @@ export async function generateMetadata({ params }: { params: Promise<{ conversio
   const { title, description, keywords } = config;
 
   return {
-    title: `${title} Online Free`,
+    title: title.includes("|") ? title : `${title} Online Free`,
     description,
     keywords,
     alternates: {
       canonical: `/${slug}`,
     },
     openGraph: {
-      title: `${title} Online Free | Fileinator`,
+      title: title.includes("|") ? title : `${title} Online Free | Fileinator`,
       description,
       url: `/${slug}`,
       siteName: "Fileinator",
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ conversio
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} Online Free | Fileinator`,
+      title: title.includes("|") ? title : `${title} Online Free | Fileinator`,
       description,
       images: ["/og-image.png"],
     },

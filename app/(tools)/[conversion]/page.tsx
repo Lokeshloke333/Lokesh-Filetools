@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ConvertImageClient } from "../convert-image/ConvertImageClient";
 import ConvertAudioClient from "../convert-audio/ConvertAudioClient";
 import ConvertVideoClient from "../convert-video/ConvertVideoClient";
+import VideoToGifClient from "@/components/tool/video-to-gif/VideoToGifClient";
 import { ToolContent } from "@/components/seo/ToolContent";
 
 export function generateStaticParams() {
@@ -25,7 +26,7 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
       <ConvertImageClient
         initialFromFormat={imageConfig.from}
         initialToFormat={imageConfig.to}
-        title={imageConfig.title}
+        title={imageConfig.title.split(' – ')[0].split(' | ')[0]}
         subtitle={imageConfig.description}
         faqs={imageConfig.faqs}
       />
@@ -38,7 +39,7 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
       <ConvertAudioClient
         initialFromFormat={audioConfig.from}
         initialToFormat={audioConfig.to}
-        title={audioConfig.title}
+        title={audioConfig.title.split(' – ')[0].split(' | ')[0]}
         subtitle={audioConfig.description}
         supported={audioConfig.supported}
         faqs={audioConfig.faqs}
@@ -48,11 +49,21 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
 
   const videoConfig = videoConversions.find((c) => c.slug === slug);
   if (videoConfig) {
+    if (slug === "video-to-gif") {
+      return (
+        <VideoToGifClient
+          initialFromFormat={videoConfig.from}
+          title={videoConfig.title.split(' – ')[0].split(' | ')[0]}
+          subtitle={videoConfig.description}
+          faqs={videoConfig.faqs}
+        />
+      );
+    }
     return (
       <ConvertVideoClient
         initialFromFormat={videoConfig.from}
         initialToFormat={videoConfig.to}
-        title={videoConfig.title}
+        title={videoConfig.title.split(' – ')[0].split(' | ')[0]}
         subtitle={videoConfig.description}
         supported={videoConfig.supported}
         faqs={videoConfig.faqs}
