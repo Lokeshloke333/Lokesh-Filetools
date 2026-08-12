@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { FileWithPreview } from "./useImageUpload";
 import { validateImage } from "@/lib/image/validation";
-import { ImageToPdfOptions } from "@/lib/pdf/image-to-pdf";
+import { ImageToPdfOptions, convertImagesToPdf } from "@/lib/pdf/image-to-pdf";
 import { PdfMergeResult } from "@/lib/pdf/types";
 
 export function useImageToPdf() {
@@ -104,36 +104,19 @@ export function useImageToPdf() {
     });
 
     try {
-      const formData = new FormData();
-      files.forEach((file) => {
-        formData.append("files", file);
-      });
-      formData.append("pageSize", options.pageSize);
-      formData.append("orientation", options.orientation);
-      formData.append("margins", options.margins);
-      formData.append("imageFit", options.imageFit);
-
-      const statuses = ["Uploading...", "Preparing Images...", "Generating PDF...", "Optimizing..."];
+      const statuses = ["Preparing Images...", "Generating PDF...", "Optimizing..."];
       let statusIndex = 0;
       const progressInterval = setInterval(() => {
         statusIndex = Math.min(statusIndex + 1, statuses.length - 1);
         setStatusMessage(statuses[statusIndex]);
       }, 1500);
 
-      const response = await fetch("/api/pdf/image-to-pdf", {
-        method: "POST",
-        body: formData,
-      });
+      const pdfBytes = await convertImagesToPdf(files, options);
 
       clearInterval(progressInterval);
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Failed to generate PDF");
-      }
-
       setStatusMessage("Preparing Download...");
-      const blob = await response.blob();
+      const blob = new Blob([pdfBytes as any], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
 
       const totalOriginalSize = files.reduce((acc, f) => acc + f.size, 0);

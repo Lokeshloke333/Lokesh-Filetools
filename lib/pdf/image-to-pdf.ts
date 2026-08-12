@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PDFDocument, rgb } from "pdf-lib";
-import sharp from "sharp";
 
 export interface ImageToPdfOptions {
   pageSize: "A4" | "Letter" | "Legal" | "A3";
@@ -23,6 +22,47 @@ const MARGIN_SIZES = {
   large: 72,
 };
 
+async function convertImageFileToJpegBuffer(file: File): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        URL.revokeObjectURL(url);
+        return reject(new Error("Could not get canvas context"));
+      }
+      
+      // Fill with white background (JPEG doesn't support transparency)
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      
+      // Use toBlob instead of toDataURL to avoid massive base64 strings and memory spikes
+      canvas.toBlob(
+        (blob) => {
+          URL.revokeObjectURL(url);
+          // Free canvas memory immediately
+          canvas.width = 0;
+          canvas.height = 0;
+          if (!blob) return reject(new Error("Canvas to Blob conversion failed"));
+          blob.arrayBuffer().then(resolve).catch(reject);
+        },
+        "image/jpeg",
+        0.92
+      );
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Failed to load image for conversion: " + file.name));
+    };
+    img.src = url;
+  });
+}
+
 export async function convertImagesToPdf(
   files: File[],
   options: ImageToPdfOptions
@@ -40,22 +80,28 @@ export async function convertImagesToPdf(
   const availableHeight = pageHeight - margin * 2;
 
   for (const file of files) {
-    let arrayBuffer = await file.arrayBuffer();
     const type = file.type;
-    
-    // Convert WEBP, AVIF, GIF, etc. to JPG using sharp
-    if (type !== "image/jpeg" && type !== "image/png") {
-      const buffer = Buffer.from(arrayBuffer);
-      arrayBuffer = (await sharp(buffer).jpeg({ quality: 90 }).toBuffer()) as any;
-    }
-
     let pdfImage;
-    try {
-      // Try embedding as JPG first
-      pdfImage = await pdfDoc.embedJpg(arrayBuffer);
-    } catch (e) {
-      // If it fails, try PNG
-      pdfImage = await pdfDoc.embedPng(arrayBuffer);
+    
+    // First, try native pdf-lib embedding for supported formats
+    if (type === "image/jpeg" || type === "image/jpg" || type === "image/png") {
+      const arrayBuffer = await file.arrayBuffer();
+      try {
+        if (type === "image/png") {
+          pdfImage = await pdfDoc.embedPng(arrayBuffer);
+        } else {
+          pdfImage = await pdfDoc.embedJpg(arrayBuffer);
+        }
+      } catch (e) {
+        // Fallback: If native embedding fails (e.g. malformed image), convert to JPEG via canvas
+        console.warn(`Failed to natively embed ${file.name}, falling back to canvas conversion.`, e);
+        const fallbackBuffer = await convertImageFileToJpegBuffer(file);
+        pdfImage = await pdfDoc.embedJpg(fallbackBuffer);
+      }
+    } else {
+      // For WebP, GIF, etc., convert directly to JPEG via canvas
+      const convertedBuffer = await convertImageFileToJpegBuffer(file);
+      pdfImage = await pdfDoc.embedJpg(convertedBuffer);
     }
 
     const imgDims = pdfImage.scale(1);
