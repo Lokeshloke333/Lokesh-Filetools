@@ -174,7 +174,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
                 </div>
                 
                 {category.items.length > 0 ? (
-                  <ul className="grid grid-cols-1 gap-2 overflow-y-auto overscroll-contain pr-2 -mr-2 max-h-[calc(100vh-17rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300">
+                  <ul className="grid grid-cols-1 gap-2 overflow-y-auto overscroll-contain pr-2 -mr-2 h-[340px] max-h-[calc(100vh-20rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300">
                     {category.items.map((item) => {
                       const isItemActive = pathname === item.href;
                       const ItemIcon = item.icon;
@@ -229,7 +229,7 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
 
               {/* Column 2: Conversions */}
               {hasConversions && (
-                <div className={`rounded-2xl p-5 md:p-6 ring-1 ring-black/5 ${theme.bg} overflow-y-auto overscroll-contain max-h-[calc(100vh-17rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300`}>
+                <div className={`rounded-2xl p-5 md:p-6 ring-1 ring-black/5 ${theme.bg} overflow-y-auto overscroll-contain h-full max-h-[calc(100vh-17rem)] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-200/50 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-300`}>
                   <div className="flex items-center gap-2 mb-4">
                     <h3 className={`font-bold text-lg py-1 ${theme.text}`}>
                       Popular Conversions
