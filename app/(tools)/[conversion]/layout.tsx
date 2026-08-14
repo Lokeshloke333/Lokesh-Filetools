@@ -4,6 +4,7 @@ import { getBreadcrumbSchema, getSoftwareAppSchema, getFaqSchema } from "@/lib/s
 import { imageConversions } from "@/lib/image/imageConversions";
 import { audioConversions } from "@/lib/audio/audioConversions";
 import { videoConversions } from "@/lib/video/videoConversions";
+import { formatterConversions } from "@/lib/formatters/formatterConversions";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: { params: Promise<{ conversion: string }> }): Promise<Metadata> {
@@ -13,13 +14,15 @@ export async function generateMetadata({ params }: { params: Promise<{ conversio
   const config = 
     imageConversions.find((c) => c.slug === slug) ||
     audioConversions.find((c) => c.slug === slug) ||
-    videoConversions.find((c) => c.slug === slug);
+    videoConversions.find((c) => c.slug === slug) ||
+    formatterConversions.find((c) => c.slug === slug);
   
   if (!config) {
     return { title: "Not Found" };
   }
 
-  const { title, description, keywords } = config;
+  const { title, description } = config;
+  const keywords = (config as any).keywords || [];
 
   return {
     title: title.includes("|") ? title : `${title} Online Free`,
@@ -52,15 +55,16 @@ export default async function ConversionLayout({ children, params }: { children:
   const imageConfig = imageConversions.find((c) => c.slug === slug);
   const audioConfig = audioConversions.find((c) => c.slug === slug);
   const videoConfig = videoConversions.find((c) => c.slug === slug);
+  const formatterConfig = formatterConversions.find((c) => c.slug === slug);
   
-  const config = imageConfig || audioConfig || videoConfig;
+  const config = imageConfig || audioConfig || videoConfig || formatterConfig;
   
   if (!config) {
     notFound();
   }
 
-  const categoryName = imageConfig ? "Image Tools" : audioConfig ? "Audio Tools" : "Video Tools";
-  const parentConvertUrl = imageConfig ? "/convert-image" : audioConfig ? "/convert-audio" : "/convert-video";
+  const categoryName = imageConfig ? "Image Tools" : audioConfig ? "Audio Tools" : videoConfig ? "Video Tools" : "Utilities";
+  const parentConvertUrl = imageConfig ? "/convert-image" : audioConfig ? "/convert-audio" : videoConfig ? "/convert-video" : "/code-formatter";
 
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
@@ -73,13 +77,19 @@ export default async function ConversionLayout({ children, params }: { children:
     name: config.title,
     description: config.description,
     url: `/${config.slug}`,
-    featureList: config.features || [
-      `Convert ${config.from} to ${config.to}`,
+    featureList: (config as any).features || (formatterConfig ? [
+      "Format Code",
+      "Validate Syntax",
+      "Browser Based Processing",
+      "No Upload Storage",
+      "Privacy First"
+    ] : [
+      `Convert ${(config as any).from} to ${(config as any).to}`,
       "Fast Conversion",
       "Browser Based Processing",
       "No Upload Storage",
       "Privacy First"
-    ],
+    ]),
   });
 
   const schemas: any[] = [breadcrumbs, softwareApp];

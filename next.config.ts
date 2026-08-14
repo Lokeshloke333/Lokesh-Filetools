@@ -65,7 +65,8 @@ const nextConfig: NextConfig = {
       { source: '/tools/utilities/qr', destination: '/qr-generator', permanent: true },
       { source: '/tools/utilities/barcode', destination: '/barcode-generator', permanent: true },
       { source: '/tools/utilities/color-picker', destination: '/color-picker', permanent: true },
-      { source: '/tools/utilities/json', destination: '/json-formatter', permanent: true }
+      { source: '/tools/utilities/json', destination: '/code-formatter', permanent: true },
+      { source: '/json-formatter', destination: '/code-formatter?tab=json', permanent: true }
     ];
   },
   async headers() {

@@ -1,19 +1,22 @@
 import { imageConversions } from "@/lib/image/imageConversions";
 import { audioConversions } from "@/lib/audio/audioConversions";
 import { videoConversions } from "@/lib/video/videoConversions";
+import { formatterConversions } from "@/lib/formatters/formatterConversions";
 import { notFound } from "next/navigation";
 import { ConvertImageClient } from "../convert-image/ConvertImageClient";
 import ConvertAudioClient from "../convert-audio/ConvertAudioClient";
 import ConvertVideoClient from "../convert-video/ConvertVideoClient";
 import VideoToGifClient from "@/components/tool/video-to-gif/VideoToGifClient";
+import { CodeFormatterClient } from "@/components/tool/code-formatter/CodeFormatterClient";
 import { ToolContent } from "@/components/seo/ToolContent";
 
 export function generateStaticParams() {
   const imageParams = imageConversions.map((c) => ({ conversion: c.slug }));
   const audioParams = audioConversions.map((c) => ({ conversion: c.slug }));
   const videoParams = videoConversions.map((c) => ({ conversion: c.slug }));
+  const formatterParams = formatterConversions.map((c) => ({ conversion: c.slug }));
   
-  return [...imageParams, ...audioParams, ...videoParams];
+  return [...imageParams, ...audioParams, ...videoParams, ...formatterParams];
 }
 
 export default async function ConversionPage({ params }: { params: Promise<{ conversion: string }> }) {
@@ -69,6 +72,11 @@ export default async function ConversionPage({ params }: { params: Promise<{ con
         faqs={videoConfig.faqs}
       />
     );
+  }
+
+  const formatterConfig = formatterConversions.find((c) => c.slug === slug);
+  if (formatterConfig) {
+    return <CodeFormatterClient config={formatterConfig} />;
   }
 
   notFound();

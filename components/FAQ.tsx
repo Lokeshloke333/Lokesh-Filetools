@@ -64,7 +64,7 @@ export function FAQ({ limit }: { limit?: number }) {
       <div className="absolute top-0 inset-x-0 h-[500px] bg-gradient-to-b from-slate-100 to-transparent pointer-events-none" />
       <div className="absolute right-0 top-1/4 w-[400px] h-[400px] bg-blue-100/40 rounded-full blur-[100px] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 relative z-10">
+      <Container className="relative z-10">
         <SectionHeader
           eyebrow="❓ SUPPORT"
           title="Frequently Asked Questions"
@@ -108,7 +108,7 @@ export function FAQ({ limit }: { limit?: number }) {
             ))}
           </Accordion>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
