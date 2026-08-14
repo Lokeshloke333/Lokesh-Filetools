@@ -39,6 +39,8 @@ const nextConfig: NextConfig = {
       { source: '/tools/video/compress-video', destination: '/compress-video', permanent: true },
       { source: '/tools/video/convert-video', destination: '/convert-video', permanent: true },
       { source: '/tools/video/trim-video', destination: '/trim-video', permanent: true },
+      { source: '/tools/video/crop-video', destination: '/crop-video', permanent: true },
+      { source: '/tools/video/remove-watermark', destination: '/remove-watermark', permanent: true },
       { source: '/tools/video/merge-video', destination: '/merge-video', permanent: true },
       { source: '/tools/video/rotate-video', destination: '/rotate-video', permanent: true },
       { source: '/tools/video/video-to-gif', destination: '/video-to-gif', permanent: true },

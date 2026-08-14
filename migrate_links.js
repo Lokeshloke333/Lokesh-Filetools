@@ -39,6 +39,8 @@ async function main() {
     { oldHref: '/tools/video/compress-video', newHref: '/compress-video' },
     { oldHref: '/tools/video/convert-video', newHref: '/convert-video' },
     { oldHref: '/tools/video/trim-video', newHref: '/trim-video' },
+    { oldHref: '/tools/video/crop-video', newHref: '/crop-video' },
+    { oldHref: '/tools/video/remove-watermark', newHref: '/remove-watermark' },
     { oldHref: '/tools/video/merge-video', newHref: '/merge-video' },
     { oldHref: '/tools/video/rotate-video', newHref: '/rotate-video' },
     { oldHref: '/tools/video/video-to-gif', newHref: '/video-to-gif' },

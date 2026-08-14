@@ -122,7 +122,7 @@ export function ToolsHero() {
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300 relative z-10">
                   <LayoutGrid className="w-5 h-5" />
                 </div>
-                <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tight relative z-10">50+</h3>
+                <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tight relative z-10">60+</h3>
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest relative z-10">Total Tools</p>
               </div>
 

@@ -36,8 +36,10 @@ export function useMediaProcessor() {
   
   const { isLoaded, loadFFmpeg, getFFmpeg } = useFFmpeg();
   
-  // Track start time for ETA calculation
+  // Track start time and file names
   const startTimeRef = useRef<number | null>(null);
+  const inputNameRef = useRef<string | null>(null);
+  const outputNameRef = useRef<string | null>(null);
 
   const handleFileSelect = useCallback((file: File, validationOpts?: {
     maxSizeMB?: number;
@@ -128,6 +130,9 @@ export function useMediaProcessor() {
       const file = fileInfo.file;
       const inputName = `input_${fileInfo.id}.${file.name.split('.').pop() || 'tmp'}`;
       const outputName = `${outputFilenamePrefix}_${fileInfo.id}.${outputExt}`;
+      
+      inputNameRef.current = inputName;
+      outputNameRef.current = outputName;
 
       setProcessingState(prev => ({ ...prev, stage: "Reading file..." }));
       await ffmpegInstance.writeFile(inputName, await fetchFile(file));
@@ -136,12 +141,12 @@ export function useMediaProcessor() {
       startTimeRef.current = Date.now();
       
       // Ensure input name is first argument, and output name is last, assuming caller just provided intermediate args
-      const finalCommand = ['-i', inputName, ...commandArgs, outputName];
+      const finalCommand = ['-i', inputNameRef.current, ...commandArgs, outputNameRef.current];
 
       await ffmpegInstance.exec(finalCommand);
 
       setProcessingState(prev => ({ ...prev, stage: "Preparing download...", progress: 100 }));
-      const data = await ffmpegInstance.readFile(outputName);
+      const data = await ffmpegInstance.readFile(outputNameRef.current);
       
       const blob = new Blob([data as BlobPart], { type: outputMimeType });
       const processedSize = blob.size;
@@ -159,10 +164,7 @@ export function useMediaProcessor() {
         newFormat: outputExt.toUpperCase(),
       });
 
-      // Cleanup MEMFS
-      await ffmpegInstance.deleteFile(inputName);
-      await ffmpegInstance.deleteFile(outputName);
-
+      // Cleanup MEMFS removed from here, moved to finally
       toast.success("Processing completed successfully!");
     } catch (err: unknown) {
       const error = err as Error;
@@ -171,7 +173,17 @@ export function useMediaProcessor() {
     } finally {
       if (ffmpegInstance) {
         ffmpegInstance.off("progress", onProgress);
+        
+        // Ensure MEMFS is always cleaned up to prevent WASM memory leaks
+        if (inputNameRef.current) {
+          ffmpegInstance.deleteFile(inputNameRef.current).catch(() => {});
+        }
+        if (outputNameRef.current) {
+          ffmpegInstance.deleteFile(outputNameRef.current).catch(() => {});
+        }
       }
+      inputNameRef.current = null;
+      outputNameRef.current = null;
       setProcessingState({ isProcessing: false, progress: 0, stage: "" });
       startTimeRef.current = null;
     }
