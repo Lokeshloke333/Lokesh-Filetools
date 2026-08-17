@@ -70,8 +70,12 @@ export function Navbar() {
         {/* Desktop Nav Links */}
         <nav className="hidden lg:flex items-center justify-center flex-1">
           <div className="flex items-center gap-1 xl:gap-2 px-2 py-1.5 rounded-full bg-slate-50/50 border border-slate-100/50">
-            {navigationData.map((category) => (
-              <MegaMenuDropdown key={category.title} category={category} />
+            {navigationData.map((category, index) => (
+              <MegaMenuDropdown 
+                key={category.title} 
+                category={category} 
+                alignRight={index >= navigationData.length - 2}
+              />
             ))}
           </div>
         </nav>

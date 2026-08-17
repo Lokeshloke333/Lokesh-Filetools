@@ -8,6 +8,7 @@ import { getOrganizationSchema, getWebSiteSchema } from "@/lib/seo/schema";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { Analytics } from "@vercel/analytics/next";
+import { FileinatorAssistant } from "@/components/assistant/FileinatorAssistant";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -122,6 +123,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MicrosoftClarity />
         <Analytics />
+        <FileinatorAssistant />
       </body>
     </html>
   );

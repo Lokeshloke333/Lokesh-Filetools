@@ -9,9 +9,10 @@ import { Category } from "@/lib/navigation";
 
 interface MegaMenuDropdownProps {
   category: Category;
+  alignRight?: boolean;
 }
 
-export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
+export function MegaMenuDropdown({ category, alignRight }: MegaMenuDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -154,7 +155,9 @@ export function MegaMenuDropdown({ category }: MegaMenuDropdownProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 bg-[rgba(255,255,255,0.92)] backdrop-blur-[36px] isolate rounded-3xl shadow-2xl shadow-slate-400/30 border border-white/60 overflow-hidden z-50 flex flex-col origin-top ${
+            className={`absolute top-full mt-4 bg-[rgba(255,255,255,0.92)] backdrop-blur-[36px] isolate rounded-3xl shadow-2xl shadow-slate-400/30 border border-white/60 overflow-hidden z-50 flex flex-col ${
+              alignRight ? 'right-0 origin-top-right' : 'left-1/2 -translate-x-1/2 origin-top'
+            } ${
               hasConversions ? 'w-[750px]' : 'w-[400px]'
             } max-w-[90vw]`}
             role="menu"

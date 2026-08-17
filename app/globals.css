@@ -30,6 +30,16 @@ body {
   100% { background-position: 300% 50%; }
 }
 
+@keyframes float-icon {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float-icon {
+  animation: float-icon 3s ease-in-out infinite;
+}
+
 /* Hide scrollbar for horizontal scrolling elements like ToolsFilterBar */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
