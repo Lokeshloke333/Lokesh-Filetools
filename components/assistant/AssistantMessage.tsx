@@ -4,13 +4,15 @@ import { Bot, User, ArrowRight } from "lucide-react";
 import { ToolDefinition } from "@/lib/tools";
 import Link from "next/link";
 
+import { AssistantAction } from "./AssistantWindow";
+
 export interface AssistantMessageProps {
   role: "user" | "assistant";
   text?: string;
   isTyping?: boolean;
   tools?: ToolDefinition[];
-  suggestions?: string[];
-  onSuggestionClick?: (suggestion: string) => void;
+  suggestions?: AssistantAction[];
+  onSuggestionClick?: (action: AssistantAction) => void;
 }
 
 export function AssistantMessage({
@@ -86,15 +88,18 @@ export function AssistantMessage({
           {/* Suggestions */}
           {suggestions && suggestions.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-1">
-              {suggestions.map((suggestion, i) => (
-                <button
-                  key={i}
-                  onClick={() => onSuggestionClick?.(suggestion)}
-                  className="text-xs px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 hover:border-blue-200 transition-colors text-left"
-                >
-                  {suggestion}
-                </button>
-              ))}
+              {suggestions.map((action, i) => {
+                const label = action.type === "send-message" ? action.text : action.label;
+                return (
+                  <button
+                    key={i}
+                    onClick={() => onSuggestionClick?.(action)}
+                    className="text-xs px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 hover:border-blue-200 transition-colors text-left font-medium"
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 import { AssistantInput } from "./AssistantInput";
 import { AssistantMessage } from "./AssistantMessage";
 import { matchTool } from "@/lib/assistant/toolMatcher";
-import { ToolDefinition } from "@/lib/tools";
+import { TOOLS, ToolDefinition } from "@/lib/tools";
+
+export type AssistantAction =
+  | { type: "category"; category: string; label: string }
+  | { type: "show-more-tools"; category: string; label: string }
+  | { type: "send-message"; text: string };
 
 interface AssistantWindowProps {
   isOpen: boolean;
@@ -17,15 +22,16 @@ type Message = {
   text?: string;
   isTyping?: boolean;
   tools?: ToolDefinition[];
-  suggestions?: string[];
+  suggestions?: AssistantAction[];
 };
 
-const INITIAL_SUGGESTIONS = [
-  "📄 PDF Tools",
-  "🖼️ Image Tools",
-  "🎬 Video Tools",
-  "🎵 Audio Tools",
-  "🔍 Find a Tool"
+const INITIAL_SUGGESTIONS: AssistantAction[] = [
+  { type: "category", category: "PDF", label: "📄 PDF Tools" },
+  { type: "category", category: "Image", label: "🖼️ Image Tools" },
+  { type: "category", category: "Video", label: "🎬 Video Tools" },
+  { type: "category", category: "Audio", label: "🎵 Audio Tools" },
+  { type: "category", category: "Utilities", label: "🔧 Utilities" },
+  { type: "category", category: "AI", label: "✨ AI Tools" },
 ];
 
 export function AssistantWindow({ isOpen, onClose }: AssistantWindowProps) {
@@ -33,6 +39,39 @@ export function AssistantWindow({ isOpen, onClose }: AssistantWindowProps) {
   const [hasInitialized, setHasInitialized] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputContainerRef = useRef<HTMLDivElement>(null);
+  const windowRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Don't close if clicking inside the window
+      if (windowRef.current && windowRef.current.contains(event.target as Node)) {
+        return;
+      }
+      
+      // We also check if the click was on the launcher button.
+      // Usually, clicking the launcher when open will trigger its own onClick,
+      // but it's safe to just call onClose() here. 
+      // If it interferes with the launcher toggle, we might need a class check.
+      const target = event.target as Element;
+      if (target.closest('[data-assistant-launcher]')) {
+        return;
+      }
+
+      onClose();
+    };
+
+    if (isOpen) {
+      // Small delay to prevent immediate close if opened via click
+      setTimeout(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+      }, 0);
+    }
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
 
   // Initialize chat
   useEffect(() => {
@@ -79,56 +118,139 @@ export function AssistantWindow({ isOpen, onClose }: AssistantWindowProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleSend = (text: string) => {
-    // Add user message
-    const userMsgId = Date.now().toString();
-    setMessages(prev => [...prev, { id: userMsgId, role: "user", text }]);
+  const handleAction = (action: AssistantAction) => {
+    const actionTime = Date.now();
+    
+    if (action.type === "send-message") {
+      // Normal natural language message
+      const text = action.text;
+      setMessages(prev => [...prev, { id: actionTime.toString(), role: "user", text }]);
+      const typingId = (actionTime + 1).toString();
+      setMessages(prev => [...prev, { id: typingId, role: "assistant", isTyping: true }]);
 
-    // Add typing indicator
-    const typingId = (Date.now() + 1).toString();
-    setMessages(prev => [...prev, { id: typingId, role: "assistant", isTyping: true }]);
-
-    // Process intent
-    setTimeout(() => {
-      const match = matchTool(text);
-      
-      setMessages(prev => {
-        const newMessages = prev.filter(m => m.id !== typingId); // Remove typing
+      setTimeout(() => {
+        const match = matchTool(text);
         
-        if (match.isConfident && match.tools.length > 0) {
-          const suggestions = match.tools[0].category === "Image" 
-            ? ["Compress image", "Resize image", "More image tools"]
-            : match.tools[0].category === "PDF"
-            ? ["Compress another PDF", "Merge PDFs", "PDF tools"]
-            : ["More tools"];
+        setMessages(prev => {
+          const newMessages = prev.filter(m => m.id !== typingId);
+          
+          if (match.score >= 70 && match.tools.length > 0) {
+            const topTool = match.tools[0];
+            const topCategory = topTool.category;
+            const suggestions: AssistantAction[] = [
+              { type: "category", category: topCategory, label: `More ${topCategory} tools` }
+            ];
+
+            newMessages.push({
+              id: Date.now().toString(),
+              role: "assistant",
+              text: "Got it! I think this tool will help:",
+              tools: [topTool],
+              suggestions
+            });
+          } else if (match.score >= 45 && match.tools.length > 0) {
+            newMessages.push({
+              id: Date.now().toString(),
+              role: "assistant",
+              text: "I can help with that. Which of these tools do you need?",
+              tools: match.tools
+            });
+          } else {
+            // Fallback
+            const query = text.toLowerCase();
+            let suggestions = INITIAL_SUGGESTIONS;
+            let textMsg = "I'm not completely sure which tool you need. What are you trying to do?";
+            
+            if (query.includes("pdf")) {
+              textMsg = "It sounds like you need to work with a PDF. Here are our PDF tools:";
+              suggestions = [{ type: "category", category: "PDF", label: "📄 View all PDF tools" }];
+            } else if (query.includes("image") || query.includes("photo") || query.includes("picture")) {
+              textMsg = "It sounds like you need to edit an image. Here are our Image tools:";
+              suggestions = [{ type: "category", category: "Image", label: "🖼️ View all Image tools" }];
+            } else if (query.includes("video")) {
+              textMsg = "It sounds like you want to edit a video. Here are our Video tools:";
+              suggestions = [{ type: "category", category: "Video", label: "🎬 View all Video tools" }];
+            }
+
+            newMessages.push({
+              id: Date.now().toString(),
+              role: "assistant",
+              text: textMsg,
+              suggestions
+            });
+          }
+          return newMessages;
+        });
+      }, 600);
+
+    } else if (action.type === "category") {
+      // Category explicit click
+      setMessages(prev => [...prev, { id: actionTime.toString(), role: "user", text: action.label }]);
+      const typingId = (actionTime + 1).toString();
+      setMessages(prev => [...prev, { id: typingId, role: "assistant", isTyping: true }]);
+
+      setTimeout(() => {
+        setMessages(prev => {
+          const newMessages = prev.filter(m => m.id !== typingId);
+          const allCategoryTools = TOOLS.filter(t => t.category.toLowerCase() === action.category.toLowerCase());
+          
+          let displayTools = allCategoryTools;
+          let suggestions: AssistantAction[] = [];
+          
+          if (allCategoryTools.length > 6) {
+            displayTools = allCategoryTools.slice(0, 6);
+            suggestions = [{ type: "show-more-tools", category: action.category, label: `More ${action.category} tools →` }];
+          }
+
+          let emoji = "🔧";
+          if (action.category.toLowerCase() === "pdf") emoji = "📄";
+          if (action.category.toLowerCase() === "image") emoji = "🖼️";
+          if (action.category.toLowerCase() === "video") emoji = "🎬";
+          if (action.category.toLowerCase() === "audio") emoji = "🎵";
+          if (action.category.toLowerCase() === "ai") emoji = "✨";
 
           newMessages.push({
             id: Date.now().toString(),
             role: "assistant",
-            text: match.tools.length > 1 
-              ? "I can help with that. Which tool do you need?" 
-              : "Got it! I think this tool will help:",
-            tools: match.tools,
+            text: `${emoji} Here are our ${action.category} tools. What would you like to do?`,
+            tools: displayTools,
             suggestions
           });
-        } else {
+          return newMessages;
+        });
+      }, 400);
+
+    } else if (action.type === "show-more-tools") {
+      // Show more tools (no user bubble)
+      const typingId = actionTime.toString();
+      setMessages(prev => [...prev, { id: typingId, role: "assistant", isTyping: true }]);
+
+      setTimeout(() => {
+        setMessages(prev => {
+          const newMessages = prev.filter(m => m.id !== typingId);
+          const allCategoryTools = TOOLS.filter(t => t.category.toLowerCase() === action.category.toLowerCase());
+          const remainingTools = allCategoryTools.slice(6);
+          
           newMessages.push({
             id: Date.now().toString(),
             role: "assistant",
-            text: "I'm not completely sure which tool you need. What are you trying to do?",
-            suggestions: ["PDF", "Image", "Video", "Audio", "Utilities", "AI"]
+            text: `Here are more ${action.category} tools:`,
+            tools: remainingTools,
+            suggestions: [
+              { type: "category", category: action.category, label: `← Back to popular ${action.category} tools` }
+            ]
           });
-        }
-        
-        return newMessages;
-      });
-    }, 600); // Artificial delay for typing feel
+          return newMessages;
+        });
+      }, 400);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div 
+      ref={windowRef}
       className={cn(
         "fixed z-50 bottom-6 right-3 md:right-6 flex flex-col bg-white shadow-2xl rounded-[22px] border border-slate-200 overflow-hidden transition-all duration-300 transform origin-bottom-right",
         "w-[calc(100vw-24px)] md:w-[380px] h-[520px] max-h-[calc(100vh-100px)]",
@@ -171,7 +293,7 @@ export function AssistantWindow({ isOpen, onClose }: AssistantWindowProps) {
             isTyping={msg.isTyping}
             tools={msg.tools}
             suggestions={msg.suggestions}
-            onSuggestionClick={handleSend}
+            onSuggestionClick={handleAction}
           />
         ))}
       </div>
@@ -179,7 +301,7 @@ export function AssistantWindow({ isOpen, onClose }: AssistantWindowProps) {
       {/* Input Area */}
       <div ref={inputContainerRef}>
         <AssistantInput 
-          onSend={handleSend} 
+          onSend={(text) => handleAction({ type: "send-message", text })} 
           disabled={messages.some(m => m.isTyping)}
         />
       </div>

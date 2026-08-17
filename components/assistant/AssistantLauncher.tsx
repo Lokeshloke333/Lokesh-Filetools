@@ -18,6 +18,7 @@ export function AssistantLauncher({ isOpen, onClick }: AssistantLauncherProps) {
       )}
       aria-label="Open Fileinator Assistant"
       aria-expanded={isOpen}
+      data-assistant-launcher="true"
     >
       <MessageCircle className="w-6 h-6 md:w-7 md:h-7" />
     </button>
