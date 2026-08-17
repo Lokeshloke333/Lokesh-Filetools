@@ -148,6 +148,7 @@ export function ToolGrid({ tools, variant = "default" }: ToolGridProps) {
           <Link
             key={tool.id}
             href={tool.href}
+            prefetch={false}
             className={`group bg-white border border-slate-200/80 rounded-2xl shadow-sm hover:-translate-y-1 hover:shadow-xl ${colors.borderHover} ${colors.shadowHover} transition-all duration-300 block`}
           >
             {cardContent}

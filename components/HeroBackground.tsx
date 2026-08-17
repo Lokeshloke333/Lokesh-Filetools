@@ -142,7 +142,7 @@ function getDeviceConfig(width: number): DeviceConfig {
   }
 }
 
-export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundProps) {
+export const HeroBackground = React.memo(function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundProps) {
   const shouldReduceMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
@@ -177,6 +177,43 @@ export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundPro
     let width = window.innerWidth;
     let height = window.innerHeight;
     let currentConfig = getDeviceConfig(width);
+    
+    // Cache for pre-rendered node glows
+    const glowCache: Record<string, HTMLCanvasElement> = {};
+
+    const preRenderGlow = (theme: typeof THEMES[0], config: DeviceConfig) => {
+      const glowR = config.glowRadius;
+      const size = glowR * 2;
+      const offscreen = document.createElement('canvas');
+      offscreen.width = size;
+      offscreen.height = size;
+      const oCtx = offscreen.getContext('2d');
+      if (!oCtx) return offscreen;
+
+      const gradient = oCtx.createRadialGradient(glowR, glowR, 0, glowR, glowR, glowR);
+      gradient.addColorStop(0, `rgba(${theme.color}, ${config.glowOpacityInner})`);
+      gradient.addColorStop(0.3, `rgba(${theme.color}, ${config.glowOpacityMid})`);
+      gradient.addColorStop(1, `rgba(${theme.color}, 0)`);
+      
+      oCtx.fillStyle = gradient;
+      oCtx.beginPath();
+      oCtx.arc(glowR, glowR, glowR, 0, Math.PI * 2);
+      oCtx.fill();
+
+      // Solid center point
+      oCtx.fillStyle = `rgba(${theme.color}, 1)`;
+      oCtx.beginPath();
+      oCtx.arc(glowR, glowR, config.dotRadius, 0, Math.PI * 2);
+      oCtx.fill();
+
+      return offscreen;
+    };
+
+    const updateGlowCache = () => {
+      THEMES.forEach(theme => {
+        glowCache[theme.label] = preRenderGlow(theme, currentConfig);
+      });
+    };
 
     class NetworkNode {
       x: number; y: number;
@@ -242,23 +279,11 @@ export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundPro
       }
 
       draw(ctx: CanvasRenderingContext2D, config: DeviceConfig, w: number, h: number) {
-        // Draw Glowing Dot
-        const glowR = config.glowRadius;
-        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowR);
-        gradient.addColorStop(0, `rgba(${this.theme.color}, ${config.glowOpacityInner})`);
-        gradient.addColorStop(0.3, `rgba(${this.theme.color}, ${config.glowOpacityMid})`);
-        gradient.addColorStop(1, `rgba(${this.theme.color}, 0)`);
-        
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, glowR, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Solid center point
-        ctx.fillStyle = `rgba(${this.theme.color}, 1)`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, config.dotRadius, 0, Math.PI * 2);
-        ctx.fill();
+        // Draw Glowing Dot (Pre-rendered)
+        const glowCanvas = glowCache[this.theme.label];
+        if (glowCanvas) {
+          ctx.drawImage(glowCanvas, this.x - config.glowRadius, this.y - config.glowRadius);
+        }
 
         // Draw Pill Label
         ctx.font = config.fontSize;
@@ -323,6 +348,7 @@ export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundPro
       ctx.scale(dpr, dpr);
 
       if (tierChanged || nodes.length === 0) {
+        updateGlowCache();
         initNodes();
       }
     };
@@ -412,7 +438,7 @@ export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundPro
       {floatingIcons.map((item, idx) => (
         <motion.div
           key={idx}
-          className="hidden sm:block absolute text-[#CBD5E1] opacity-[0.03] blur-[1px]"
+          className="hidden sm:block absolute text-[#CBD5E1] opacity-[0.03] blur-[1px] will-change-transform [transform:translateZ(0)]"
           style={{ 
             top: item.top, 
             left: item.left, 
@@ -433,4 +459,4 @@ export function HeroBackground({ smoothMouseX, smoothMouseY }: HeroBackgroundPro
 
     </div>
   );
-}
+});

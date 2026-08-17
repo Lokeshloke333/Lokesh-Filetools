@@ -10,6 +10,10 @@ export interface WorkerProcessMessage {
   resizedImageData: ImageData;
   qualityMode: AIQualityMode;
   capabilities: BrowserAICapabilities;
+  padX?: number;
+  padY?: number;
+  innerWidth?: number;
+  innerHeight?: number;
 }
 
 // Ensure TypeScript knows this is a worker context
@@ -29,7 +33,7 @@ self.addEventListener("message", async (event: MessageEvent) => {
   }
 
   if (data.action === "process") {
-    const { id, originalImageData, resizedImageData, qualityMode, capabilities } = data as WorkerProcessMessage;
+    const { id, originalImageData, resizedImageData, qualityMode, capabilities, padX, padY, innerWidth, innerHeight } = data as WorkerProcessMessage;
 
     abortController = new AbortController();
 
@@ -41,6 +45,10 @@ self.addEventListener("message", async (event: MessageEvent) => {
           qualityMode,
           capabilities,
           signal: abortController.signal,
+          padX,
+          padY,
+          innerWidth,
+          innerHeight,
           onProgress: (stage, percent) => {
             self.postMessage({ id, type: "progress", stage, percent });
           }

@@ -185,6 +185,7 @@ export function MegaMenuDropdown({ category, alignRight }: MegaMenuDropdownProps
                         <li key={item.label} role="none">
                           <Link
                             href={item.comingSoon ? '#' : item.href}
+                            prefetch={false}
                             role="menuitem"
                             className={`p-3 rounded-xl transition-all duration-200 flex items-start gap-3 group focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
                               item.comingSoon 
@@ -246,6 +247,7 @@ export function MegaMenuDropdown({ category, alignRight }: MegaMenuDropdownProps
                         <li key={item.label} role="none">
                           <Link
                             href={item.comingSoon ? '#' : item.href}
+                            prefetch={false}
                             role="menuitem"
                             className={`text-sm py-2.5 px-3 rounded-xl transition-all duration-200 flex items-center justify-between group focus:outline-none ${theme.focusRing} ${
                               item.comingSoon 
@@ -274,6 +276,7 @@ export function MegaMenuDropdown({ category, alignRight }: MegaMenuDropdownProps
               </span>
               <Link 
                 href={`/alltools?category=${category.title.split(' ')[0].toLowerCase()}`}
+                prefetch={false}
                 className="text-sm font-bold text-blue-600 flex items-center gap-1 hover:text-blue-700 hover:underline"
                 onClick={() => setIsOpen(false)}
               >

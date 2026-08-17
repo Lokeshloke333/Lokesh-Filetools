@@ -10,6 +10,10 @@ export interface BackgroundRemovalOptions {
   onProgress?: (stage: string, percent: number) => void;
   capabilities: BrowserAICapabilities;
   signal?: AbortSignal;
+  padX?: number;
+  padY?: number;
+  innerWidth?: number;
+  innerHeight?: number;
 }
 
 /**
@@ -43,7 +47,7 @@ export async function processBackgroundRemoval(
   if (options.signal?.aborted) throw new Error("Aborted");
 
   // 2. Preprocess Image (Tensor conversion)
-  options.onProgress?.("Analyzing Image...", 60);
+  options.onProgress?.("Processing image...", 60);
   const inputTensor = await preprocessImageData(
     resizedImageData,
     modelConfig.mean,
@@ -56,7 +60,7 @@ export async function processBackgroundRemoval(
   }
 
   // 3. Run Inference
-  options.onProgress?.("Removing Background...", 70);
+  options.onProgress?.("Removing background...", 70);
   const feeds: Record<string, import("onnxruntime-web").Tensor> = {};
   
   // Log tensor shape and model requirements
@@ -96,7 +100,7 @@ export async function processBackgroundRemoval(
   }
 
   // 4. Postprocess (Apply Mask with Edge Refinement)
-  options.onProgress?.("Refining Edges...", 90);
+  options.onProgress?.("Refining edges...", 90);
   const dims = outputTensor.dims;
   
   // Safely extract dimensions regardless of whether shape is [1,1,H,W] or [H,W]
@@ -153,14 +157,18 @@ export async function processBackgroundRemoval(
   AILogger.log(`Mask Avg: ${sumMask / maskData.length}`);
   AILogger.log("----------------------------------");
 
-  const isMattingModel = modelConfig.id === "modnet";
+  const isMattingModel = modelConfig.id === "modnet" || modelConfig.id === "rmbg-1.4";
 
   const processedImageData = applyAlphaMaskToImageData(
     maskData,
     maskWidth,
     maskHeight,
     originalImageData,
-    isMattingModel
+    isMattingModel,
+    options.padX,
+    options.padY,
+    options.innerWidth,
+    options.innerHeight
   );
 
   // Cleanup Tensors explicitly after we extract the mask data

@@ -32,7 +32,6 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
   const [error, setError] = useState<string | null>(null);
   
   const [capabilities, setCapabilities] = useState<BrowserAICapabilities | null>(null);
-  const [qualityMode, setQualityMode] = useState<AIQualityMode>("fast");
   
   const [isProcessing, setIsProcessing] = useState(false);
   const [progressStage, setProgressStage] = useState("");
@@ -87,7 +86,7 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
     setError(null);
 
     try {
-      setProgressStage("Preparing Image...");
+      setProgressStage("Removing background...");
       setProgressPercent(5);
 
       const img = await loadImage(originalImageUrl);
@@ -97,11 +96,28 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
       // 1. Get original ImageData
       const originalImageData = extractImageData(img, originalWidth, originalHeight);
 
-      // 2. Resize to exact model dimensions
-      const modelConfig = getModelForMode(qualityMode);
+      // 2. Resize to exact model dimensions using aspect-ratio preserving letterbox
+      const modelConfig = getModelForMode("high");
       const [expectedWidth, expectedHeight] = modelConfig.inputSize;
 
-      const resizedImageData = extractImageData(img, expectedWidth, expectedHeight);
+      const scale = Math.min(expectedWidth / originalWidth, expectedHeight / originalHeight);
+      const innerWidth = Math.round(originalWidth * scale);
+      const innerHeight = Math.round(originalHeight * scale);
+      const padX = Math.round((expectedWidth - innerWidth) / 2);
+      const padY = Math.round((expectedHeight - innerHeight) / 2);
+
+      const resizeCanvas = document.createElement("canvas");
+      resizeCanvas.width = expectedWidth;
+      resizeCanvas.height = expectedHeight;
+      const resizeCtx = resizeCanvas.getContext("2d", { willReadFrequently: true });
+      if (!resizeCtx) throw new Error("Canvas context missing");
+      
+      // Fill with mean color to prevent zero-padding artifacts
+      resizeCtx.fillStyle = "rgb(128,128,128)";
+      resizeCtx.fillRect(0, 0, expectedWidth, expectedHeight);
+      resizeCtx.drawImage(img, padX, padY, innerWidth, innerHeight);
+      
+      const resizedImageData = resizeCtx.getImageData(0, 0, expectedWidth, expectedHeight);
 
       // 3. Send to Worker
       const workerId = Math.random().toString(36).substring(7);
@@ -136,15 +152,19 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
           action: "process",
           originalImageData,
           resizedImageData,
-          qualityMode,
-          capabilities
+          qualityMode: "high",
+          capabilities,
+          padX,
+          padY,
+          innerWidth,
+          innerHeight
         });
       });
 
       const processedImageData = await workerPromise;
 
       // 4. Convert processed ImageData back to Blob
-      setProgressStage("Generating PNG...");
+      setProgressStage("Finalizing...");
       setProgressPercent(95);
 
       const outCanvas = document.createElement("canvas");
@@ -249,52 +269,6 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
         
         {!processedBlob && !file && (
           <div className="space-y-6 animate-in fade-in">
-            {/* Quality Mode Selector */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-              <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Star className="w-4 h-4 text-purple-600" /> AI Processing Mode
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button
-                  onClick={() => setQualityMode("fast")}
-                  className={`relative p-4 rounded-xl border-2 text-left transition-all ${
-                    qualityMode === "fast"
-                      ? "border-purple-600 bg-purple-50/50 shadow-sm"
-                      : "border-slate-100 bg-slate-50 hover:border-purple-200 hover:bg-white"
-                  }`}
-                >
-                  {qualityMode === "fast" && (
-                    <div className="absolute top-4 right-4 w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    </div>
-                  )}
-                  <h4 className={`font-bold flex items-center gap-2 mb-1 ${qualityMode === "fast" ? "text-purple-900" : "text-slate-700"}`}>
-                    <Zap className={`w-4 h-4 ${qualityMode === "fast" ? "text-purple-600" : "text-slate-400"}`} /> 
-                    Fast Mode (Recommended)
-                  </h4>
-                  <p className="text-sm text-slate-500">Lower memory usage and faster processing. Perfect for everyday images.</p>
-                </button>
-                <button
-                  onClick={() => setQualityMode("high")}
-                  className={`relative p-4 rounded-xl border-2 text-left transition-all ${
-                    qualityMode === "high"
-                      ? "border-purple-600 bg-purple-50/50 shadow-sm"
-                      : "border-slate-100 bg-slate-50 hover:border-purple-200 hover:bg-white"
-                  }`}
-                >
-                  {qualityMode === "high" && (
-                    <div className="absolute top-4 right-4 w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center">
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    </div>
-                  )}
-                  <h4 className={`font-bold flex items-center gap-2 mb-1 ${qualityMode === "high" ? "text-purple-900" : "text-slate-700"}`}>
-                    <Star className={`w-4 h-4 ${qualityMode === "high" ? "text-purple-600" : "text-slate-400"}`} /> 
-                    High Quality
-                  </h4>
-                  <p className="text-sm text-slate-500">Larger AI model for better edge detection. Slower processing and uses more memory.</p>
-                </button>
-              </div>
-            </div>
 
             <AIUploadZone 
               onFileSelect={handleFileSelect}

@@ -1,19 +1,15 @@
-"use client";
-
-import React, { useMemo } from "react";
+import React from "react";
 import { CATEGORY_DATA } from "@/components/tools/FeaturedCategories";
 import { CategoryCard } from "@/components/tools/CategoryCard";
 import { TOOLS } from "@/lib/tools";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/section-header";
+
 export function CategorySection() {
-  const toolCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    TOOLS.forEach((tool) => {
-      counts[tool.category] = (counts[tool.category] || 0) + 1;
-    });
-    return counts;
-  }, []);
+  const toolCounts: Record<string, number> = {};
+  TOOLS.forEach((tool) => {
+    toolCounts[tool.category] = (toolCounts[tool.category] || 0) + 1;
+  });
 
   return (
     <section className="py-16 md:py-20 bg-white">

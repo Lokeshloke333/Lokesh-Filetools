@@ -35,9 +35,25 @@ export function Hero() {
   const smoothMouseX = useSpring(mouseX, springConfig);
   const smoothMouseY = useSpring(mouseY, springConfig);
 
+  // Cache rect to avoid layout reflows on every mousemove
+  const sectionRectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
+
+  React.useEffect(() => {
+    const updateRect = () => {
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        sectionRectRef.current = { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
+      }
+    };
+    
+    updateRect();
+    window.addEventListener("resize", updateRect);
+    return () => window.removeEventListener("resize", updateRect);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (shouldReduceMotion || !sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
+    if (shouldReduceMotion || !sectionRectRef.current) return;
+    const rect = sectionRectRef.current;
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
     mouseX.set(x);
@@ -123,10 +139,10 @@ export function Hero() {
     >
       {/* Decorative blurred gradient blobs behind everything in the hero */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute -left-[5%] top-[10%] w-[35%] h-[50%] bg-blue-600/[0.05] rounded-full blur-[140px]"></div>
-        <div className="absolute left-[25%] top-[15%] w-[25%] h-[40%] bg-purple-600/[0.04] rounded-full blur-[150px]"></div>
-        <div className="absolute right-[20%] top-[0%] w-[30%] h-[45%] bg-cyan-600/[0.06] rounded-full blur-[130px]"></div>
-        <div className="absolute -right-[5%] top-[20%] w-[40%] h-[40%] bg-pink-600/[0.05] rounded-full blur-[160px]"></div>
+        <div className="absolute -left-[5%] top-[10%] w-[35%] h-[50%] bg-blue-600/[0.05] rounded-full blur-[140px] will-change-transform [transform:translateZ(0)]"></div>
+        <div className="absolute left-[25%] top-[15%] w-[25%] h-[40%] bg-purple-600/[0.04] rounded-full blur-[150px] will-change-transform [transform:translateZ(0)]"></div>
+        <div className="absolute right-[20%] top-[0%] w-[30%] h-[45%] bg-cyan-600/[0.06] rounded-full blur-[130px] will-change-transform [transform:translateZ(0)]"></div>
+        <div className="absolute -right-[5%] top-[20%] w-[40%] h-[40%] bg-pink-600/[0.05] rounded-full blur-[160px] will-change-transform [transform:translateZ(0)]"></div>
       </div>
       {/* Interactive Background Canvas & CSS Layers */}
       <HeroBackground smoothMouseX={smoothMouseX} smoothMouseY={smoothMouseY} />

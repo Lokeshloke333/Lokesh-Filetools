@@ -62,59 +62,56 @@ export function applyAlphaMaskToImageData(
   maskWidth: number,
   maskHeight: number,
   originalImageData: ImageData,
-  isMattingModel: boolean = false
+  isMattingModel: boolean = false,
+  padX: number = 0,
+  padY: number = 0,
+  innerWidth: number = maskWidth,
+  innerHeight: number = maskHeight
 ): ImageData {
   const data = originalImageData.data;
   const canvasWidth = originalImageData.width;
   const canvasHeight = originalImageData.height;
 
-  const scaleX = maskWidth / canvasWidth;
-  const scaleY = maskHeight / canvasHeight;
-
+  // Map original canvas space [0, canvasWidth] to the mask inner bounds space [padX, padX + innerWidth]
   for (let y = 0; y < canvasHeight; y++) {
     for (let x = 0; x < canvasWidth; x++) {
-      // Find corresponding pixel in the mask (bilinear interpolation approximation via nearest neighbor + feathering logic)
-      const maskX = Math.min(Math.floor(x * scaleX), maskWidth - 1);
-      const maskY = Math.min(Math.floor(y * scaleY), maskHeight - 1);
+      // Find fractional coordinates in the mask's inner image space
+      const srcX = padX + (x / Math.max(1, canvasWidth - 1)) * (innerWidth - 1);
+      const srcY = padY + (y / Math.max(1, canvasHeight - 1)) * (innerHeight - 1);
       
-      const maskIdx = maskY * maskWidth + maskX;
+      // Bilinear interpolation
+      const x1 = Math.floor(srcX);
+      const y1 = Math.floor(srcY);
+      const x2 = Math.min(x1 + 1, maskWidth - 1);
+      const y2 = Math.min(y1 + 1, maskHeight - 1);
       
-      let alphaVal = maskData[maskIdx];
+      const dx = srcX - x1;
+      const dy = srcY - y1;
+      
+      const val11 = maskData[y1 * maskWidth + x1];
+      const val12 = maskData[y2 * maskWidth + x1];
+      const val21 = maskData[y1 * maskWidth + x2];
+      const val22 = maskData[y2 * maskWidth + x2];
+      
+      const top = val11 * (1 - dx) + val21 * dx;
+      const bottom = val12 * (1 - dx) + val22 * dx;
+      let alphaVal = top * (1 - dy) + bottom * dy;
       
       if (!isMattingModel) {
         // Edge Refinement: Soft Thresholding for segmentation models
-        // Many models output logits or probabilities that are a bit "fuzzy".
-        // We apply a soft S-curve or clamp to clean up the mask.
-        
-        // 1. Remove small noise in the background
         if (alphaVal < 0.1) {
           alphaVal = 0;
-        } 
-        // 2. Solidify core foreground (fills holes)
-        else if (alphaVal > 0.9) {
+        } else if (alphaVal > 0.9) {
           alphaVal = 1;
-        } 
-        // 3. Smooth the transition (feathering edges for hair/fur)
-        else {
-          // Smoothstep function for nicer gradients on edges
+        } else {
           alphaVal = alphaVal * alphaVal * (3 - 2 * alphaVal);
         }
       }
-      // For matting models (like MODNet), the raw mask is a highly accurate alpha matte
-      // which already correctly captures hair and transparency.
-      // Applying thresholding to a matting model destroys fine details and can result in
-      // a completely black output if the subject probabilities are low.
 
-      // Set the alpha channel of the original image data
       const pixelIdx = (y * canvasWidth + x) * 4;
       let a = Math.round(alphaVal * 255);
       
-      // Fix for HTML5 Canvas Premultiplied Alpha Bug:
-      // When putImageData is called with A=0, the canvas premultiplies the RGB values by 0,
-      // irrevocably destroying the original RGB data (turning them into 0,0,0 black).
-      // By enforcing a minimum alpha of 1 (0.4% opacity, visually completely transparent),
-      // we force the browser to perfectly preserve and un-premultiply the original RGB values
-      // when exporting the transparent PNG via toBlob.
+      // Fix for HTML5 Canvas Premultiplied Alpha Bug
       if (a === 0) a = 1;
       
       data[pixelIdx + 3] = a;
