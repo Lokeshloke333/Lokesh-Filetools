@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/pdf-to-image",
   },
   openGraph: {
-    title: "PDF to Image Converter Online | Fileinator",
+    title: "PDF to Image Converter Online — Fileinator",
     description: "Extract and convert pages from your PDF documents into high-quality JPG or PNG images. Customize resolution and quality online with Fileinator.",
     url: "/pdf-to-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PDF to Image Converter Online | Fileinator",
+    title: "PDF to Image Converter Online — Fileinator",
     description: "Extract and convert pages from your PDF documents into high-quality JPG or PNG images. Customize resolution and quality online with Fileinator.",
     images: ["/og-image.png"],
   },

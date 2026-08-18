@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     canonical: "/qr-generator",
   },
   openGraph: {
-    title: "QR Code Generator | Fileinator",
+    title: "QR Code Generator — Fileinator",
     description: "Create customizable QR codes instantly. Generate QR codes for URLs, text, Wi-Fi, email, and vCards.",
     url: "/qr-generator",
     siteName: "Fileinator",

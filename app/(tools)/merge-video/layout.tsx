@@ -3,14 +3,14 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Merge Video Online Free | Fileinator",
+  title: "Merge Video Online Free — Fileinator",
   description: "Combine and merge multiple video files (MP4, MOV, WEBM) together instantly in your browser. Fast, secure, and completely free.",
   keywords: ["merge video", "combine video", "join video", "video merger", "fileinator video"],
   alternates: {
     canonical: "/merge-video"
   },
   openGraph: {
-    title: "Merge Video Online Free | Fileinator",
+    title: "Merge Video Online Free — Fileinator",
     description: "Combine and merge multiple video files (MP4, MOV, WEBM) together instantly in your browser. Fast, secure, and completely free.",
     url: "/merge-video"
   }

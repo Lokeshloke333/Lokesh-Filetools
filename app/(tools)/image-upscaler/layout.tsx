@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: "/image-upscaler",
   },
   openGraph: {
-    title: "AI Image Upscaler | Fileinator",
+    title: "AI Image Upscaler — Fileinator",
     description: "Enlarge and enhance your images up to 4x resolution using our browser-based AI upscaler.",
     url: "/image-upscaler",
     siteName: "Fileinator",

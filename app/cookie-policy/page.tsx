@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     canonical: "/cookie-policy",
   },
   openGraph: {
-    title: "Cookie Policy | Fileinator",
+    title: "Cookie Policy — Fileinator",
     description: "Learn how Fileinator uses cookies and local storage to deliver secure, browser-based file conversion, compression, and editing tools efficiently.",
     url: "/cookie-policy",
     siteName: "Fileinator",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cookie Policy | Fileinator",
+    title: "Cookie Policy — Fileinator",
     description: "Learn how Fileinator uses cookies and local storage to deliver secure, browser-based file conversion, compression, and editing tools efficiently.",
     images: ["/og-image.png"],
   },

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/resize-image",
   },
   openGraph: {
-    title: "Resize Image Online | Fileinator",
+    title: "Resize Image Online — Fileinator",
     description: "Resize image dimensions by pixels or percentage online for free. Maintain aspect ratio and optimize image size without quality loss with Fileinator.",
     url: "/resize-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resize Image Online | Fileinator",
+    title: "Resize Image Online — Fileinator",
     description: "Resize image dimensions by pixels or percentage online for free. Maintain aspect ratio and optimize image size without quality loss with Fileinator.",
     images: ["/og-image.png"],
   },

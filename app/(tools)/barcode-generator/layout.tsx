@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: "/barcode-generator",
   },
   openGraph: {
-    title: "Barcode Generator | Fileinator",
+    title: "Barcode Generator — Fileinator",
     description: "Generate professional barcodes instantly. Supports Code128, Code39, EAN-13, UPC, and more.",
     url: "/barcode-generator",
     siteName: "Fileinator",

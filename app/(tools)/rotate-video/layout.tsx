@@ -3,14 +3,14 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Rotate Video Online Free | Fileinator",
+  title: "Rotate Video Online Free — Fileinator",
   description: "Rotate and flip videos (MP4, MOV, WEBM) easily in your browser without quality loss. Change video orientation securely and completely free.",
   keywords: ["rotate video", "flip video", "change video orientation", "video rotator", "fileinator video"],
   alternates: {
     canonical: "/rotate-video"
   },
   openGraph: {
-    title: "Rotate Video Online Free | Fileinator",
+    title: "Rotate Video Online Free — Fileinator",
     description: "Rotate and flip videos (MP4, MOV, WEBM) easily in your browser without quality loss. Change video orientation securely and completely free.",
     url: "/rotate-video"
   }

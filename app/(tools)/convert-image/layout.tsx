@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/convert-image",
   },
   openGraph: {
-    title: "Convert Image Online | Fileinator",
+    title: "Convert Image Online — Fileinator",
     description: "Convert images between JPG, PNG, WEBP, GIF, and AVIF formats instantly in your browser. Free, secure, and preserves high image quality.",
     url: "/convert-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Convert Image Online | Fileinator",
+    title: "Convert Image Online — Fileinator",
     description: "Convert images between JPG, PNG, WEBP, GIF, and AVIF formats instantly in your browser. Free, secure, and preserves high image quality.",
     images: ["/og-image.png"],
   },

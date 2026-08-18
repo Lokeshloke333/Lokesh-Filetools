@@ -15,9 +15,9 @@ import { getSoftwareAppSchema, getFaqSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
+    absolute: "Fileinator — All-in-One File Toolkit",
   },
-  description: "Fileinator is a comprehensive online file toolkit that lets you compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files securely in your browser.",
+  description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
   keywords: [
     "free online file tools",
     "online pdf tools",
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online. Secure, fast, and browser-based.",
+    title: "Fileinator — All-in-One File Toolkit",
+    description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
     url: "/",
     siteName: "Fileinator",
     type: "website",
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online. Secure, fast, and browser-based.",
+    title: "Fileinator — All-in-One File Toolkit",
+    description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
     images: ["/og-image.png"],
   },
 };

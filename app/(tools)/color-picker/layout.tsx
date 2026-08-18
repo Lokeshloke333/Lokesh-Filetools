@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/color-picker",
   },
   openGraph: {
-    title: "Image Color Picker | Fileinator",
+    title: "Image Color Picker — Fileinator",
     description: "Extract exact colors from any image. Generate beautiful color palettes instantly.",
     url: "/color-picker",
     siteName: "Fileinator",

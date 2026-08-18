@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: "/contact",
   },
   openGraph: {
-    title: "Contact Fileinator | Fileinator",
+    title: "Contact Fileinator — Fileinator",
     description: "Get in touch with the Fileinator team. Send us your feedback, questions, or support inquiries about our free online image and PDF editing tools.",
     url: "/contact",
     siteName: "Fileinator",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Fileinator | Fileinator",
+    title: "Contact Fileinator — Fileinator",
     description: "Get in touch with the Fileinator team. Send us your feedback, questions, or support inquiries about our free online image and PDF editing tools.",
     images: ["/og-image.png"],
   },

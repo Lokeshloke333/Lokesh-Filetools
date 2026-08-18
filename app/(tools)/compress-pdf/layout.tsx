@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/compress-pdf",
   },
   openGraph: {
-    title: "Compress PDF Online Free | Fileinator",
+    title: "Compress PDF Online Free — Fileinator",
     description: "Compress PDF files online for free. Reduce file size of your PDF documents quickly while maintaining optimal visual quality for sharing.",
     url: "/compress-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Compress PDF Online Free | Fileinator",
+    title: "Compress PDF Online Free — Fileinator",
     description: "Compress PDF files online for free. Reduce file size of your PDF documents quickly while maintaining optimal visual quality for sharing.",
     images: ["/og-image.png"],
   },

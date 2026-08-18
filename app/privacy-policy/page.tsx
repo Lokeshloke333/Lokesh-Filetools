@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     canonical: "/privacy-policy",
   },
   openGraph: {
-    title: "Privacy Policy | Fileinator",
+    title: "Privacy Policy — Fileinator",
     description: "Learn how Fileinator protects your privacy while processing your files securely. All processing happens in your browser without permanent storage.",
     url: "/privacy-policy",
     siteName: "Fileinator",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy | Fileinator",
+    title: "Privacy Policy — Fileinator",
     description: "Learn how Fileinator protects your privacy while processing your files securely. All processing happens in your browser without permanent storage.",
     images: ["/og-image.png"],
   },

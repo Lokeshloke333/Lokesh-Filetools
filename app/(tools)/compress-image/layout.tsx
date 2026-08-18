@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/compress-image",
   },
   openGraph: {
-    title: "Compress Image Online Free | Fileinator",
+    title: "Compress Image Online Free — Fileinator",
     description: "Compress JPG, PNG and WebP images online without losing quality. Fast, secure and completely free with Fileinator.",
     url: "/compress-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Compress Image Online Free | Fileinator",
+    title: "Compress Image Online Free — Fileinator",
     description: "Compress JPG, PNG and WebP images online without losing quality. Fast, secure and completely free with Fileinator.",
     images: ["/og-image.png"],
   },

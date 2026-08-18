@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/word-to-pdf",
   },
   openGraph: {
-    title: "Word to PDF Converter Online | Fileinator",
+    title: "Word to PDF Converter Online — Fileinator",
     description: "Convert DOC and DOCX files to PDF online for free while preserving formatting. Fast, secure, browser-based Word to PDF converter.",
     url: "/word-to-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Word to PDF Converter Online | Fileinator",
+    title: "Word to PDF Converter Online — Fileinator",
     description: "Convert DOC and DOCX files to PDF online for free while preserving formatting. Fast, secure, browser-based Word to PDF converter.",
     images: ["/og-image.png"],
   },

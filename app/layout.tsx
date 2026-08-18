@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: "Fileinator",
-    template: "%s | Fileinator",
+    template: "%s — Fileinator",
   },
-  description: "Fileinator is a comprehensive online file toolkit that lets you compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files securely in your browser. Fast, private, and easy to use.",
+  description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
   keywords: [
     "online file tools",
     "online image tools",
@@ -61,8 +61,8 @@ export const metadata: Metadata = {
     type: "website",
     url: siteConfig.url,
     siteName: "Fileinator",
-    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online for free.",
+    title: "Fileinator — All-in-One File Toolkit",
+    description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
     images: [
       {
         url: "/og-image.png",
@@ -74,8 +74,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "All-in-One File Toolkit: PDF, Image, Video & Audio | Fileinator",
-    description: "Use Fileinator to compress, convert, merge, split, edit, and optimize PDFs, images, videos, audio, and Office files online for free.",
+    title: "Fileinator — All-in-One File Toolkit",
+    description: "Fileinator is a comprehensive collection of free online file tools. Compress, convert, edit, and optimize files securely in your browser using our PDF tools, image tools, video tools, and audio tools.",
     images: ["/og-image.png"],
     creator: "@Fileinator",
   },

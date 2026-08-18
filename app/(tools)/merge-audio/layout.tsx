@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Merge Audio Files Online | Join MP3, WAV, M4A | Fileinator",
+  title: "Merge Audio Files Online | Join MP3, WAV, M4A — Fileinator",
   description: "Merge multiple audio files into a single track online for free. Secure, fast, and works directly in your browser. Join MP3, WAV, FLAC, M4A, OGG, and more.",
   keywords: [
     "merge audio",

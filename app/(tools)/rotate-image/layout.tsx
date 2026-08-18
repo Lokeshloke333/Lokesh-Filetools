@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/rotate-image",
   },
   openGraph: {
-    title: "Rotate Image Online | Fileinator",
+    title: "Rotate Image Online — Fileinator",
     description: "Rotate images 90, 180, or 270 degrees clockwise or counterclockwise online. Flip photos horizontally or vertically fast and free with Fileinator.",
     url: "/rotate-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rotate Image Online | Fileinator",
+    title: "Rotate Image Online — Fileinator",
     description: "Rotate images 90, 180, or 270 degrees clockwise or counterclockwise online. Flip photos horizontally or vertically fast and free with Fileinator.",
     images: ["/og-image.png"],
   },

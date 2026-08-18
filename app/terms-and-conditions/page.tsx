@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: "/terms-and-conditions",
   },
   openGraph: {
-    title: "Terms & Conditions | Fileinator",
+    title: "Terms & Conditions — Fileinator",
     description: "Read the terms governing your use of Fileinator online utilities. Understand your rights and responsibilities when using our free file tools.",
     url: "/terms-and-conditions",
     siteName: "Fileinator",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Terms & Conditions | Fileinator",
+    title: "Terms & Conditions — Fileinator",
     description: "Read the terms governing your use of Fileinator online utilities. Understand your rights and responsibilities when using our free file tools.",
     images: ["/og-image.png"],
   },

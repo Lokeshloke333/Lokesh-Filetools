@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/extract-audio",
   },
   openGraph: {
-    title: "Extract Audio from Video Online Free | Fileinator",
+    title: "Extract Audio from Video Online Free — Fileinator",
     description: "Extract high-quality audio from MP4, MOV, AVI, MKV, WEBM and other video formats directly in your browser. Private, secure and completely free.",
     url: "/extract-audio",
     siteName: "Fileinator",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Extract Audio from Video Online Free | Fileinator",
+    title: "Extract Audio from Video Online Free — Fileinator",
     description: "Extract high-quality audio from MP4, MOV, AVI, MKV, WEBM and other video formats directly in your browser. Private, secure and completely free.",
     images: ["/og-image.png"],
   },

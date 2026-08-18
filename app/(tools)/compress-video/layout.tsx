@@ -3,14 +3,14 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Compress Video Online Free | Fileinator",
+  title: "Compress Video Online Free — Fileinator",
   description: "Reduce video file sizes (MP4, MOV, WEBM) instantly in your browser without quality loss. Secure, fast, and 100% free.",
   keywords: ["compress video", "reduce video size", "shrink video", "mp4 compressor", "fileinator video"],
   alternates: {
     canonical: "/compress-video"
   },
   openGraph: {
-    title: "Compress Video Online Free | Fileinator",
+    title: "Compress Video Online Free — Fileinator",
     description: "Reduce video file sizes (MP4, MOV, WEBM) instantly in your browser without quality loss. Secure, fast, and 100% free.",
     url: "/compress-video"
   }

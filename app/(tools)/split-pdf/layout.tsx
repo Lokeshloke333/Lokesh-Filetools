@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/split-pdf",
   },
   openGraph: {
-    title: "Split PDF Online | Fileinator",
+    title: "Split PDF Online — Fileinator",
     description: "Easily split your PDF document into multiple files, extract specific pages, or divide by page ranges. Fast, secure, and free online PDF splitter.",
     url: "/split-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Split PDF Online | Fileinator",
+    title: "Split PDF Online — Fileinator",
     description: "Easily split your PDF document into multiple files, extract specific pages, or divide by page ranges. Fast, secure, and free online PDF splitter.",
     images: ["/og-image.png"],
   },

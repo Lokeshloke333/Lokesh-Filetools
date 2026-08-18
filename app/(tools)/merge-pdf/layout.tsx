@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/merge-pdf",
   },
   openGraph: {
-    title: "Merge PDF Online Free | Fileinator",
+    title: "Merge PDF Online Free — Fileinator",
     description: "Merge multiple PDF files into one document online for free. Secure browser-based PDF merger with drag-and-drop page reordering.",
     url: "/merge-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Merge PDF Online Free | Fileinator",
+    title: "Merge PDF Online Free — Fileinator",
     description: "Merge multiple PDF files into one document online for free. Secure browser-based PDF merger with drag-and-drop page reordering.",
     images: ["/og-image.png"],
   },

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     canonical: "/code-formatter",
   },
   openGraph: {
-    title: "Code Formatter | Fileinator",
+    title: "Code Formatter — Fileinator",
     description: "Format, minify, and validate HTML, XML, CSS, JS, JSON, Python, and PHP instantly.",
     url: "/code-formatter",
     siteName: "Fileinator",

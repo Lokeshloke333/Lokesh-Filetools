@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/crop-image",
   },
   openGraph: {
-    title: "Crop Image Online | Fileinator",
+    title: "Crop Image Online — Fileinator",
     description: "Crop photos and images online to custom dimensions or preset aspect ratios like 16:9, 4:3, and 1:1. Simple, fast, and free browser image cropper.",
     url: "/crop-image",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Crop Image Online | Fileinator",
+    title: "Crop Image Online — Fileinator",
     description: "Crop photos and images online to custom dimensions or preset aspect ratios like 16:9, 4:3, and 1:1. Simple, fast, and free browser image cropper.",
     images: ["/og-image.png"],
   },

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     canonical: "/alltools",
   },
   openGraph: {
-    title: "Browse All Online File Tools | Fileinator",
+    title: "Browse All Online File Tools — Fileinator",
     description: "Explore all free online image and PDF processing tools on Fileinator. Compress, convert, edit, and optimize your files fast in your browser.",
     url: "/alltools",
     siteName: "Fileinator",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Browse All Online File Tools | Fileinator",
+    title: "Browse All Online File Tools — Fileinator",
     description: "Explore all free online image and PDF processing tools on Fileinator. Compress, convert, edit, and optimize your files fast in your browser.",
     images: ["/og-image.png"],
   },

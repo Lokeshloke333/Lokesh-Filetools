@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/image-to-pdf",
   },
   openGraph: {
-    title: "Image to PDF Converter Online | Fileinator",
+    title: "Image to PDF Converter Online — Fileinator",
     description: "Convert JPG, PNG, WEBP, and AVIF images into a single PDF document. Customize page size, orientation, and margins free with Fileinator.",
     url: "/image-to-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Image to PDF Converter Online | Fileinator",
+    title: "Image to PDF Converter Online — Fileinator",
     description: "Convert JPG, PNG, WEBP, and AVIF images into a single PDF document. Customize page size, orientation, and margins free with Fileinator.",
     images: ["/og-image.png"],
   },

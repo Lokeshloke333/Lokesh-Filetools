@@ -3,14 +3,14 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Trim Video Online Free | Fileinator",
+  title: "Trim Video Online Free — Fileinator",
   description: "Cut and trim video files (MP4, MOV, WEBM) easily in your browser without quality loss. Fast, secure, and 100% free.",
   keywords: ["trim video", "cut video", "video cutter", "crop video duration", "fileinator video trimmer"],
   alternates: {
     canonical: "/trim-video"
   },
   openGraph: {
-    title: "Trim Video Online Free | Fileinator",
+    title: "Trim Video Online Free — Fileinator",
     description: "Cut and trim video files (MP4, MOV, WEBM) easily in your browser without quality loss. Fast, secure, and 100% free.",
     url: "/trim-video"
   }

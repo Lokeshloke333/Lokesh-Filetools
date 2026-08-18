@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getBreadcrumbSchema, getSoftwareAppSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "Video Converter Online Free | Fileinator",
+  title: "Video Converter Online Free — Fileinator",
   description: "Convert video files between MP4, MOV, AVI, MKV, and WEBM formats online. Fast, secure, and completely free browser-based local video processing.",
   keywords: [
     "video converter",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     canonical: "/convert-video",
   },
   openGraph: {
-    title: "Video Converter Online Free | Fileinator",
+    title: "Video Converter Online Free — Fileinator",
     description: "Convert video files between MP4, MOV, AVI, MKV, and WEBM formats online. Fast, secure, and completely free browser-based local video processing.",
     url: "/convert-video",
     siteName: "Fileinator",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Video Converter Online Free | Fileinator",
+    title: "Video Converter Online Free — Fileinator",
     description: "Convert video files between MP4, MOV, AVI, MKV, and WEBM formats online. Fast, secure, and completely free browser-based local video processing.",
     images: ["/og-image.png"],
   },

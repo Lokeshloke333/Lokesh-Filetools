@@ -1,20 +1,20 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Protect PDF Online Free | Fileinator",
+  title: "Protect PDF Online Free — Fileinator",
   description: "Encrypt your PDF files with a password online for free. Secure sensitive documents using AES encryption with Fileinator.",
   alternates: {
     canonical: "/protect-pdf",
   },
   openGraph: {
-    title: "Protect PDF Online Free | Fileinator",
+    title: "Protect PDF Online Free — Fileinator",
     description: "Encrypt your PDF files with a password online for free. Secure sensitive documents using AES encryption with Fileinator.",
     url: "/protect-pdf",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Protect PDF Online Free | Fileinator",
+    title: "Protect PDF Online Free — Fileinator",
     description: "Encrypt your PDF files with a password online for free. Secure sensitive documents using AES encryption with Fileinator.",
   },
 };

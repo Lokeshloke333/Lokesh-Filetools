@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     canonical: "/ai-image-enhancer",
   },
   openGraph: {
-    title: "AI Image Enhancer | Fileinator",
+    title: "AI Image Enhancer — Fileinator",
     description: "Instantly enhance your images. Use Auto Enhance or manually adjust brightness, contrast, saturation, vibrance, sharpen, and denoise.",
     url: "/ai-image-enhancer",
     siteName: "Fileinator",

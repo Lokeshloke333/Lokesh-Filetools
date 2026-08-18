@@ -4,7 +4,7 @@ import { TOOLS } from "@/lib/tools";
 const tool = TOOLS.find((t) => t.id === "remove-watermark");
 
 export const metadata: Metadata = {
-  title: "Remove Watermark from Video Online | Fileinator",
+  title: "Remove Watermark from Video Online — Fileinator",
   description: tool?.description || "Remove unwanted logos and watermarks from videos by selecting the area directly.",
   keywords: tool?.keywords || ["remove watermark", "remove logo", "video watermark remover", "delogo"],
   alternates: {

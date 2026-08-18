@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ conversio
       canonical: `/${slug}`,
     },
     openGraph: {
-      title: title.includes("|") ? title : `${title} Online Free | Fileinator`,
+      title: title.includes("|") ? title : `${title} Online Free — Fileinator`,
       description,
       url: `/${slug}`,
       siteName: "Fileinator",
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ conversio
     },
     twitter: {
       card: "summary_large_image",
-      title: title.includes("|") ? title : `${title} Online Free | Fileinator`,
+      title: title.includes("|") ? title : `${title} Online Free — Fileinator`,
       description,
       images: ["/og-image.png"],
     },

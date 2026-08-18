@@ -16,7 +16,7 @@ export const videoConversions: VideoConversion[] = [
     slug: "video-to-gif",
     from: "Video",
     to: "GIF",
-    title: "Video to GIF Converter – Convert Videos to Animated GIF Online | Fileinator",
+    title: "Video to GIF Converter – Convert Videos to Animated GIF Online — Fileinator",
     description: "Convert videos to animated GIFs online for free. Supports MP4, MOV, WEBM, AVI, MKV and more. Fast, secure, and browser-based.",
     keywords: ["video to gif", "convert video to gif", "mp4 to gif", "mov to gif", "gif maker", "create gif from video"],
     supported: true,

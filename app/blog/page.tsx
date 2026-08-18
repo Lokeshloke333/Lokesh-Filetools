@@ -9,13 +9,13 @@ import NextImage from "next/image";
 import { ArrowRight, Image as ImageIcon } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Blog | Fileinator",
+  title: "Blog — Fileinator",
   description: "Read tutorials, guides, and tips about PDF tools, image tools, document conversion, and file management.",
   alternates: {
     canonical: "/blog",
   },
   openGraph: {
-    title: "Blog | Fileinator",
+    title: "Blog — Fileinator",
     description: "Read tutorials, guides, and tips about PDF tools, image tools, document conversion, and file management.",
     url: "/blog",
     siteName: "Fileinator",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog | Fileinator",
+    title: "Blog — Fileinator",
     description: "Read tutorials, guides, and tips about PDF tools, image tools, document conversion, and file management.",
     images: ["/og-image.png"],
   },

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     canonical: "/remove-background",
   },
   openGraph: {
-    title: "AI Background Remover Online Free | Fileinator",
+    title: "AI Background Remover Online Free — Fileinator",
     description: "Remove image backgrounds instantly using AI directly in your browser. No uploads, secure, private and completely free.",
     url: "/remove-background",
     siteName: "Fileinator",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Background Remover Online Free | Fileinator",
+    title: "AI Background Remover Online Free — Fileinator",
     description: "Remove image backgrounds instantly using AI directly in your browser. No uploads, secure, private and completely free.",
     images: ["/og-image.png"],
   },

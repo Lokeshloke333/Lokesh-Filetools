@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: "/unlock-pdf",
   },
   openGraph: {
-    title: "Unlock PDF Online | Fileinator",
+    title: "Unlock PDF Online — Fileinator",
     description: "Remove password protection from PDF files using the correct password. Safe, private, browser-based PDF password remover with Fileinator.",
     url: "/unlock-pdf",
     siteName: "Fileinator",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Unlock PDF Online | Fileinator",
+    title: "Unlock PDF Online — Fileinator",
     description: "Remove password protection from PDF files using the correct password. Safe, private, browser-based PDF password remover with Fileinator.",
     images: ["/og-image.png"],
   },
