@@ -106,13 +106,27 @@ export function applyAlphaMaskToImageData(
         } else {
           alphaVal = alphaVal * alphaVal * (3 - 2 * alphaVal);
         }
+      } else {
+        // Linear Soft Thresholding for matting models (like RMBG-1.4)
+        // This removes low-confidence background noise without destroying hair details
+        if (alphaVal < 0.05) {
+          alphaVal = 0;
+        } else if (alphaVal > 0.95) {
+          alphaVal = 1;
+        } else {
+          alphaVal = (alphaVal - 0.05) / 0.9;
+        }
       }
 
       const pixelIdx = (y * canvasWidth + x) * 4;
       let a = Math.round(alphaVal * 255);
       
-      // Fix for HTML5 Canvas Premultiplied Alpha Bug
-      if (a === 0) a = 1;
+      // Clean RGB for perfectly transparent pixels to prevent color bleed in certain viewers
+      if (a === 0) {
+        data[pixelIdx] = 0;
+        data[pixelIdx + 1] = 0;
+        data[pixelIdx + 2] = 0;
+      }
       
       data[pixelIdx + 3] = a;
     }

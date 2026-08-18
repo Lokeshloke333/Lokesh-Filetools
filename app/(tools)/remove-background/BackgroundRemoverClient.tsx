@@ -7,7 +7,7 @@ import { RelatedTools } from "@/components/tool/RelatedTools";
 import { FAQSection } from "@/components/tool/FAQSection";
 import { AboutTool } from "@/components/tool/AboutTool";
 import { Button } from "@/components/ui/button";
-import { Image as ImageIcon, ArrowRight, AlertTriangle, Cpu, Zap, Star } from "lucide-react";
+import { Image as ImageIcon, ArrowRight, AlertTriangle } from "lucide-react";
 import { formatFileSize } from "@/lib/utils/image";
 import { AIUploadZone } from "@/components/ai/AIUploadZone";
 import { ModelLoader } from "@/components/ai/ModelLoader";
@@ -163,6 +163,44 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
 
       const processedImageData = await workerPromise;
 
+      // --- TEMPORARY DEBUGGING ---
+      console.log("=== ALPHA STATISTICS ===");
+      console.log(`Original Image: ${originalWidth}x${originalHeight}`);
+      console.log(`Processed ImageData: ${processedImageData.width}x${processedImageData.height}`);
+      
+      let alpha0 = 0;
+      let alpha1_4 = 0;
+      let alpha5_254 = 0;
+      let alpha255 = 0;
+      let minX = processedImageData.width, minY = processedImageData.height, maxX = 0, maxY = 0;
+
+      for (let i = 0; i < processedImageData.data.length; i += 4) {
+        const a = processedImageData.data[i + 3];
+        if (a === 0) alpha0++;
+        else if (a > 0 && a < 5) alpha1_4++;
+        else if (a >= 5 && a < 255) alpha5_254++;
+        else if (a === 255) alpha255++;
+
+        if (a > 10) {
+          const x = (i / 4) % processedImageData.width;
+          const y = Math.floor((i / 4) / processedImageData.width);
+          if (x < minX) minX = x;
+          if (y < minY) minY = y;
+          if (x > maxX) maxX = x;
+          if (y > maxY) maxY = y;
+        }
+      }
+      
+      const totalPixels = processedImageData.width * processedImageData.height;
+      console.log(`Total Pixels: ${totalPixels}`);
+      console.log(`Alpha 0: ${alpha0} (${((alpha0/totalPixels)*100).toFixed(1)}%)`);
+      console.log(`Alpha 1-4: ${alpha1_4}`);
+      console.log(`Alpha 5-254 (semi-transparent): ${alpha5_254} (${((alpha5_254/totalPixels)*100).toFixed(1)}%)`);
+      console.log(`Alpha 255: ${alpha255} (${((alpha255/totalPixels)*100).toFixed(1)}%)`);
+      console.log(`Bounding Box (Alpha > 10): minX=${minX}, minY=${minY}, maxX=${maxX}, maxY=${maxY}`);
+      console.log("========================");
+      // ----------------------------
+
       // 4. Convert processed ImageData back to Blob
       setProgressStage("Finalizing...");
       setProgressPercent(95);
@@ -175,6 +213,39 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
       const outBlob = await new Promise<Blob>((resolve, reject) => {
         outCanvas.toBlob((b) => b ? resolve(b) : reject(new Error("Failed to create PNG")), "image/png", 1.0);
       });
+
+      console.log(`Blob MIME type: ${outBlob.type}`);
+      console.log(`Blob size: ${outBlob.size} bytes`);
+      
+      // Verify the generated blob by drawing it back and checking alpha
+      const verifyImg = new Image();
+      verifyImg.src = URL.createObjectURL(outBlob);
+      await new Promise((resolve) => { verifyImg.onload = resolve; });
+      
+      const vCanvas = document.createElement("canvas");
+      vCanvas.width = verifyImg.naturalWidth;
+      vCanvas.height = verifyImg.naturalHeight;
+      const vCtx = vCanvas.getContext("2d");
+      vCtx?.clearRect(0, 0, vCanvas.width, vCanvas.height);
+      vCtx?.drawImage(verifyImg, 0, 0);
+      const vData = vCtx?.getImageData(0, 0, vCanvas.width, vCanvas.height);
+      
+      if (vData) {
+        let vAlpha5_254 = 0;
+        let diffPixels = 0;
+        for (let i = 0; i < vData.data.length; i += 4) {
+          const a = vData.data[i + 3];
+          if (a >= 5 && a < 255) vAlpha5_254++;
+          if (Math.abs(a - processedImageData.data[i + 3]) > 1) {
+            diffPixels++;
+          }
+        }
+        console.log(`=== BLOB VERIFICATION ===`);
+        console.log(`Blob Dimensions: ${verifyImg.naturalWidth}x${verifyImg.naturalHeight}`);
+        console.log(`Blob Alpha 5-254: ${vAlpha5_254}`);
+        console.log(`Differing Alpha Pixels: ${diffPixels}`);
+        console.log("=========================");
+      }
 
       setProcessedBlob(outBlob);
       setProcessedUrl(URL.createObjectURL(outBlob));
@@ -259,13 +330,7 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
           icon={<ImageIcon className="w-6 h-6 text-purple-500" />}
         />
 
-        {/* Display capabilities info playfully if WebGPU is available */}
-        {capabilities && !file && capabilities.webGpuSupported && (
-           <div className="bg-purple-50/50 border border-purple-100 rounded-xl p-3 flex items-center justify-center gap-2 text-sm font-medium text-purple-700 animate-in fade-in max-w-sm mx-auto shadow-sm">
-              <Cpu className="w-4 h-4" />
-              WebGPU Hardware Acceleration Enabled
-           </div>
-        )}
+
         
         {!processedBlob && !file && (
           <div className="space-y-6 animate-in fade-in">
