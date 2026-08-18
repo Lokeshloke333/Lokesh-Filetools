@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function QRCodeGeneratorLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Utilities", item: "/tools" },
+    { name: "Utilities", item: "/alltools" },
     { name: "QR Code Generator", item: "/qr-generator" },
   ]);
 
@@ -50,3 +50,4 @@ export default function QRCodeGeneratorLayout({ children }: { children: React.Re
     </>
   );
 }
+

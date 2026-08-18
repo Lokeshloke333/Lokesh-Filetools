@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "PDF Tools", item: "/tools" },
+    { name: "PDF Tools", item: "/alltools" },
     { name: "PDF to Image", item: "/pdf-to-image" },
   ]);
 
@@ -59,3 +59,4 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+

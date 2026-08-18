@@ -68,7 +68,7 @@ export default async function ConversionLayout({ children, params }: { children:
 
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: categoryName, item: "/tools" },
+    { name: categoryName, item: "/alltools" },
     { name: "Convert", item: parentConvertUrl },
     { name: config.title, item: `/${config.slug}` },
   ]);

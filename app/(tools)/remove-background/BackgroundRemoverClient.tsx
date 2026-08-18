@@ -7,7 +7,7 @@ import { RelatedTools } from "@/components/tool/RelatedTools";
 import { FAQSection } from "@/components/tool/FAQSection";
 import { AboutTool } from "@/components/tool/AboutTool";
 import { Button } from "@/components/ui/button";
-import { Image as ImageIcon, ArrowRight, AlertTriangle } from "lucide-react";
+import { Image as ImageIcon, ArrowRight, AlertTriangle, Wand2 } from "lucide-react";
 import { formatFileSize } from "@/lib/utils/image";
 import { AIUploadZone } from "@/components/ai/AIUploadZone";
 import { ModelLoader } from "@/components/ai/ModelLoader";
@@ -19,6 +19,7 @@ import { validateImageForAI } from "@/lib/ai/imageValidation";
 import { downloadBlob } from "@/lib/ai/imageDownload";
 import { AIQualityMode, getModelForMode } from "@/lib/ai/aiConstants";
 import { loadImage } from "@/lib/ai/imageUtils";
+import { CleanupEditor } from "@/components/image/CleanupEditor";
 
 interface BackgroundRemoverClientProps {
   children?: React.ReactNode;
@@ -36,6 +37,9 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
   const [isProcessing, setIsProcessing] = useState(false);
   const [progressStage, setProgressStage] = useState("");
   const [progressPercent, setProgressPercent] = useState(0);
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingOriginal, setIsEditingOriginal] = useState(false);
   
   const workerRef = useRef<Worker | null>(null);
 
@@ -294,6 +298,24 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
     }
   };
 
+  const handleSaveRefinement = (editedBlob: Blob, editedUrl: string) => {
+    if (processedUrl) URL.revokeObjectURL(processedUrl);
+    setProcessedBlob(editedBlob);
+    setProcessedUrl(editedUrl);
+    setIsEditing(false);
+  };
+
+  const handleSaveOriginalRefinement = (editedBlob: Blob, editedUrl: string) => {
+    // Preserve original file name, change type to PNG since CleanupEditor outputs PNG
+    const originalName = file ? file.name.replace(/\.[^/.]+$/, "") : "image";
+    const newFile = new File([editedBlob], `${originalName}.png`, { type: "image/png" });
+    
+    setFile(newFile);
+    if (originalImageUrl) URL.revokeObjectURL(originalImageUrl);
+    setOriginalImageUrl(editedUrl);
+    setIsEditingOriginal(false);
+  };
+
   const faqs = [
     {
       question: "Is Background Remover free?",
@@ -322,8 +344,25 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
   ];
 
   return (
-    <ToolLayout>
-      <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+    <>
+      {isEditing && processedBlob && (
+        <CleanupEditor 
+          originalBlob={processedBlob}
+          onSave={handleSaveRefinement}
+          onCancel={() => setIsEditing(false)}
+        />
+      )}
+
+      {isEditingOriginal && file && (
+        <CleanupEditor 
+          originalBlob={file}
+          onSave={handleSaveOriginalRefinement}
+          onCancel={() => setIsEditingOriginal(false)}
+        />
+      )}
+      
+      <ToolLayout>
+        <div className="flex flex-col gap-8 max-w-4xl mx-auto">
         <ToolHeader 
           title="AI Background Remover"
           subtitle="Remove image backgrounds instantly using private AI processing directly inside your browser."
@@ -375,10 +414,19 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
                     <p className="text-sm">{error}</p>
                 </div>
             ) : (
-                <div className="mt-8 flex justify-center">
+                <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md sm:max-w-none mx-auto">
+                  <Button 
+                    variant="outline"
+                    size="lg" 
+                    className="w-full sm:w-auto h-14 rounded-2xl text-base font-bold px-8 border-slate-300 text-slate-700 hover:bg-slate-50 transition-all"
+                    onClick={() => setIsEditingOriginal(true)}
+                    disabled={isProcessing}
+                  >
+                    <Wand2 className="w-5 h-5 mr-2" /> Refine Image
+                  </Button>
                   <Button 
                     size="lg" 
-                    className="w-full max-w-md h-14 rounded-2xl text-base font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/20 transition-all"
+                    className="w-full sm:w-auto h-14 rounded-2xl text-base font-bold px-8 bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-500/20 transition-all"
                     onClick={handleStartProcessing}
                     disabled={isProcessing}
                   >
@@ -395,7 +443,7 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
           </div>
         )}
 
-        {processedBlob && processedUrl && originalImageUrl && (
+        {processedBlob && processedUrl && originalImageUrl && !isEditing && (
           <AIResultCard 
              originalImage={originalImageUrl}
              processedImage={processedUrl}
@@ -403,6 +451,7 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
              processedSize={processedBlob.size}
              onDownload={handleDownload}
              onReset={clearAll}
+             onRefine={() => setIsEditing(true)}
           />
         )}
       </div>
@@ -468,5 +517,6 @@ export default function BackgroundRemoverClient({ children }: BackgroundRemoverC
       />
       {children}
     </ToolLayout>
+    </>
   );
 }

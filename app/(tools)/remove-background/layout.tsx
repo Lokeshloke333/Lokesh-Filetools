@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "AI Tools", item: "/tools" },
+    { name: "AI Tools", item: "/alltools" },
     { name: "Remove Background", item: "/remove-background" },
   ]);
 
@@ -63,3 +63,4 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+

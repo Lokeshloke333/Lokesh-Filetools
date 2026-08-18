@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      { source: '/tools', destination: '/alltools', permanent: true },
       { source: '/tools/ai/background-remover', destination: '/remove-background', permanent: true },
       { source: '/tools/image/jpg-to-png', destination: '/jpg-to-png', permanent: true },
       { source: '/tools/image/png-to-jpg', destination: '/png-to-jpg', permanent: true },

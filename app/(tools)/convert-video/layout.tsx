@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 export default function ConvertVideoLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Video Tools", item: "/tools" },
+    { name: "Video Tools", item: "/alltools" },
     { name: "Convert Video", item: "/convert-video" },
   ]);
 
@@ -61,3 +61,4 @@ export default function ConvertVideoLayout({ children }: { children: React.React
     </>
   );
 }
+

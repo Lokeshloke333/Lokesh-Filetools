@@ -20,12 +20,12 @@ export const metadata: Metadata = {
     "free online tools"
   ],
   alternates: {
-    canonical: "/tools",
+    canonical: "/alltools",
   },
   openGraph: {
     title: "Browse All Online File Tools | Fileinator",
     description: "Explore all free online image and PDF processing tools on Fileinator. Compress, convert, edit, and optimize your files fast in your browser.",
-    url: "/tools",
+    url: "/alltools",
     siteName: "Fileinator",
     type: "website",
     images: ["/og-image.png"],
@@ -44,7 +44,7 @@ import { getBreadcrumbSchema } from "@/lib/seo/schema";
 export default function ToolsPage() {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Browse Tools", item: "/tools" },
+    { name: "Browse Tools", item: "/alltools" },
   ]);
 
   return (
@@ -73,3 +73,4 @@ export default function ToolsPage() {
     </main>
   );
 }
+

@@ -13,6 +13,7 @@ interface AIResultCardProps {
   height?: number;
   onDownload: () => void;
   onReset: () => void;
+  onRefine?: () => void;
 }
 
 export function AIResultCard({ 
@@ -23,7 +24,8 @@ export function AIResultCard({
   width,
   height,
   onDownload, 
-  onReset 
+  onReset,
+  onRefine
 }: AIResultCardProps) {
   return (
     <div className="bg-purple-50/50 border border-purple-100 rounded-3xl p-6 sm:p-8 text-center shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -77,6 +79,17 @@ export function AIResultCard({
           <RefreshCw className="w-5 h-5 mr-2" />
           Remove Another Background
         </Button>
+        {onRefine && (
+          <Button 
+            variant="outline"
+            size="lg" 
+            className="bg-white hover:bg-purple-50 text-purple-700 border-purple-200 h-14 rounded-2xl text-base font-bold shadow-sm transition-all" 
+            onClick={onRefine}
+          >
+            <Sparkles className="w-5 h-5 mr-2" />
+            Refine Result
+          </Button>
+        )}
         <Button 
           size="lg" 
           className="bg-purple-600 hover:bg-purple-700 text-white h-14 rounded-2xl text-base font-bold shadow-lg shadow-purple-500/30 transition-all hover:scale-105" 

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function CompressImageLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Image Tools", item: "/tools" },
+    { name: "Image Tools", item: "/alltools" },
     { name: "Compress Image", item: "/compress-image" },
   ]);
 
@@ -59,3 +59,4 @@ export default function CompressImageLayout({ children }: { children: React.Reac
     </>
   );
 }
+

@@ -15,7 +15,7 @@ export function Breadcrumb() {
   // Base breadcrumbs (Home -> Tools)
   const breadcrumbs = [
     { label: "Home", href: "/", icon: <Home className="w-4 h-4 mr-1" /> },
-    { label: "Tools", href: "/tools" },
+    { label: "Tools", href: "/alltools" },
   ];
 
   // If we are on a specific tool page, dynamically generate the rest
@@ -31,7 +31,7 @@ export function Breadcrumb() {
       label: currentTool.title,
       href: ""
     });
-  } else if (pathname === "/tools") {
+  } else if (pathname === "/alltools") {
     // If we are on the /tools page itself, just remove the href from the last item
     breadcrumbs[1].href = "";
   } else if (pathname === "/contact") {
@@ -70,3 +70,4 @@ export function Breadcrumb() {
     </nav>
   );
 }
+

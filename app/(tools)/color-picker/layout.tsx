@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function ColorPickerLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Utilities", item: "/tools" },
+    { name: "Utilities", item: "/alltools" },
     { name: "Color Picker", item: "/color-picker" },
   ]);
 
@@ -52,3 +52,4 @@ export default function ColorPickerLayout({ children }: { children: React.ReactN
     </>
   );
 }
+

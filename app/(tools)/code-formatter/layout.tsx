@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 export default function CodeFormatterLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Utilities", item: "/tools" },
+    { name: "Utilities", item: "/alltools" },
     { name: "Code Formatter", item: "/code-formatter" },
   ]);
 
@@ -56,3 +56,4 @@ export default function CodeFormatterLayout({ children }: { children: React.Reac
     </>
   );
 }
+

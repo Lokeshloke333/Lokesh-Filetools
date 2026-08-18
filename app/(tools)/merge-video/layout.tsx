@@ -23,7 +23,7 @@ export default function MergeVideoLayout({
 }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Tools", item: "/tools" },
+    { name: "Tools", item: "/alltools" },
     { name: "Video Tools", item: "/tools#video" },
     { name: "Merge Video", item: "/merge-video" },
   ]);
@@ -48,3 +48,4 @@ export default function MergeVideoLayout({
     </>
   );
 }
+

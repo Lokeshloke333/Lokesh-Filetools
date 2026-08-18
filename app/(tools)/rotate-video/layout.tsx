@@ -23,7 +23,7 @@ export default function RotateVideoLayout({
 }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Tools", item: "/tools" },
+    { name: "Tools", item: "/alltools" },
     { name: "Video Tools", item: "/tools#video" },
     { name: "Rotate Video", item: "/rotate-video" },
   ]);
@@ -48,3 +48,4 @@ export default function RotateVideoLayout({
     </>
   );
 }
+

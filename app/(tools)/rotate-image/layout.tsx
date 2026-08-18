@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function RotateImageLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Image Tools", item: "/tools" },
+    { name: "Image Tools", item: "/alltools" },
     { name: "Rotate Image", item: "/rotate-image" },
   ]);
 
@@ -59,3 +59,4 @@ export default function RotateImageLayout({ children }: { children: React.ReactN
     </>
   );
 }
+

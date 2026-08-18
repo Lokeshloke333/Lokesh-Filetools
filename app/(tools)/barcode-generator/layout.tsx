@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function BarcodeGeneratorLayout({ children }: { children: React.ReactNode }) {
   const breadcrumbs = getBreadcrumbSchema([
     { name: "Home", item: "/" },
-    { name: "Utilities", item: "/tools" },
+    { name: "Utilities", item: "/alltools" },
     { name: "Barcode Generator", item: "/barcode-generator" },
   ]);
 
@@ -53,3 +53,4 @@ export default function BarcodeGeneratorLayout({ children }: { children: React.R
     </>
   );
 }
+

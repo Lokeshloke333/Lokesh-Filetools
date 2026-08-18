@@ -24,7 +24,7 @@ export function BackButton({ className }: BackButtonProps) {
     if (canGoBack) {
       router.back();
     } else {
-      router.push("/tools");
+      router.push("/alltools");
     }
   };
 
@@ -43,3 +43,4 @@ export function BackButton({ className }: BackButtonProps) {
     </Button>
   );
 }
+

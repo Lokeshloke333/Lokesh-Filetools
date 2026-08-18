@@ -33,7 +33,7 @@ export interface RouteEntry {
 
 export const staticRoutes: RouteEntry[] = [
   { path: "/", changeFrequency: "daily", priority: 1.0 },
-  { path: "/tools", changeFrequency: "daily", priority: 0.9 }, // Browse Tools
+  { path: "/alltools", changeFrequency: "daily", priority: 0.9 }, // Browse Tools
   { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
   { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.5 },
   { path: "/terms-and-conditions", changeFrequency: "yearly", priority: 0.5 },
@@ -92,3 +92,4 @@ export const disallowedPaths: string[] = [
   "/_private/",
   "/tmp/",
 ];
+
